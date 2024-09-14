@@ -21,7 +21,7 @@ export class BookService {
           complete: (result) => {
             result.data.forEach((item: any) => {
               books.push({
-                id: +item['bookId'],
+                id: item['bookId'],
                 title: item['title'],
                 author: item['author'],
                 description: item['description'],
@@ -30,8 +30,7 @@ export class BookService {
                   .split(',')
                   .map((genre: string) => genre.trim()), // Split and trim each genre
                 coverImg: item['coverImg'],
-                isLiked: false,
-                amountLiked: Math.ceil(Math.random() * 100),
+                amountLiked: item['author'].charCodeAt(3), // Convert the first character of id to its ASCII code
                 // Map other fields as necessary
               });
             });

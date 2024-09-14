@@ -19,19 +19,32 @@ export class BookListComponent implements OnInit {
   sortedBooks: Book[] = [];
   sortOrder: string = 'asc'; // can be 'asc' or 'desc'
   sortCriteria: string = 'likes'; // can be 'likes' or 'title'
+  likedBooks: Set<string> = new Set<string>(); // Store liked book IDs in a Set for quick lookup
 
   constructor(private bookService: BookService) {}
 
   ngOnInit(): void {
+    this.loadLikedBooks();
     this.bookService.getBooks().subscribe((data: Book[]) => {
-      this.books = data;
+      this.books = data.map(book => ({
+        ...book,
+        isLiked: this.likedBooks.has(book.id),
+        amountLiked: this.likedBooks.has(book.id) ? book.amountLiked + 1 : book.amountLiked
+      }));
       this.sortBooks(); // Sort books after fetching
     });
   }
 
   likeBook(book: Book) {
-    book.isLiked = !book.isLiked;
-    book.amountLiked = book.isLiked ? book.amountLiked + 1 : book.amountLiked - 1;
+    if (this.likedBooks.has(book.id)) {
+      this.likedBooks.delete(book.id);
+      book.amountLiked--;
+    } else {
+      this.likedBooks.add(book.id);
+      book.amountLiked++;
+    }
+
+    this.saveLikedBooks();
     this.sortBooks(); // Re-sort after liking/unliking a book
   }
 
@@ -60,5 +73,16 @@ export class BookListComponent implements OnInit {
 
       return this.sortOrder === 'asc' ? comparison : -comparison;
     });
+  }
+
+  loadLikedBooks() {
+    const likedBooksString = localStorage.getItem('likedBooks');
+    if (likedBooksString) {
+      this.likedBooks = new Set<string>(JSON.parse(likedBooksString));
+    }
+  }
+
+  saveLikedBooks() {
+    localStorage.setItem('likedBooks', JSON.stringify(Array.from(this.likedBooks)));
   }
 }
