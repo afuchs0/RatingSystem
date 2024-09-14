@@ -49,7 +49,7 @@
             class="btn btn-sm"
             [ngClass]="likedBooks.has(book.id) ? 'btn-danger' : 'btn-outline-danger'">
             <i class="bi" [ngClass]="likedBooks.has(book.id) ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
-            {{ book.amountLiked }}
+            {{ getAmountLiked(book.id) }}
           </button>
         </td>
       </tr>

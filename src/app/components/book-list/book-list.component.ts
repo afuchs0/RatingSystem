@@ -18,7 +18,7 @@ export class BookListComponent implements OnInit {
   books: Book[] = [];
   sortedBooks: Book[] = [];
   sortOrder: string = 'asc'; // can be 'asc' or 'desc'
-  user: string = 'Andreas'; // can be 'asc' or 'desc'
+  user: string = 'Andreas'; // User's name for personalized data storage
   sortCriteria: string = 'likes'; // can be 'likes' or 'title'
   likedBooks: Set<string> = new Set<string>(); // Store liked book IDs in a Set for quick lookup
 
@@ -30,7 +30,7 @@ export class BookListComponent implements OnInit {
       this.books = data.map(book => ({
         ...book,
         isLiked: this.likedBooks.has(book.id),
-        amountLiked: this.likedBooks.has(book.id) ? book.amountLiked + 1 : book.amountLiked
+        amountLiked: this.getAmountLiked(book.id)
       }));
       this.sortBooks(); // Sort books after fetching
     });
@@ -39,10 +39,10 @@ export class BookListComponent implements OnInit {
   likeBook(book: Book) {
     if (this.likedBooks.has(book.id)) {
       this.likedBooks.delete(book.id);
-      book.amountLiked--;
+      this.bookService.updateAmountLiked(book.id, this.bookService.getAmountLiked(book.id) - 1);
     } else {
       this.likedBooks.add(book.id);
-      book.amountLiked++;
+      this.bookService.updateAmountLiked(book.id, this.bookService.getAmountLiked(book.id) + 1);
     }
 
     this.saveLikedBooks();
@@ -67,7 +67,9 @@ export class BookListComponent implements OnInit {
       let comparison = 0;
 
       if (this.sortCriteria === 'likes') {
-        comparison = a.amountLiked - b.amountLiked;
+        const likesA = this.bookService.getAmountLiked(a.id);
+        const likesB = this.bookService.getAmountLiked(b.id);
+        comparison = likesA - likesB;
       } else if (this.sortCriteria === 'title') {
         comparison = a.title.localeCompare(b.title);
       }
@@ -77,7 +79,7 @@ export class BookListComponent implements OnInit {
   }
 
   loadLikedBooks() {
-    const likedBooksString = localStorage.getItem('likedBooks_'+this.user);
+    const likedBooksString = localStorage.getItem('likedBooks_' + this.user);
     if (likedBooksString) {
       this.likedBooks = new Set<string>(JSON.parse(likedBooksString));
     } else {
@@ -86,7 +88,7 @@ export class BookListComponent implements OnInit {
   }
 
   saveLikedBooks() {
-    localStorage.setItem('likedBooks_'+this.user, JSON.stringify(Array.from(this.likedBooks)));
+    localStorage.setItem('likedBooks_' + this.user, JSON.stringify(Array.from(this.likedBooks)));
   }
 
   changeUser(event: Event) {
@@ -96,5 +98,9 @@ export class BookListComponent implements OnInit {
       this.loadLikedBooks();
       this.sortBooks();
     }
+  }
+
+  protected getAmountLiked(bookId: string): number {
+    return this.bookService.getAmountLiked(bookId);
   }
 }

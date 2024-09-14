@@ -6,6 +6,5 @@ export interface Book {
   description: string;
   genres: string[];
   coverImg: string;
-  amountLiked: number;
   // Add more fields as necessary based on your CSV structure
 }
