@@ -4,6 +4,15 @@
       <h2 class="mb-3">Book List</h2>
       <div class="d-flex align-items-center">
         <div>
+          <label for="user" class="form-label me-2">User:</label>
+          <select id="user" class="form-select form-select-sm me-2" (change)="changeUser($event)">
+            <option value="Andreas">Andreas</option>
+            <option value="Callista">Callista</option>
+            <option value="User1">User1</option>
+            <option value="User2">User2</option>
+          </select>
+        </div>
+        <div>
           <label for="sortCriteria" class="form-label me-2">Sort by:</label>
 
           <div class="d-flex justify-content-between align-items-center">

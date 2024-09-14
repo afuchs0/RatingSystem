@@ -18,6 +18,7 @@ export class BookListComponent implements OnInit {
   books: Book[] = [];
   sortedBooks: Book[] = [];
   sortOrder: string = 'asc'; // can be 'asc' or 'desc'
+  user: string = 'Andreas'; // can be 'asc' or 'desc'
   sortCriteria: string = 'likes'; // can be 'likes' or 'title'
   likedBooks: Set<string> = new Set<string>(); // Store liked book IDs in a Set for quick lookup
 
@@ -76,13 +77,24 @@ export class BookListComponent implements OnInit {
   }
 
   loadLikedBooks() {
-    const likedBooksString = localStorage.getItem('likedBooks');
+    const likedBooksString = localStorage.getItem('likedBooks_'+this.user);
     if (likedBooksString) {
       this.likedBooks = new Set<string>(JSON.parse(likedBooksString));
+    } else {
+      this.likedBooks = new Set<string>();
     }
   }
 
   saveLikedBooks() {
-    localStorage.setItem('likedBooks', JSON.stringify(Array.from(this.likedBooks)));
+    localStorage.setItem('likedBooks_'+this.user, JSON.stringify(Array.from(this.likedBooks)));
+  }
+
+  changeUser(event: Event) {
+    const selectElement = event.target as HTMLSelectElement;
+    if (selectElement) {
+      this.user = selectElement.value;
+      this.loadLikedBooks();
+      this.sortBooks();
+    }
   }
 }
