@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as Papa from 'papaparse';
 import { Book } from '../models/book.model';
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -25,9 +25,13 @@ export class BookService {
                 title: item['title'],
                 author: item['author'],
                 description: item['description'],
-                genres: item['genres'],
+                genres: item['genres']
+                  .replace(/[\[\]']/g, '')  // Remove square brackets and single quotes
+                  .split(',')
+                  .map((genre: string) => genre.trim()), // Split and trim each genre
                 coverImg: item['coverImg'],
-                isLiked: false
+                isLiked: false,
+                amountLiked: Math.ceil(Math.random() * 100),
                 // Map other fields as necessary
               });
             });

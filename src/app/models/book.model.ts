@@ -4,8 +4,9 @@ export interface Book {
   title: string;
   author: string;
   description: string;
-  genres: string;
+  genres: string[];
   coverImg: string;
   isLiked: boolean;
+  amountLiked: number;
   // Add more fields as necessary based on your CSV structure
 }
