@@ -1,40 +1,21 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import * as Papa from 'papaparse';
-import { Book } from '../models/book.model';
-import { HttpClient } from '@angular/common/http';
+import {Book} from '../models/book.model';
+import {HttpClient} from '@angular/common/http';
+import * as http from "node:http";
 
 @Injectable({
   providedIn: 'root',
 })
 export class BookService {
-  private amountLikedMap: Map<string, number> | undefined;
 
   constructor(private http: HttpClient) {
-    this.loadAmountLikedFromLocalStorage();
-  }
-
-  private loadAmountLikedFromLocalStorage(): void {
-    const storedMap = localStorage.getItem('amountLikedMap');
-    if (storedMap) {
-      this.amountLikedMap = new Map<string, number>(JSON.parse(storedMap));
-    } else {
-      this.amountLikedMap = new Map<string, number>();
-    }
-  }
-
-  private saveAmountLikedToLocalStorage(): void {
-    // @ts-ignore
-    localStorage.setItem('amountLikedMap', JSON.stringify(Array.from(this.amountLikedMap.entries())));
-  }
-
-  private getRandomNumber(): number {
-    return Math.floor(Math.random() * 101); // Generates a random number between 0 and 100
   }
 
   getBooks(): Observable<Book[]> {
-    return this.http.get('assets/books.csv', { responseType: 'text' }).pipe(
+    return this.http.get('assets/books.csv', {responseType: 'text'}).pipe(
       map((data) => {
         const books: Book[] = [];
         Papa.parse(data, {
@@ -42,15 +23,8 @@ export class BookService {
           skipEmptyLines: true,
           complete: (result) => {
             result.data.forEach((item: any) => {
-              const id = item['bookId'];
-
-              if (!this.getAmountLiked(id)){
-                const randomAmountLiked = this.getRandomNumber();
-                this.updateAmountLiked(id, randomAmountLiked); // Update the map with the random number
-
-              } // Generate a random number
               books.push({
-                id: id,
+                id: item['bookId'],
                 title: item['title'],
                 author: item['author'],
                 description: item['description'],
@@ -59,7 +33,7 @@ export class BookService {
                   .split(',')
                   .map((genre: string) => genre.trim()), // Split and trim each genre
                 coverImg: item['coverImg'],
-                // Removed amountLiked from Book
+                rating: +item['rating'],
               });
             });
           },
@@ -69,14 +43,13 @@ export class BookService {
     );
   }
 
-  updateAmountLiked(bookId: string, amount: number): void {
-    // @ts-ignore
-    this.amountLikedMap.set(bookId, amount);
-    this.saveAmountLikedToLocalStorage();
-  }
-
-  getAmountLiked(bookId: string): number {
-    // @ts-ignore
-    return this.amountLikedMap.get(bookId) || 0; // Return 0 if not found
+  getOrderOfBooks(user: string, ratedBooks: { [p: string]: { [p: string]: number } }, sortCriteria: string) {
+    //get order from backend
+    return this.http.post('http://localhost:8080/getOrder', {
+        currentUser: user,
+        ratedBooks: ratedBooks,
+        sortCriteria: sortCriteria
+      }
+    );
   }
 }
