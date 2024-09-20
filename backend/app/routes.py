@@ -1,14 +1,10 @@
 from flask import jsonify, request
-from app import app  # Import the app instance created in __init__.py
+from app import app  # Import the app instance created in _init_.py
 from flask_cors import CORS, cross_origin
+from random import randint
+import csv
 
-# Example book data (in-memory)
-books = [
-    {"id": 1, "title": "Book1", "author": "Suzanne Collins", "genres": ["Young Adult", "Fiction"], "rating": 4.3},
-    {"id": 2, "title": "Book2", "author": "J.K. Rowling", "genres": ["Fantasy", "Adventure"], "rating": 4.8},
-    {"id": 3, "title": "Book3", "author": "George Orwell", "genres": ["Dystopian", "Science Fiction"], "rating": 4.0},
-]
-
+books=[]
 # POST /api/getOrder - Handles the sorting based on the ratedBooks and sortCriteria
 @app.route('/api/getOrder', methods=['POST', 'OPTIONS'])
 def get_order():
