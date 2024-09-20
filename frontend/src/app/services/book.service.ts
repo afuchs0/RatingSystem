@@ -10,7 +10,6 @@ import * as http from "node:http";
   providedIn: 'root',
 })
 export class BookService {
-
   constructor(private http: HttpClient) {
   }
 
@@ -45,7 +44,7 @@ export class BookService {
 
   getOrderOfBooks(user: string, ratedBooks: { [p: string]: { [p: string]: number } }, sortCriteria: string) {
     //get order from backend
-    return this.http.post('http://localhost:8080/getOrder', {
+    return this.http.post('http://localhost:5000/api/getOrder', {
         currentUser: user,
         ratedBooks: ratedBooks,
         sortCriteria: sortCriteria
