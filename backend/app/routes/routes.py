@@ -1,10 +1,16 @@
-from flask import jsonify, request
+from flask import jsonify, request,render_template
 from app import app  # Import the app instance created in _init_.py
 from flask_cors import CORS, cross_origin
 from random import randint
+from data.user import lista_utenti
 import csv
 
 books=[]
+
+@app.route('/users')
+def index():
+    print(lista_utenti)
+    return render_template('index.html')
 # POST /api/getOrder - Handles the sorting based on the ratedBooks and sortCriteria
 @app.route('/api/getOrder', methods=['POST', 'OPTIONS'])
 def get_order():
