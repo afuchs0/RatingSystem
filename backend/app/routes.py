@@ -30,17 +30,17 @@ books = [
             'Georgia Peach Book Award (2009)',
             'Buxtehuder Bulle (2009)',
             'Golden Duck Award for Young Adult (Hal Clement Award) (2009)',
-            '\Grand Prix de lImaginaire Nominee for Roman jeunesse \u00e9tranger (2010)\',
+            'Grand Prix de lImaginaire Nominee for Roman jeunesse \u00e9tranger (2010)',
             'Books I Loved Best Yearly (BILBY) Awards for Older Readers (2012)',
-            '\West Australian Young Readers Book Award (WAYRBA) for Older Readers (2010)\',
-            '\Red House Childrens Book Award for Older Readers & Overall (2010)\',
+            'West Australian Young Readers Book Award (WAYRBA) for Older Readers (2010)',
+            'Red House Childrens Book Award for Older Readers & Overall (2010)',
             'South Carolina Book Award for Junior and Young Adult Book (2011)',
             'Charlotte Award (2010)',
             'Colorado Blue Spruce Young Adult Book Award (2010)',
             'Teen Buckeye Book Award (2009)',
-            '\Pennsylvania Young Readers Choice Award for Young Adults (2010)\',
+            'Pennsylvania Young Readers Choice Award for Young Adults (2010)',
             'Rhode Island Teen Book Award (2010)',
-            '\Dorothy Canfield Fisher Childrens Book Award (2010)\',
+            'Dorothy Canfield Fisher Childrens Book Award (2010)',
             'Evergreen Teen Book Award (2011)',
             'Soaring Eagle Book Award (2009)',
             'Milwaukee County Teen Book Award Nominee (2010)',
@@ -63,7 +63,7 @@ books = [
             'Missouri Gateway Readers Award (2011)',
             'Oklahoma Sequoyah Award for High School and Intermediate (2011)',
             'Premio El Templo de las Mil Puertas for Mejor novela extranjera perteneciente a saga (2009)',
-            '\Rebecca Caudill Young Readers Book Award (2011)\',
+            'Rebecca Caudill Young Readers Book Award (2011)',
             'LovelyBooks Leserpreis for Fantasy (2009)',
             'LovelyBooks Leserpreis for Bestes Cover/Umschlag (2009)',
             'Premi Protagonista Jove for Categoria 13-14 anys (2010)'
@@ -97,7 +97,7 @@ books = [
         "awards": 
             ['Bram Stoker Award for Works for Young Readers (2003)',
             'Anthony Award for Young Adult (2004)',
-            '\Mythopoeic Fantasy Award for Childrens Literature (2008)\',
+            'Mythopoeic Fantasy Award for Childrens Literature (2008)',
             'Audie Award for Audiobook of the Year (2004)',
             'Books I Loved Best Yearly (BILBY) Awards for Older Readers (2004)',
             'Colorado Blue Spruce Young Adult Book Award (2006)',
@@ -198,15 +198,15 @@ books = [
             'Kentucky Bluegrass Award for 9-12 (2007)',
             'Prijs van de Kinder- en Jeugdjury Vlaanderen (2008)',
             'Books I Loved Best Yearly (BILBY) Awards for Older Readers (2009)',
-            '\West Australian Young Readers Book Award (WAYRBA) for Older Readers (2008)\',
+            'West Australian Young Readers Book Award (WAYRBA) for Older Readers (2008)',
             'Garden State Book Award for Fiction (Grades 9-12) (2008)',
             'South Carolina Book Award for Young Adult Book Award (2008)',
             'Grand Canyon Reader Award for Teen Book (2008)',
             'Maryland Black-Eyed Susan Book Award for High School (2008)',
             'Golden Sower Award for Young Adult (2009)',
-            '\Nevada Young Readers Award for Young Adult Category  (2007)\',
-            '\The Flume: New Hampshire Teen Readers Choice Award (2007)\',
-            '\Pennsylvania Young Readers Choice Award for Young Adult (2009)\',
+            'Nevada Young Readers Award for Young Adult Category  (2007)',
+            'The Flume: New Hampshire Teen Readers Choice Award (2007)',
+            'Pennsylvania Young Readers Choice Award for Young Adult (2009)',
             'Rhode Island Teen Book Award (2007)',
             'Evergreen Teen Book Award (2008)',
             'Michigan Library Association Thumbs Up! Award Nominee (2006)',
@@ -247,7 +247,7 @@ books = [
         "pages": 552,
         "awards": 
             ['National Jewish Book Award for Children\u2019s and Young Adult Literature (2006)',
-            '\Book Sense Book of the Year Award for Childrens Literature (2007)\',
+            'Book Sense Book of the Year Award for Childrens Literature (2007)',
             'Buxtehuder Bulle (2008)',
             'Sydney Taylor Book Award for Teen Readers (2007)',
             'Prijs van de Kinder- en Jeugdjury Vlaanderen (2009)',
@@ -416,8 +416,8 @@ books = [
             'Buxtehuder Bulle (2012)',
             'Odyssey Award (2013)',
             'Audie Award for Teens (2013)',
-            '\West Australian Young Readers Book Award (WAYRBA) for Older Readers (2013)\',
-            '\Pennsylvania Young Readers Choice Award for Young Adults (2013)\',
+            'West Australian Young Readers Book Award (WAYRBA) for Older Readers (2013)',
+            'Pennsylvania Young Readers Choice Award for Young Adults (2013)',
             'Rhode Island Teen Book Award (2014)',
             'Evergreen Teen Book Award (2015)',
             'Soaring Eagle Book Award (2014)',
@@ -433,7 +433,7 @@ books = [
             'Goodreads Choice Award for Young Adult Fiction (2012) and Nominee for Best of the Best  (2018)',
             'Green Mountain Book Award (2014)',
             'The Inky Awards Shortlist for Silver Inky (2012)',
-            '\Louisiana Teen Readers Choice (2015)\',
+            'Louisiana Teen Readers Choice (2015)',
             'Missouri Gateway Readers Award (2015)',
             'Oklahoma Sequoyah Award for High School (2015)',
             'Alabama Author Award for Young Adult (2013)',
@@ -557,9 +557,9 @@ books = [
         "awards": 
             ['British Book Award for Book of the Year (2005)',
             'Book Sense Book of the Year Award for Adult Fiction (2004)',
-            '\Humos Gouden Bladwijzer (2004)\',
+            'Humos Gouden Bladwijzer (2004)',
             'Zilveren Vingerafdruk (2004)',
-            '\The Flume: New Hampshire Teen Readers Choice Award (2006)\',
+            'The Flume: New Hampshire Teen Readers Choice Award (2006)',
             'Teen Buckeye Book Award (2005)',
             'Iowa High School Book Award (2006)',
             'Puddly Award for Fiction (2007)',
@@ -775,7 +775,7 @@ books = [
             'Evergreen Teen Book Award (2014)',
             'Soaring Eagle Book Award (2012)',
             'Milwaukee County Teen Book Award Nominee (2012)',
-            '\Childrens Choice Book Award Nominee for Teen Choice Book of the Year (2012)\',
+            'Childrens Choice Book Award Nominee for Teen Choice Book of the Year (2012)',
             'Sakura Medal',
             'New Mexico Land of Enchantment Award for Young Adult (2014)',
             'Eliot Rosewater Indiana High School Book Award (2014)',
@@ -785,7 +785,7 @@ books = [
             'Goodreads Choice Award for Favorite Book and for Young Adult Fantasy & Science Fiction and Nominee for Goodreads Author (2011)',
             'Green Mountain Book Award (2013)',
             'The Magnolia Award for 6-8 (2014)',
-            '\Louisiana Teen Readers Choice (2014)\',
+            'Louisiana Teen Readers Choice (2014)',
             'Missouri Gateway Readers Award (2014)',
             'Oklahoma Sequoyah Award for High Schol (2014)',
             'Premio El Templo de las Mil Puertas Nominee for Mejor novela extranjera perteneciente a saga (2011)'
@@ -997,7 +997,7 @@ books = [
             ['Locus Award Nominee for Best First Novel (2008)',
             'Georgia Peach Book Award Nominee for Honor book (2009)',
             'South Carolina Book Award Nominee for Young Adult Book Award (2010)',
-            '\Pacific Northwest Library Association Young Readers Choice Award (2010)\',
+            'Pacific Northwest Library Association Young Readers Choice Award (2010)',
             'Lincoln Award (2010)'
         
         ],
@@ -1126,20 +1126,20 @@ books = [
         ],
         "pages": 309,
         "awards": 
-            ['\Mythopoeic Fantasy Award for Childrens Literature (2008)\',
-            '\British Book Award for Childrens Book of the Year (1998)\',
+            ['Mythopoeic Fantasy Award for Childrens Literature (2008)',
+            'British Book Award for Childrens Book of the Year (1998)',
             'Prijs van de Nederlandse Kinderjury for 6-9 jaar en 10-12 jaar (2002)',
             'American Booksellers Book Of The Year  Award for Children (1999)',
             'Audie Award (2000)',
-            '\West Australian Young Readers Book Award (WAYRBA) for Younger Readers (2000)\',
+            'West Australian Young Readers Book Award (WAYRBA) for Younger Readers (2000)',
             'South Carolina Book Award for Junior Book Award (2001)',
             'Grand Canyon Reader Award for Teen Book (2000)',
             'Charlotte Award (2000)',
             'Nene Award (2000)',
-            '\Massachusetts Childrens Book Award (2000)\',
+            'Massachusetts Childrens Book Award (2000)',
             'Colorado Blue Spruce Young Adult Book Award (2001)',
             'Blue Hen Book Award for Chapter Book (2001)',
-            '\Nevada Young Readers Award for Young Reader Category (2000)\',
+            'Nevada Young Readers Award for Young Reader Category (2000)',
             'Golden Archer Award for Middle/Junior High (2000)',
             'Indian Paintbrush Book Award (2000)',
             'Hotze de Roosprijs (2002)',
@@ -1148,11 +1148,11 @@ books = [
             'Kinderboekwinkelprijs (1999)',
             'Parenting Book of the Year Award (1998)',
             'North East Teenage Book Award (1999)',
-            '\Specsavers National Book Award for Childrens Book of the Year (1998)\',
+            'Specsavers National Book Award for Childrens Book of the Year (1998)',
             'Washington State Sasquatch Award (2000)',
             'Literaturpreis der Jury der jungen Leser for Kinderbuch (1999)',
             'Carnegie Medal Nominee (1997)',
-            '\Rebecca Caudill Young Readers Book Award (2001)\',
+            'Rebecca Caudill Young Readers Book Award (2001)',
             'Premi Protagonista Jove for Categoria 12-13 anys (2000)'
         
         ],
@@ -1212,9 +1212,9 @@ books = [
         "pages": 184,
         "awards": 
             ['Newbery Medal Nominee (1953)',
-            '\George C. Stone Center for Childrens Books Recognition of Merit Award (1970)\',
+            'George C. Stone Center for Childrens Books Recognition of Merit Award (1970)',
             'Audie Award Nominee for Audiobook of the Year and Middle Grade (2020)',
-            '\Massachusetts Childrens Book Award (1984)\',
+            'Massachusetts Childrens Book Award (1984)',
             'Laura Ingalls Wilder Award (1970)'
         
         ],
@@ -1244,7 +1244,7 @@ books = [
         ],
         "pages": 103,
         "awards": 
-            ['\New York Drama Critics Circle Award for Best American Play (1938)\'
+            ['New York Drama Critics Circle Award for Best American Play (1938)'
         
         ],
         "likedPercent": 90.0,
@@ -1454,20 +1454,20 @@ books = [
         ],
         "pages": 375,
         "awards": 
-            ['\Young Readers Choice Award (2008)\',
+            ['Young Readers Choice Award (2008)',
             'Books I Loved Best Yearly (BILBY) Awards for Older Readers (2011)',
             'South Carolina Book Award for Junior Book Award (2008)',
             'Grand Canyon Reader Award for Tween Book (2008)',
             'Nene Award (2008)',
-            '\Massachusetts Childrens Book Award (2008)\',
-            '\Pennsylvania Young Readers Choice Award for Grades 6-8 (2008)\',
+            'Massachusetts Childrens Book Award (2008)',
+            'Pennsylvania Young Readers Choice Award for Grades 6-8 (2008)',
             'Rhode Island Teen Book Award Nominee (2007)',
             'Sunshine State Young Readers Award for Grades 6-8 (2007)',
-            '\Pacific Northwest Library Association Young Readers Choice Award for Intermediate (2008)\',
+            'Pacific Northwest Library Association Young Readers Choice Award for Intermediate (2008)',
             'Iowa Teen Award (2009)',
             'Lincoln Award Nominee (2009)',
             'Oklahoma Sequoyah Award for YA (2008)',
-            '\Rebecca Caudill Young Readers Book Award (2009)\'
+            'Rebecca Caudill Young Readers Book Award (2009)'
         
         ],
         "likedPercent": 95.0,
@@ -1559,7 +1559,7 @@ books = [
         "pages": 218,
         "awards": 
             ['Newbery Medal (1963)',
-            '\Dorothy Canfield Fisher Childrens Book Award Nominee (1964)\',
+            'Dorothy Canfield Fisher Childrens Book Award Nominee (1964)',
             'Oklahoma Sequoyah Award (1965)',
             'Margaret A. Edwards Award (1998)'
         
@@ -1813,12 +1813,12 @@ books = [
             ['Booker Prize (2002)',
             'Bollinger Everyman Wodehouse Prize Nominee for Comic Fiction (2003)',
             'Exclusive Books Boeke Prize (2003)',
-            '\Governor Generals Literary Awards / Prix litt\u00e9raires du Gouverneur g\u00e9n\u00e9ral Nominee for Fiction (2001)\',
+            'Governor Generals Literary Awards / Prix litt\u00e9raires du Gouverneur g\u00e9n\u00e9ral Nominee for Fiction (2001)',
             'Lincoln Award Nominee (2005)',
             'Deutscher B\u00fccherpreis for Belletristik (2004)',
             'CBC Canada Reads Nominee (2003)',
             'Luisterboek Award Nominee (2015)',
-            '\QWF (Quebec Writers Federation) Award for Paragraphe Hugh MacLennan Prize for Fiction (2001)\',
+            'QWF (Quebec Writers Federation) Award for Paragraphe Hugh MacLennan Prize for Fiction (2001)',
             'Asian/Pacific American Award for Literature for Adult Fiction (2003)'
         
         ],
@@ -1941,7 +1941,7 @@ books = [
             ['Hugo Award Nominee for Best SF Novel (1970)',
             'Nebula Award Nominee for Best Novel (1969)',
             'National Book Award Finalist for Fiction (1970)',
-            '\Chicago Publishers Award (1970)\'
+            'Chicago Publishers Award (1970)'
         
         ],
         "likedPercent": 92.0,
@@ -2000,7 +2000,7 @@ books = [
         "pages": 371,
         "awards": 
             ['Borders Original Voices Award for Fiction (2003)',
-            '\Humos Gouden Bladwijzer (2008)\',
+            'Humos Gouden Bladwijzer (2008)',
             'Exclusive Books Boeke Prize (2004)',
             'ALA Alex Award (2004)',
             'Puddly Award for Fiction (2006)',
@@ -2043,9 +2043,9 @@ books = [
             'Los Angeles Times Book Prize for Fiction (1986)',
             'Prometheus Award Nominee for Best Novel (1987)',
             'James Tiptree Jr. Award Nominee for Retrospective (1995)',
-            '\Governor Generals Literary Awards / Prix litt\u00e9raires du Gouverneur g\u00e9n\u00e9ral for Fiction (1985)\',
+            'Governor Generals Literary Awards / Prix litt\u00e9raires du Gouverneur g\u00e9n\u00e9ral for Fiction (1985)',
             'SF Chronicle Award Nominee for Novel (1987)',
-            '\Commonwealth Writers Prize Nominee for Best Book in Caribbean and Canada (1987)\',
+            'Commonwealth Writers Prize Nominee for Best Book in Caribbean and Canada (1987)',
             'CBC Canada Reads Nominee (2002)',
             'Met\u0173 verstin\u0117 knyga Nominee (2012)'
         
@@ -2077,24 +2077,24 @@ books = [
         "pages": 208,
         "awards": 
             ['Newbery Medal (1994)',
-            '\Mythopoeic Fantasy Award Nominee for Childrens Literature (1994)\',
+            'Mythopoeic Fantasy Award Nominee for Childrens Literature (1994)',
             'Golden Duck Award for Young Adult (Hal Clement Award) (1994)',
             'Garden State Book Award for Teen Fiction Grades 6-8 (1996)',
-            '\Buckeye Childrens Book Award for Grade 6-8 (1997)\',
+            'Buckeye Childrens Book Award for Grade 6-8 (1997)',
             'Grand Canyon Reader Award for Teen Book (1995)',
             'Maryland Black-Eyed Susan Book Award for Grade 6-9 (1995)',
             'Golden Sower Award for Young Adult (1995)',
-            '\Pennsylvania Young Readers Choice Award for Grades 3-8 (1995)\',
+            'Pennsylvania Young Readers Choice Award for Grades 3-8 (1995)',
             'Soaring Eagle Book Award Nominee (1996)',
-            '\Pacific Northwest Library Association Young Readers Choice Award for Senior (1996)\',
+            'Pacific Northwest Library Association Young Readers Choice Award for Senior (1996)',
             'Boston Globe-Horn Book Award Nominee for Fiction (1993)',
             'New Mexico Land of Enchantment Award (1997)',
             'Eliot Rosewater Indiana High School Book Award (1997)',
-            '\William Allen White Childrens Book Award (1996)\',
+            'William Allen White Childrens Book Award (1996)',
             'Wyoming Indian Paintbrush Nominee (1996)',
-            '\NSK Neustadt Prize for Childrens Literature Nominee (2013)\',
+            'NSK Neustadt Prize for Childrens Literature Nominee (2013)',
             'Oklahoma Sequoyah Award for YA (1996)',
-            '\Rebecca Caudill Young Readers Book Award (1996)\',
+            'Rebecca Caudill Young Readers Book Award (1996)',
             'Hea Lasteraamat (2010)',
             'Premi Protagonista Jove for Categoria 13-14 anys (2016)',
             'Margaret A. Edwards Award (2007)'
@@ -2277,7 +2277,7 @@ books = [
         "pages": 478,
         "awards": 
         ['Mythopoeic Fantasy Award Nominee (1975)',
-            '\Guardian Childrens Fiction Prize (1973)\',
+            'Guardian Childrens Fiction Prize (1973)',
             'Audie Award Nominee for Best Male Narrator (2020)',
             'Boston Globe-Horn Book Award (1975)',
             'California Young Readers Medal for Young Adult (1977)',
@@ -2311,7 +2311,7 @@ books = [
         "pages": 505,
         "awards": 
         ['Audie Award for Classic (2010)',
-            '\u041f\u0440\u0435\u043c\u0456\u044f \u0456\u043c\u0435\u043d\u0456 \u041c\u0430\u043a\u0441\u0438\u043c\u0430 \u0420\u0438\u043b\u044c\u0441\u044c\u043a\u043e\u0433\u043e (1993)'
+            'u041f\u0440\u0435\u043c\u0456\u044f \u0456\u043c\u0435\u043d\u0456 \u041c\u0430\u043a\u0441\u0438\u043c\u0430 \u0420\u0438\u043b\u044c\u0441\u044c\u043a\u043e\u0433\u043e (1993)'
         
         ],
         "likedPercent": 87.0,
@@ -2523,7 +2523,7 @@ books = [
         "pages": 423,
         "awards": 
             ['Audie Award for Multi-Voiced Performance (2005)',
-            '\Pennsylvania Young Readers Choice Award for Young Adults (2007)\',
+            'Pennsylvania Young Readers Choice Award for Young Adults (2007)',
             'ALA Alex Award (2005)',
             'Lincoln Award (2006)',
             'Green Mountain Book Award (2007)',
@@ -2558,20 +2558,20 @@ books = [
         "awards": 
             ['Odyssey Award Nominee (2014)',
             'Prijs van de Nederlandse Kinderjury for 10-12 jaar en 13-16 jaar (1989)',
-            '\Audie Award for Childrens Titles Ages 8-12 (2014)\',
+            'Audie Award for Childrens Titles Ages 8-12 (2014)',
             'Books I Loved Best Yearly (BILBY) Awards for Read Aloud (1990)',
             'Younger Readers (1997) (1990)',
-            '\West Australian Young Readers Book Award (WAYRBA) for Younger Readers (1989)\',
-            '\Blue Peter Book Award for Voters Award - Book that Made Me Laugh the Loudest (2000)\',
-            '\Red House Childrens Book Award (1989)\',
+            'West Australian Young Readers Book Award (WAYRBA) for Younger Readers (1989)',
+            'Blue Peter Book Award for Voters Award - Book that Made Me Laugh the Loudest (2000)',
+            'Red House Childrens Book Award (1989)',
             'Maryland Black-Eyed Susan Book Award for Book Award (1992)',
-            '\Massachusetts Childrens Book Award (1992)\',
-            '\Nevada Young Readers Award for Intermediate Category  (1992)\',
-            '\Beehive Book Award for Childrens Fiction (1991)\',
+            'Massachusetts Childrens Book Award (1992)',
+            'Nevada Young Readers Award for Intermediate Category  (1992)',
+            'Beehive Book Award for Childrens Fiction (1991)',
             'Indian Paintbrush Book Award (1991)',
             'Bluestem Book Award Nominee (2016)',
-            '\Virginia Readers Choice for Elementary (1990)\',
-            '\Rebecca Caudill Young Readers Book Award (1991)\'
+            'Virginia Readers Choice for Elementary (1990)',
+            'Rebecca Caudill Young Readers Book Award (1991)'
         
         ],
         "likedPercent": 97.0,
@@ -3013,8 +3013,8 @@ books = [
         ],
         "pages": 399,
         "awards": 
-            ['\Guardian Childrens Fiction Prize (1996)\',
-            '\Audie Award for Childrens Titles (2000)\',
+            ['Guardian Childrens Fiction Prize (1996)',
+            'Audie Award for Childrens Titles (2000)',
             'Lincoln Award Nominee (2005)',
             'Carnegie Medal (1995)'
         
@@ -3046,7 +3046,7 @@ books = [
         "pages": 1023,
         "awards": 
             ['Will Eisner Comic Industry Awards Nominee for Best Adaptation from Another Medium & Best Humor Publication (2014)',
-            '\u0392\u03c1\u03b1\u03b2\u03b5\u03af\u03bf \u039b\u03bf\u03b3\u03bf\u03c4\u03b5\u03c7\u03bd\u03b9\u03ba\u03ae\u03c2 \u039c\u03b5\u03c4\u03ac\u03c6\u03c1\u03b1\u03c3\u03b7\u03c2 \u0395\u039a\u0395\u039c\u0395\u039b for \u0399\u03c3\u03c0\u03b1\u03bd\u03cc\u03c6\u03c9\u03bd\u03b7 \u039b\u03bf\u03b3\u03bf\u03c4\u03b5\u03c7\u03bd\u03af\u03b1 (2010)',
+            'u0392\u03c1\u03b1\u03b2\u03b5\u03af\u03bf \u039b\u03bf\u03b3\u03bf\u03c4\u03b5\u03c7\u03bd\u03b9\u03ba\u03ae\u03c2 \u039c\u03b5\u03c4\u03ac\u03c6\u03c1\u03b1\u03c3\u03b7\u03c2 \u0395\u039a\u0395\u039c\u0395\u039b for \u0399\u03c3\u03c0\u03b1\u03bd\u03cc\u03c6\u03c9\u03bd\u03b7 \u039b\u03bf\u03b3\u03bf\u03c4\u03b5\u03c7\u03bd\u03af\u03b1 (2010)',
             'Premio de traducci\u00f3n literaria Valle Incl\u00e1n for John Rutherford (2002)'
         
         ],
@@ -3109,8 +3109,8 @@ books = [
             ['Bram Stoker Award for Best Work for Young Readers (1999)',
             'Hugo Award Nominee for Best Novel (2000)',
             'Locus Award for Best Fantasy Novel (2000)',
-            '\Whitbread Award for Childrens Book of the Year (1999)\',
-            '\Mythopoeic Fantasy Award for Childrens Literature (2008)\',
+            'Whitbread Award for Childrens Book of the Year (1999)',
+            'Mythopoeic Fantasy Award for Childrens Literature (2008)',
             'Books I Loved Best Yearly (BILBY) Awards for Older Readers (2005)',
             'Colorado Blue Spruce Young Adult Book Award (2004)',
             'Maine Student Book Award (2001)',
@@ -3324,7 +3324,7 @@ books = [
         "pages": 654,
         "awards": 
             ['Audie Award for Solo Narration - Male (2006)',
-            '\u041f\u0440\u0435\u043c\u0456\u044f \u0456\u043c\u0435\u043d\u0456 \u041c\u0430\u043a\u0441\u0438\u043c\u0430 \u0420\u0438\u043b\u044c\u0441\u044c\u043a\u043e\u0433\u043e (1991)'
+            'u041f\u0440\u0435\u043c\u0456\u044f \u0456\u043c\u0435\u043d\u0456 \u041c\u0430\u043a\u0441\u0438\u043c\u0430 \u0420\u0438\u043b\u044c\u0441\u044c\u043a\u043e\u0433\u043e (1991)'
         
         ],
         "likedPercent": 79.0,
@@ -3354,7 +3354,7 @@ books = [
         "pages": 324,
         "awards": 
             ['Book Sense Book of the Year Award for Adult Fiction (2001)',
-            '\Boston Authors Club Award (1998)\'
+            'Boston Authors Club Award (1998)'
         
         ],
         "likedPercent": 94.0,
@@ -3417,10 +3417,10 @@ books = [
         "pages": 734,
         "awards": 
             ['Hugo Award for Best Novel (2001)',
-            '\Mythopoeic Fantasy Award for Childrens Literature (2008)\',
+            'Mythopoeic Fantasy Award for Childrens Literature (2008)',
             'Publieksprijs voor het Nederlandse Boek (2001)',
             'Audie Award for Solo Narration - Male (2001)',
-            '\West Australian Young Readers Book Award (WAYRBA) for Younger Readers (2001)\',
+            'West Australian Young Readers Book Award (WAYRBA) for Younger Readers (2001)',
             'Golden Archer Award for Middle/Junior High (2002)',
             'Indian Paintbrush Book Award (2002)',
             'Deutscher B\u00fccherpreis for Publikumspreis',
@@ -3454,7 +3454,7 @@ books = [
         "pages": 481,
         "awards": 
             ['RITA Award by Romance Writers of America Nominee for Young Adult Romance (2011)',
-            '\Romantic Times Reviewers Choice Award (RT Award) Nominee for Best Young Adult Paranormal/Fantasy Novel (2010)\',
+            'Romantic Times Reviewers Choice Award (RT Award) Nominee for Best Young Adult Paranormal/Fantasy Novel (2010)',
             'The Inky Awards for Silver Inky (2011)',
             'Lincoln Award Nominee (2013)',
             'Goodreads Choice Award Nominee for Young Adult Fantasy and for Favorite Book and for Goodreads Author (2010)',
@@ -3643,7 +3643,7 @@ books = [
         "awards": 
             ['Locus Award Nominee for Best First Novel and Best Fantasy Novel (2008)',
             'Compton Crook Award Nominee (2008)',
-            '\Grand Prix de lImaginaire Nominee for Roman \u00e9tranger and Traduction (2010)\',
+            'Grand Prix de lImaginaire Nominee for Roman \u00e9tranger and Traduction (2010)',
             'ALA Alex Award (2008)',
             'The Quill Award for Science Fiction/Fantasy/Horror (2007)',
             'Sakura Medal for High School Book (2009)',
@@ -3736,26 +3736,26 @@ books = [
         ],
         "pages": 503,
         "awards": 
-            ['\Book Sense Book of the Year Award for Childrens Literature (2004)\',
+            ['Book Sense Book of the Year Award for Childrens Literature (2004)',
             'Books I Loved Best Yearly (BILBY) Awards for Older Readers (2007)',
             'South Carolina Book Award for Young Adult Book (2006)',
             'Grand Canyon Reader Award for Teen Book (2006)',
             'Nene Award (2006)',
             'Colorado Blue Spruce Young Adult Book Award (2005)',
-            '\Pennsylvania Young Readers Choice Award for Grades 6-8 (2005)\',
+            'Pennsylvania Young Readers Choice Award for Grades 6-8 (2005)',
             'Rhode Island Teen Book Award (2005)',
             'Beehive Book Award for Young Adult Book (2005)',
             'Evergreen Teen Book Award (2006)',
             'Golden Archer Award for Middle/Junior High (2006)',
             'Soaring Eagle Book Award (2005)',
-            '\Pacific Northwest Library Association Young Readers Choice Award for Intermediate (2006)\',
+            'Pacific Northwest Library Association Young Readers Choice Award for Intermediate (2006)',
             'Iowa Teen Award (2008)',
             'Eliot Rosewater Indiana High School Book Award (2006)',
             'Literaturpreis der Jury der jungen Leser for Kinderbuch (2005)',
-            '\Virginia Readers Choice for Middle (2005)\',
+            'Virginia Readers Choice for Middle (2005)',
             'Missouri Gateway Readers Award for Young Adult (2006)',
             'Oklahoma Sequoyah Award for YA (2006)',
-            '\Rebecca Caudill Young Readers Book Award (2006)\'
+            'Rebecca Caudill Young Readers Book Award (2006)'
         
         ],
         "likedPercent": 88.0,
@@ -3785,7 +3785,7 @@ books = [
         "pages": 176,
         "awards": 
             ['Books I Loved Best Yearly (BILBY) Awards for Read Aloud (1992)',
-            '\North Dakota Childrens Choice Award (1985)\'
+            'North Dakota Childrens Choice Award (1985)'
         
         ],
         "likedPercent": 95.0,
@@ -3947,7 +3947,7 @@ books = [
             'Gumshoe Award Nominee for Best European Crime Novel (2005)',
             'Borders Original Voices Award for Fiction (2004)',
             'Dilys Award Nominee (2005)',
-            '\Humos Gouden Bladwijzer (2006)\',
+            'Humos Gouden Bladwijzer (2006)',
             'Prix du Meilleur Livre \u00c9tranger for Roman (2004)',
             'Prix des libraires du Qu\u00e9bec for Laur\u00e9ats hors Qu\u00e9bec (2005)',
             'One Book One San Diego (2015)',
@@ -3983,17 +3983,17 @@ books = [
             ['Booker Prize Nominee for Longlist (2003)',
             'James Tait Black Memorial Prize Nominee for Fiction (2003)',
             'Whitbread Award for Novel and Book of the Year (2003)',
-            '\Guardian Childrens Fiction Prize (2003)\',
+            'Guardian Childrens Fiction Prize (2003)',
             'McKitterick Prize (2004)',
             'Los Angeles Times Book Prize for Art Seidenbaum Award for First Fiction (2003)',
             'Exclusive Books Boeke Prize (2004)',
             'ALA Alex Award (2004)',
             'Zilveren Zoen (2004)',
             'Lincoln Award Nominee (2006)',
-            '\Commonwealth Writers Prize for Best First Book Overall (2004)\',
+            'Commonwealth Writers Prize for Best First Book Overall (2004)',
             'North East Teenage Book Award Nominee (2004)',
             'Carnegie Medal Nominee (2003)',
-            '\Dolly Gray Childrens Literature Award (2004)\',
+            'Dolly Gray Childrens Literature Award (2004)',
             'Premi Protagonista Jove for Categoria 15-16 anys (2006)'
         
         ],
@@ -4110,15 +4110,15 @@ books = [
         ],
         "pages": 536,
         "awards": 
-            ['\u0625\u0645\u0628\u064a\u0631\u062a\u0648',
+            ['u0625\u0645\u0628\u064a\u0631\u062a\u0648',
             'Premio Strega (1981)',
             'Los Angeles Times Book Prize Nominee for Fiction (1983)',
             'Edgar Award Nominee for Best Novel (1984)',
             'PEN Translation Prize for William Weaver (1984)',
             'Premio Anghiari (1981)',
-            '\Premio Il Libro dellanno (1981)\',
+            'Premio Il Libro dellanno (1981)',
             'Prix M\u00e9dicis Etranger (1982)',
-            '\u3053\u306e\u30df\u30b9\u30c6\u30ea\u30fc\u304c\u3059\u3054\u3044\uff01 for Best Translated Mystery Novel of the Year in Japan (1991)'
+            'u3053\u306e\u30df\u30b9\u30c6\u30ea\u30fc\u304c\u3059\u3054\u3044\uff01 for Best Translated Mystery Novel of the Year in Japan (1991)'
         
         ],
         "likedPercent": 93.0,
@@ -4147,8 +4147,8 @@ books = [
         ],
         "pages": 272,
         "awards": 
-            ['\Massachusetts Childrens Book Award (1987)\',
-            '\North Dakota Childrens Choice Award (1981)\'
+            ['Massachusetts Childrens Book Award (1987)',
+            'North Dakota Childrens Choice Award (1981)'
         
         ],
         "likedPercent": 93.0,
@@ -4177,7 +4177,7 @@ books = [
         ],
         "pages": 341,
         "awards": 
-            ['\Mythopoeic Fantasy Award for Childrens Literature (2008)\',
+            ['Mythopoeic Fantasy Award for Childrens Literature (2008)',
             'British Book Award (1999)',
             'Prijs van de Jonge Jury (2002)',
             'Books I Loved Best Yearly (BILBY) Awards for Older Readers (2006)',
@@ -4421,7 +4421,7 @@ books = [
             'Geffen Award (2003)',
             'Mythopoeic Fantasy Award Nominee for Adult Literature (2002)',
             'British Science Fiction Association Award Nominee for Best Novel (2001)',
-            '\Grand Prix de lImaginaire Nominee for Roman \u00e9tranger (2003)\',
+            'Grand Prix de lImaginaire Nominee for Roman \u00e9tranger (2003)',
             'Prix Bob Morane for roman traduit (2003)',
             'British Fantasy Award Nominee for Best Novel (August Derlith Fantasy Award) (2002)'
         ],
@@ -4537,26 +4537,26 @@ books = [
         "pages": 233,
         "awards": 
             ['Newbery Medal (1999)',
-            '\National Book Award for Young Peoples Literature (1998)\',
-            '\West Australian Young Readers Book Award (WAYRBA) for Older Readers (2001)\',
+            'National Book Award for Young Peoples Literature (1998)',
+            'West Australian Young Readers Book Award (WAYRBA) for Older Readers (2001)',
             'Grand Canyon Reader Award for Teen Book (2001)',
             'Nene Award (2001)',
             'Maryland Black-Eyed Susan Book Award for Grade 6-9 (2001)',
-            '\Massachusetts Childrens Book Award (2001)\',
-            '\Flicker Tale Childrens Book Award (2000)\',
-            '\Pennsylvania Young Readers Choice Award for Grades 6-8 (2000)\',
-            '\Dorothy Canfield Fisher Childrens Book Award (2000)\',
+            'Massachusetts Childrens Book Award (2001)',
+            'Flicker Tale Childrens Book Award (2000)',
+            'Pennsylvania Young Readers Choice Award for Grades 6-8 (2000)',
+            'Dorothy Canfield Fisher Childrens Book Award (2000)',
             'Evergreen Teen Book Award (2001)',
             'Soaring Eagle Book Award (2003)',
             'Sunshine State Young Readers Award for Grades 3-5 and Grades 6-8 (2002)',
-            '\Pacific Northwest Library Association Young Readers Choice Award for Junior (2001)\',
+            'Pacific Northwest Library Association Young Readers Choice Award for Junior (2001)',
             'Zilveren Zoen (2000)',
             'Deutscher Jugendliteraturpreis Nominee for Jugendbuch (2001)',
             'Boston Globe-Horn Book Award for Fiction (1999)',
             'New Mexico Land of Enchantment Award for Young Adult (2001)',
-            '\William Allen White Childrens Book Award (2001)\',
+            'William Allen White Childrens Book Award (2001)',
             'Oklahoma Sequoyah Award for Children and YA (2001)',
-            '\Rebecca Caudill Young Readers Book Award (2002)\',
+            'Rebecca Caudill Young Readers Book Award (2002)',
             'Premi Protagonista Jove for Categoria 14-15 anys (2000)'
         ],
         "likedPercent": 93.0,
@@ -4585,7 +4585,7 @@ books = [
         "pages": 206,
         "awards": 
             ['Lewis Carroll Shelf Award (1962)',
-            '\The Keith Barker Millennium Childrens Book Awards Childrens Book of the Century\',
+            'The Keith Barker Millennium Childrens Book Awards Childrens Book of the Century',
             'Retro Hugo Award Nominee for Best Novel (2001)'
         ],
         "likedPercent": 95.0,
@@ -4621,7 +4621,7 @@ books = [
             'Best Single Issue (\Watchmen #9\)',
             'Best Graphic Album',
             'Best Colorist (for John Higgins) & Special Award for Excellence in Production  (1988)',
-            '\Prix du Festival dAngoul\u00eame for Alph-art du meilleur album \u00e9tranger (1989)\',
+            'Prix du Festival dAngoul\u00eame for Alph-art du meilleur album \u00e9tranger (1989)',
             'Urhunden Prize for Foreign Album (1992)',
             'Will Eisner Comic Industry Awards for Best Archival Collection/Project\u2013Comic Books (in 2006 awards',
             'for Absolute edition)',
@@ -4745,7 +4745,7 @@ books = [
         "awards": 
             ['Pr\u00eamio Jabuti for Tradu\u00e7\u00e3o (2000)',
             'Deutsch-Italienischer \u00dcbersetzerpreis (2013)',
-            '\u041f\u0440\u0435\u043c\u0456\u044f \u0456\u043c\u0435\u043d\u0456 \u041c\u0430\u043a\u0441\u0438\u043c\u0430 \u0420\u0438\u043b\u044c\u0441\u044c\u043a\u043e\u0433\u043e (1978)'
+            'u041f\u0440\u0435\u043c\u0456\u044f \u0456\u043c\u0435\u043d\u0456 \u041c\u0430\u043a\u0441\u0438\u043c\u0430 \u0420\u0438\u043b\u044c\u0441\u044c\u043a\u043e\u0433\u043e (1978)'
         ],
         "likedPercent": 93.0,
         "price": 13.66
@@ -4938,7 +4938,7 @@ books = [
         ],
         "pages": 525,
         "awards": 
-            ['\Romantic Times Reviewers Choice Award (RT Award) for Young Adult Protagonist (2011)\',
+            ['Romantic Times Reviewers Choice Award (RT Award) for Young Adult Protagonist (2011)',
             'Goodreads Choice Award for Young Adult Fantasy and Goodreads Author (2012)'
         ],
         "likedPercent": 93.0,
@@ -5081,7 +5081,7 @@ books = [
             'Los Angeles Times Book Prize for Fiction (2002)',
             'Exclusive Books Boeke Prize (2002)',
             'National Book Critics Circle Award for Fiction (2002)',
-            '\Commonwealth Writers Prize for Best Book in South Asia and Europe (2002)\',
+            'Commonwealth Writers Prize for Best Book in South Asia and Europe (2002)',
             'Deutscher B\u00fccherpreis for Internationale Belletristik (2003)',
             'Premi Llibreter de narrativa Nominee (2003)',
             'International Dublin Literary Award Nominee (2003)'
@@ -5356,7 +5356,7 @@ books = [
         ],
         "pages": 503,
         "awards": 
-            ['\Childrens Choice Book Award Nominee for Teen Choice Book of the Year (2010)\',
+            ['Childrens Choice Book Award Nominee for Teen Choice Book of the Year (2010)',
             'Goodreads Choice Award Nominee for Young Adult Series (2009)'
         ],
         "likedPercent": 96.0,
@@ -5825,7 +5825,7 @@ books = [
             ['Newbery Medal (1978)',
             'Lewis Carroll Shelf Award (1978)',
             'Zilveren Griffel (1983)',
-            '\Dorothy Canfield Fisher Childrens Book Award Nominee (1979)\',
+            'Dorothy Canfield Fisher Childrens Book Award Nominee (1979)',
             'California Young Readers Medal Nominee for Middle School/Junior High (1980)'
         ],
         "likedPercent": 92.0,
@@ -5941,9 +5941,9 @@ books = [
         "awards": 
             ['Georgia Peach Book Award (2011)',
             'Utah Book Award Nominee for Young Adults (2009)',
-            '\Romantic Times Reviewers Choice Award (RT Award) Nominee for Best Young Adult Paranormal/Fantasy Novel  (2009)\',
+            'Romantic Times Reviewers Choice Award (RT Award) Nominee for Best Young Adult Paranormal/Fantasy Novel  (2009)',
             'Charlotte Award (2012)',
-            '\Pennsylvania Young Readers Choice Award Nominee (2011)\',
+            'Pennsylvania Young Readers Choice Award Nominee (2011)',
             'Evergreen Teen Book Award (2012)',
             'Milwaukee County Teen Book Award Nominee (2011)',
             'Lincoln Award (2012)',
@@ -6035,7 +6035,7 @@ books = [
         ],
         "pages": 783,
         "awards": 
-            ['\u041d\u0430\u0446\u0438\u043e\u043d\u0430\u043b\u043d\u0430 \u043d\u0430\u0433\u0440\u0430\u0434\u0430 \u201e\u0425\u0440\u0438\u0441\u0442\u043e \u0413. \u0414\u0430\u043d\u043e\u0432\u201c for \u041f\u0440\u0435\u0432\u043e\u0434\u043d\u0430 \u0445\u0443\u0434\u043e\u0436\u0435\u0441\u0442\u0432\u0435\u043d\u0430 \u043b\u0438\u0442\u0435\u0440\u0430\u0442\u0443\u0440\u0430 (2004)'
+            ['u041d\u0430\u0446\u0438\u043e\u043d\u0430\u043b\u043d\u0430 \u043d\u0430\u0433\u0440\u0430\u0434\u0430 \u201e\u0425\u0440\u0438\u0441\u0442\u043e \u0413. \u0414\u0430\u043d\u043e\u0432\u201c for \u041f\u0440\u0435\u0432\u043e\u0434\u043d\u0430 \u0445\u0443\u0434\u043e\u0436\u0435\u0441\u0442\u0432\u0435\u043d\u0430 \u043b\u0438\u0442\u0435\u0440\u0430\u0442\u0443\u0440\u0430 (2004)'
         
         ],
         "likedPercent": 82.0,
@@ -6518,7 +6518,7 @@ books = [
         ],
         "pages": 661,
         "awards": 
-            ['\Romantic Novel of the Year (RoNas) Award (2002)\',
+            ['Romantic Novel of the Year (RoNas) Award (2002)',
             'Goodreads Choice Award Nominee for Fiction (2009)'
         
         ],
@@ -6578,9 +6578,9 @@ books = [
         ],
         "pages": 240,
         "awards": 
-            ['\Pacific Northwest Library Association Young Readers Choice Award for Intermediate (2009)\',
+            ['Pacific Northwest Library Association Young Readers Choice Award for Intermediate (2009)',
             'Deutscher Jugendliteraturpreis Nominee for Preis der Jugendjury (2008)',
-            '\Bord G\u00e1is Energy Irish Book Award for John Murray Show Listeners Choice Award (2007)\',
+            'Bord G\u00e1is Energy Irish Book Award for John Murray Show Listeners Choice Award (2007)',
             'LovelyBooks Leserpreis Nominee for Allgemeine Literatur (2009)',
             'Premi Protagonista Jove for Categoria 15-16 anys (2008)'
         
@@ -6615,7 +6615,7 @@ books = [
             'Books I Loved Best Yearly (BILBY) Awards for Secondary (1996)',
             'South Carolina Book Award for Young Adult Book (1994)',
             'Colorado Blue Spruce Young Adult Book Award (1993)',
-            '\Nevada Young Readers Award for Young Adult Category  (1993)\',
+            'Nevada Young Readers Award for Young Adult Category  (1993)',
             'Evergreen Teen Book Award Nominee (1993)',
             'Soaring Eagle Book Award (1995)',
             'Iowa Teen Award (1995)'
@@ -6836,7 +6836,7 @@ books = [
         ],
         "pages": 255,
         "awards": 
-            ['\Helen and Kurt Wolff Translators Prize Nominee for Breon Mitchell (1999)\'
+            ['Helen and Kurt Wolff Translators Prize Nominee for Breon Mitchell (1999)'
         
         ],
         "likedPercent": 91.0,
@@ -6987,7 +6987,7 @@ books = [
             ['Locus Award Nominee for Best Young Adult Book (2010)',
             'Golden Duck Award for Young Adult (Hal Clement Award) (2010)',
             'Soaring Eagle Book Award (2011)',
-            '\Childrens Choice Book Award for Teen Choice Book of the Year (2010)\',
+            'Childrens Choice Book Award for Teen Choice Book of the Year (2010)',
             'Indies Choice Book Award for Young Adult (2010)',
             'Teen Read Award Nominee for Best Read (2010)',
             'DABWAHA Romance Tournament for Best Young Adult (2010)',
@@ -7021,7 +7021,7 @@ books = [
         ],
         "pages": 553,
         "awards": 
-            ['\West Australian Young Readers Book Award (WAYRBA) for Older Readers (2011)\',
+            ['West Australian Young Readers Book Award (WAYRBA) for Older Readers (2011)',
             'Evergreen Teen Book Award (2013)',
             'Goodreads Choice Award Nominee for Young Adult Fantasy and for Favorite Book (2010)'
         
@@ -7083,7 +7083,7 @@ books = [
         ],
         "pages": 489,
         "awards": 
-            ['\Childrens Choice Book Award Nominee for Teen Choice Book of the Year (2011)\',
+            ['Childrens Choice Book Award Nominee for Teen Choice Book of the Year (2011)',
             'Teen Read Award Nominee for Best Series (2010)',
             'Goodreads Choice Award for Goodreads Author and Nominee for Favorite Book (2010)'
         
@@ -7115,7 +7115,7 @@ books = [
         "pages": 498,
         "awards": 
             ['Teen Buckeye Book Award Nominee (2012)',
-            '\Childrens Choice Book Award Nominee for Teen Choice Book of the Year (2012)\'
+            'Childrens Choice Book Award Nominee for Teen Choice Book of the Year (2012)'
         
         ],
         "likedPercent": 97.0,
@@ -7173,7 +7173,7 @@ books = [
         ],
         "pages": 143,
         "awards": 
-            ['\New York Drama Critics Circle Award Nominee for Best American Play (1953)\'
+            ['New York Drama Critics Circle Award Nominee for Best American Play (1953)'
         
         ],
         "likedPercent": 86.0,
@@ -7382,11 +7382,11 @@ books = [
         ],
         "pages": 176,
         "awards": 
-            ['\George C. Stone Center for Childrens Books Recognition of Merit Award (1984)\',
+            ['George C. Stone Center for Childrens Books Recognition of Merit Award (1984)',
             'Magnesia Litera for Translation (Litera za p\u0159ekladovou knihu) (2015)',
             'Garden State Book Award',
             'Vlag en Wimpel Griffeljury (1985)',
-            '\William Allen White Childrens Book Award (1984)\'
+            'William Allen White Childrens Book Award (1984)'
         
         ],
         "likedPercent": 96.0,
@@ -7419,7 +7419,7 @@ books = [
             'World Fantasy Award Nominee for Best Novel (1989)',
             'Anthony Award for Best Novel (1989)',
             'Grand Prix de Litt\u00e9rature Polici\u00e8re for Romans \u00e9trangers (1991)',
-            '\u3053\u306e\u30df\u30b9\u30c6\u30ea\u30fc\u304c\u3059\u3054\u3044\uff01 for Best Translated Mystery Novel of the Year in Japan (1989)'
+            'u3053\u306e\u30df\u30b9\u30c6\u30ea\u30fc\u304c\u3059\u3054\u3044\uff01 for Best Translated Mystery Novel of the Year in Japan (1989)'
         
         ],
         "likedPercent": 94.0,
@@ -7449,8 +7449,8 @@ books = [
         "pages": 392,
         "awards": 
             ['Georgia Peach Book Award (2010)',
-            '\Pennsylvania Young Readers Choice Award Nominee (2011)\',
-            '\Childrens Choice Book Award Nominee for Teen Choice Book of the Year (2010)\',
+            'Pennsylvania Young Readers Choice Award Nominee (2011)',
+            'Childrens Choice Book Award Nominee for Teen Choice Book of the Year (2010)',
             'Florida Teens Read Nominee (2010)',
             'Teen Read Award Nominee for Best Read (2010)',
             'The Inky Awards for Silver Inky (2010)',
@@ -7669,13 +7669,13 @@ books = [
         "pages": 232,
         "awards": 
             ['Newbery Medal Nominee (1998)',
-            '\Mythopoeic Fantasy Award Nominee for Childrens Literature (1999)\',
+            'Mythopoeic Fantasy Award Nominee for Childrens Literature (1999)',
             'Grand Canyon Reader Award for Teen Book (1999)',
             'Maryland Black-Eyed Susan Book Award for Grade 6-9 (2000)',
-            '\Dorothy Canfield Fisher Childrens Book Award (1999)\',
+            'Dorothy Canfield Fisher Childrens Book Award (1999)',
             'Iowa Teen Award (2000)',
             'California Young Readers Medal for Middle School/Junior High (2000)',
-            '\Rebecca Caudill Young Readers Book Award (2000)\'
+            'Rebecca Caudill Young Readers Book Award (2000)'
         
         ],
         "likedPercent": 92.0,
@@ -7737,14 +7737,14 @@ books = [
         "awards": 
             ['Golden Duck Award for Young Adult (Hal Clement Award) (2013)',
             'Kalbacher Klapperschlange for Altersgruppe 7. - 9. Klasse (2015)',
-            '\Grand Prix de lImaginaire Nominee for Roman jeunesse \u00e9tranger (2014)\',
-            '\Pennsylvania Young Readers Choice Award Nominee for Young Adults (2014)\',
+            'Grand Prix de lImaginaire Nominee for Roman jeunesse \u00e9tranger (2014)',
+            'Pennsylvania Young Readers Choice Award Nominee for Young Adults (2014)',
             'Rhode Island Teen Book Award Nominee (2014)',
             'California Young Readers Medal for Young Adult (2016)',
             'Lincoln Award Nominee (2014)',
             'Goodreads Choice Award Nominee for Young Adult Fantasy & Science Fiction and for Goodreads Author (2012)',
             'Premio El Templo de las Mil Puertas Nominee for Mejor novela extranjera perteneciente a saga (2012)',
-            '\Rebecca Caudill Young Readers Book Award Nominee (2016)\'
+            'Rebecca Caudill Young Readers Book Award Nominee (2016)'
         
         ],
         "likedPercent": 93.0,
@@ -7923,7 +7923,7 @@ books = [
         ],
         "pages": 306,
         "awards": 
-            ['\Romantic Times Reviewers Choice Award (RT Award) for Young Adult (2007)\'
+            ['Romantic Times Reviewers Choice Award (RT Award) for Young Adult (2007)'
         
         ],
         "likedPercent": 85.0,
@@ -8041,7 +8041,7 @@ books = [
         "pages": 448,
         "awards": 
             ['Deutscher H\u00f6rbuchpreis for Beste Fiktion (2011)',
-            '\Prix du Grand Roman d\u00e9vasion (1984)\'
+            'Prix du Grand Roman d\u00e9vasion (1984)'
         
         ],
         "likedPercent": 96.0,
@@ -8162,7 +8162,7 @@ books = [
         ],
         "pages": 329,
         "awards": 
-            ['\Phoenix Award (Childrens Literature Association) (2006)\',
+            ['Phoenix Award (Childrens Literature Association) (2006)',
             'Boston Globe-Horn Book Award (1987)'
         
         ],
