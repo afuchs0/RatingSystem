@@ -2031,7 +2031,7 @@ books = [
             'Audiobook',
             'Literature',
             'Novels'
-        "
+        
         ],
         "pages": 314,
         "awards": 
@@ -2365,7 +2365,7 @@ books = [
             'Novels',
             'Poetry',
             'Adult'
-        "
+        
         ],
         "pages": 294,
         "awards": 
@@ -4450,8 +4450,8 @@ books = [
         ],
         "pages": 1276,
         "awards": 
-            ['
-        "
+            [''
+        
         ],
         "likedPercent": 95.0,
         "price": 6.13
@@ -4911,7 +4911,7 @@ books = [
         "pages": 443,
         "awards": 
             ['Premio El Templo de las Mil Puertas Nominee for Mejor novela extranjera perteneciente a saga (2011)'
-        "
+        
         ],
         "likedPercent": 96.0,
         "price": 2.76
