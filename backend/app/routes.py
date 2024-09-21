@@ -1,7 +1,6 @@
 from flask import jsonify, request
 from app import app  # Import the app instance created in __init__.py
 from flask_cors import CORS, cross_origin
-
 # Example book data (in-memory)
 books = [
     {
@@ -8211,26 +8210,22 @@ def get_order():
     current_user = data.get('currentUser')
     rated_books = data.get('ratedBooks')
     sort_criteria = data.get('sortCriteria')
-    
-    print(f"Received request from user: {current_user}")
-    print(f"Rated books: {rated_books}")
-    print(f"Sort Criteria: {sort_criteria}")
 
-    # Example: Sort books by rating if sortCriteria is "Similar Content"
+    # Example: Sort books by likedPercent if sortCriteria is "Similar Content"
     if sort_criteria == "Similar Content":
-        sorted_books = sorted(books, key=lambda x: x['rating'], reverse=True)  # Sort by rating
+        sorted_books = sorted(books, key=lambda x: x['likedPercent'], reverse=True)  # Sort by likedPercent
         return jsonify({"sortedBooks": sorted_books})
 
     elif sort_criteria == "Similar Authors":
-        sorted_books = sorted(books, key=lambda x: x['rating'], reverse=True)  # Example sorting logic
+        sorted_books = sorted(books, key=lambda x: x['author'], reverse=False)  # Sort by author name
         return jsonify({"sortedBooks": sorted_books})
 
     elif sort_criteria == "Similar Categories":
-        sorted_books = sorted(books, key=lambda x: x['rating'], reverse=True)  # Example sorting logic
-        return jsonify({"sortedBooks": sorted_books})
+        # Just returning books (modify sorting logic as needed)
+        return jsonify({"sortedBooks": books})
 
     elif sort_criteria == "Similar Page-length":
-        sorted_books = sorted(books, key=lambda x: x['rating'], reverse=True)  # Example sorting logic
+        sorted_books = sorted(books, key=lambda x: x['pages'], reverse=False)  # Sort by pages length
         return jsonify({"sortedBooks": sorted_books})
 
     return jsonify({"message": "No valid sorting criteria provided"}), 400
