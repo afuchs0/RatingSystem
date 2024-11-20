@@ -2,12 +2,14 @@ from flask import jsonify, request,render_template
 from app import app  # Import the app instance created in _init_.py
 from flask_cors import CORS, cross_origin
 from random import randint
+from backend.app.controllers.userController import load_users_from_csv
 from data.user import lista_utenti
+from app.controllers import authController
 import csv
 
 books=[]
 
-@app.route('/users')
+@app.route('/users', methods=['GET'])
 def index():
     print(lista_utenti)
     return render_template('index.html')
@@ -51,3 +53,13 @@ def _build_cors_prelight_response():
     response.headers.add('Access-Control-Allow-Methods', 'POST, OPTIONS')
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type, Authorization')
     return response
+
+
+    # Route de connexion
+@app.route('/login', methods=['POST'])
+def login():
+    return authController.login()
+
+@app.route('/load_users', methods=['POST'])
+def load_users():
+    return load_users_from_csv()
