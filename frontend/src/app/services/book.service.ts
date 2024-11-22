@@ -1,54 +1,61 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import * as Papa from 'papaparse';
-import {Book} from '../models/book.model';
+import {BookListItem} from '../models/book.model';
 import {HttpClient} from '@angular/common/http';
-import * as http from "node:http";
+import {User} from "../models/user.model";
 
 @Injectable({
   providedIn: 'root',
 })
 export class BookService {
+  private apiUrl = 'http://127.0.0.1:5000/api/'; // Base API URL
+
   constructor(private http: HttpClient) {
   }
 
-  getBooks(): Observable<Book[]> {
-    return this.http.get('assets/books.csv', {responseType: 'text'}).pipe(
-      map((data) => {
-        const books: Book[] = [];
-        Papa.parse(data, {
-          header: true,
-          skipEmptyLines: true,
-          complete: (result) => {
-            result.data.forEach((item: any) => {
-              books.push({
-                id: item['bookId'],
-                title: item['title'],
-                author: item['author'],
-                description: item['description'],
-                genres: item['genres']
-                  .replace(/[\[\]']/g, '') // Remove square brackets and single quotes
-                  .split(',')
-                  .map((genre: string) => genre.trim()), // Split and trim each genre
-                coverImg: item['coverImg'],
-                rating: +item['rating'],
-              });
-            });
-          },
-        });
-        return books;
+  getBooks(userId: string, sortCriteria: string): Observable<BookListItem[]> {
+    const params = { userId, sortCriteria }; // Query parameters
+    const url = this.apiUrl + 'getBookList'; // Construct URL
+
+    // Make HTTP GET request
+    return this.http.get<{ books: any[], sortCriteria: string }>(url, { params }).pipe(
+      map((response) => {
+        // Map API response to the BookListItem array
+        return response.books.map((item: any) => ({
+          id: item.id,
+          title: item.title,
+          author: item.author,
+          genres: item.genres, // Assume genres is already an array
+          userRating: item.userRating, // Directly use userRating from response
+          averageRating: item.averageRating, // Use averageRating from response
+        }));
       })
     );
   }
 
-  getOrderOfBooks(user: string, ratedBooks: { [p: string]: { [p: string]: number } }, sortCriteria: string) {
-    //get order from backend
-    return this.http.post('http://localhost:5000/api/getOrder', {
-        currentUser: user,
-        ratedBooks: ratedBooks,
-        sortCriteria: sortCriteria
-      }
+
+  // New method to update user rating
+  updateUserRating(userId: string, bookId: string, userRating: number | null): Observable<any> {
+    const url = this.apiUrl + 'updateUserRating'; // Endpoint URL
+    const body = { userId, bookId, userRating }; // Request payload
+
+    // Make HTTP PUT request
+    return this.http.put(url, body);
+  }
+
+  getUsers(): Observable<User[]> {
+    const url = this.apiUrl + 'getUserList'; // Endpoint URL
+    return this.http.get<{ id: string; generi_preferiti: string; age: string }[]>(url).pipe(
+      map((users) =>
+        users.map((user) => {
+          const genres = JSON.parse(user.generi_preferiti.replace(/'/g, '"')).join(', '); // Parse and join genres
+          return {
+            id: user.id,
+            name: `Age: ${user.age} | Prefers: ${genres}`,
+          };
+        })
+      )
     );
   }
 }
