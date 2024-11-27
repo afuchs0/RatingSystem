@@ -1,7 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {BookService} from '../../services/book.service';
-import {Book} from '../../models/book.model';
+import {BookListItem} from '../../models/book.model';
+import {User} from '../../models/user.model'; // Importiere das User-Interface
 import {NgClass, NgForOf, NgIf} from "@angular/common";
+import {first} from "rxjs";
 
 @Component({
   selector: 'app-book-list',
@@ -15,121 +17,91 @@ import {NgClass, NgForOf, NgIf} from "@angular/common";
   styleUrl: './book-list.component.css'
 })
 export class BookListComponent implements OnInit {
-  books: Book[] = [];
-  sortedBooks: Book[] = [];
+  books: BookListItem[] = [];
   sortOrder: string = 'asc'; // can be 'asc' or 'desc'
 
-  userOptions: string[] = ['Andreas', 'Callista', 'Laurent', 'Leo', 'Luca', 'Filippo'];
-  user: string = 'Andreas'; // User's name for personalized data storage
-  sortOptions: string[] = ['Title', 'Average Rating', 'Similar Authors', 'Similar Content', 'Similar Categories', 'Similar Page-length'];
+  userOptions: User[] = [];
+  userSelected: string = '';
+  sortOptions: string[] = ['Content Based Filtering', 'Collaborative Filtering Userbased','Collaborative Filtering Itembased','Q-Learning','DQN'];
   sortCriteria: string = this.sortOptions[0];
-  ratedBooks: { [user: string]: { [bookId: string]: number } } = {}; // Store ratings for each user
 
   constructor(private bookService: BookService) {
   }
 
   ngOnInit(): void {
-    this.loadRatedBooks();
-    this.bookService.getBooks().subscribe((data: Book[]) => {
-      this.books = data.map(book => ({
-        ...book,
-        userRating: this.ratedBooks[this.user]?.[book.id] || 0 // Set initial rating for current user
-      }));
-      this.sortBooks(); // Sort books after fetching
+    this.loadUsersAndBooks();
+  }
+
+  rateBook(book: BookListItem, starClicked: number) {
+    // Reset the rating if the clicked star matches the current userRating
+    const ratingToUpdate = book.userRating === starClicked ? null : starClicked;
+
+    // Call the service to update the rating
+    this.bookService.updateUserRating(this.userSelected, book.id, ratingToUpdate).subscribe({
+      next: (updatedBook) => {
+        // Update the local book object with the response from the backend
+        book.userRating = updatedBook.userRating;
+      },
+      error: (err) => {
+        console.error('Failed to update rating', err);
+      },
     });
   }
 
-  rateBook(book: Book, star: number) {
-    if (!this.ratedBooks[this.user]) {
-      this.ratedBooks[this.user] = {};
-    }
 
-    if (this.ratedBooks[this.user][book.id] === star) {
-      delete this.ratedBooks[this.user][book.id]; // Remove rating if the same star is selected again
-    } else {
-      this.ratedBooks[this.user][book.id] = star; // Set the new rating
-    }
-
-    this.saveLikedBooks();
-    this.sortBooks(); // Re-sort after rating a book
-  }
-
-  getBookRating(book: Book) {
-    return this.ratedBooks[this.user]?.[book.id] || 0;
+  toggleSortOrder() {
+    this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
   }
 
   changeSortCriteria(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
+
     if (selectElement) {
-      this.sortCriteria = selectElement.value;
-      this.sortBooks();
-    }
-  }
-
-  toggleSortOrder() {
-    this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
-    this.sortBooks();
-  }
-
-  sortBooks() {
-    if(this.sortCriteria !== this.sortOptions[0] && this.sortCriteria !== this.sortOptions[1]){
-      //http get from bookservice to retrieve order from backend. body: {activeUser, ratedBooks, sortCriteria}
-      //i dont know how the response looks like, just log it
-
-      this.bookService.getOrderOfBooks(this.user, this.ratedBooks, this.sortCriteria).subscribe({
-        next: (response) => {
-          console.log(response); //TODO: implement
-        },
-        error: (error) => {
-          console.error(error);
-          this.sortCriteria = this.sortOptions[0];
-        }
-      });
-      return
-    }
-
-    this.sortedBooks = this.books.sort((a, b) => {
-      let comparison = 0;
-
-      if (this.sortCriteria === this.sortOptions[1]) {
-        //Rating
-        const ratingA = a.rating;
-        const ratingB = b.rating;
-        comparison = ratingA - ratingB;
-      } else if (this.sortCriteria === this.sortOptions[0]) {
-        //Title
-        comparison = a.title.localeCompare(b.title);
-      } else {
-        //TODO: implement
+      if (this.sortCriteria !== selectElement.value) {
+        this.sortCriteria = selectElement.value;
+        this.loadBooks();
       }
-
-      return this.sortOrder === 'asc' ? comparison : -comparison;
-    });
-  }
-
-  loadRatedBooks() {
-    const ratedBooksString = localStorage.getItem('ratedBooks');
-    if (ratedBooksString) {
-      this.ratedBooks = JSON.parse(ratedBooksString);
-    } else {
-      this.ratedBooks = {};
     }
-  }
-
-  saveLikedBooks() {
-    localStorage.setItem('ratedBooks', JSON.stringify(this.ratedBooks));
   }
 
   changeUser(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
 
-    this.sortCriteria = this.sortOptions[0]; // Reset sort criteria
-
-
     if (selectElement) {
-      this.user = selectElement.value;
-      this.loadRatedBooks();
-      this.sortBooks();
+      if (this.userSelected !== selectElement.value) {
+        this.userSelected = selectElement.value;
+        this.loadBooks();
+      }
     }
+  }
+
+  loadBooks() {
+    this.bookService.getBooks(this.userSelected, this.sortCriteria).subscribe((data: BookListItem[]) => {
+      this.books = data.map(book => ({
+        ...book
+      }));
+    });
+  }
+
+  private loadUsersAndBooks() {
+    this.bookService.getUsers().subscribe({
+      next: (users: User[]) => {
+        this.userOptions = users;
+
+        if (users.length > 0) {
+          this.userSelected = users[0].id; // Set default user
+          this.loadBooks();
+        }
+      },
+      error: (err) => {
+        console.error('Fehler beim Laden der Benutzer', err);
+      }
+    });
+  }
+
+  getDisplayedBooks(): any[] {
+    return this.sortOrder === 'asc'
+      ? this.books
+      : [...this.books].reverse(); // Copy of reverse list
   }
 }
