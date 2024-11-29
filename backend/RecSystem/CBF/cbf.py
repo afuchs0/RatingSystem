@@ -96,7 +96,10 @@ def cbf(user_id=None):
     # Stampa le raccomandazioni
     #for user_id, rec_books in recommendations.items():
     #   print(f"User {user_id} recommendations: {rec_books}")
+    return recommendations
+    
 
 # Esegui il programma
 if __name__ == "__main__":
-    cbf(user_id = 56)
+    final = cbf(56)
+    print(final)

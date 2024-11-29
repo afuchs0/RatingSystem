@@ -22,7 +22,9 @@ def qlearning(user_id=None):
     with open("../model/qlearning.pkl", "rb") as f:
         Q_table = pickle.load(f) 
     print(len(Q_table))
-    recommend_book(user_id,Q_table,df_users,df_visualization,df_ratings,df_books)
+    final = recommend_book(user_id,Q_table,df_users,df_visualization,df_ratings,df_books)
+    return final
 
 if __name__ == "__main__":
-    qlearning(2)
+    recomandations = qlearning(2)
+    print(recomandations)
