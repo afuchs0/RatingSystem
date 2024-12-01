@@ -35,7 +35,7 @@ def clean_reading_date(reading_date_str):
 
 def import_visualizations():
     # Chemin du fichier CSV contenant les données des visualisations
-    file_path = '/mnt/c/Users/leoba/Documents/CoursesProject/DigitalL/RatingSystem/Api/data/visualization.csv'
+    file_path = './data/visualization.csv'
 
     # Charger le fichier CSV dans un DataFrame
     df = pd.read_csv(file_path)
@@ -72,7 +72,7 @@ def import_visualizations():
     print(f"{len(visualizations)} visualisations importées avec succès !")
 
 # Exemple d'utilisation :
-file_path = '/mnt/c/Users/leoba/Documents/CoursesProject/DigitalL/RatingSystem/Api/data/visualization.csv'
+file_path = './data/visualization.csv'
 
 # Importer les visualisations dans la base de données
 import_visualizations()

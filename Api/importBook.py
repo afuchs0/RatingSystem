@@ -10,7 +10,7 @@ from charset_normalizer import from_path
 #     df = pd.read_csv(file_path, nrows=num_rows)
 #     print(df.head(num_rows))
 
-file_path = '/mnt/c/Users/leoba/Documents/CoursesProject/DigitalL/RatingSystem/Api/data/books_def1.csv'
+file_path = 'C:/Users/Emmanuel/OneDrive/Bureau/digitaLab/RatingSystem/Api/data/books_def1.csv'
 
 def detect_file_encoding(file_path):
     """Détecter l'encodage d'un fichier."""
@@ -36,7 +36,7 @@ def clean_price(price_str):
 
 def import_books():
     # Chemin du fichier CSV contenant les données des livres
-    file_path = '/mnt/c/Users/leoba/Documents/CoursesProject/DigitalL/RatingSystem/Api/data/books_def1.csv'
+    file_path = './data/books_def1.csv'
     encoding = detect_file_encoding(file_path)
     print(f"Encodage détecté : {encoding}")
 
@@ -91,7 +91,7 @@ def import_books():
 
 
 # Exemple d'utilisation :
-file_path = '/mnt/c/Users/leoba/Documents/CoursesProject/DigitalL/RatingSystem/Api/data/books_def1.csv'
+file_path = 'RatingSystem/C:/Users/Emmanuel/OneDrive/Bureau/digitaLab/RatingSystem/Api/data/books.csv'
 
 # Afficher les premières lignes pour vérification
 # display_sample_rows(file_path)

@@ -3,6 +3,10 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 import json
 from flask_restful import Resource, Api
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask import Flask, request, jsonify
+from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user, login_required
+from werkzeug.security import check_password_hash
 
 app = Flask(__name__)
 
@@ -11,17 +15,25 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///library.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 api = Api(app)
+app.secret_key = 'your_secret_key'  # Clé secrète pour les sessions Flask
 
+# Initialisation de Flask-Login
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login' 
 # Configuration CORS
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 # User class
-class UserModel(db.Model):
+class UserModel(db.Model, UserMixin):
     __tablename__ = 'users'
+
     id = db.Column(db.Integer, primary_key=True)
     idd = db.Column(db.Integer, unique=True, nullable=False)
-    age = db.Column(db.String(100), nullable=False)
-    generi_preferiti = db.Column(db.Text)  # Change 'ARRAY' to 'Text'
+    age = db.Column(db.Integer, nullable=False)  # Integer type for age
+    email = db.Column(db.String(100), nullable=False, unique=False)
+    password_hash = db.Column(db.String(128), nullable=False)  # Renamed for clarity
+    generi_preferiti = db.Column(db.Text)  # Storing JSON as Text
 
     # Relationships
     ratings = db.relationship("RatingModel", back_populates="user")
@@ -29,20 +41,34 @@ class UserModel(db.Model):
 
     def to_dict(self):
         return {
-            "id": self.id, 
-            "idd": self.idd, 
+            "id": self.id,
+            "idd": self.idd,
             "age": self.age,
-            "generi_preferiti": json.loads(self.generi_preferiti) if self.generi_preferiti else []  # Deserialize JSON to list
+            "email": self.email,
+            "generi_preferiti": json.loads(self.generi_preferiti) if self.generi_preferiti else []
         }
 
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
+    
     def update(self, data):
         for key, value in data.items():
             if hasattr(self, key) and value is not None:
                 setattr(self, key, value)
 
     def set_generi_preferiti(self, generi_preferiti):
-        # Store the list as JSON string
         self.generi_preferiti = json.dumps(generi_preferiti)
+    @property
+    def is_active(self):
+        # Retourne True si l'utilisateur est actif. Changez cette logique si nécessaire.
+        return True
+    
+
+    def get_id(self):
+        return str(self.id)
 
 # Book class
 class BookModel(db.Model):
@@ -122,6 +148,43 @@ api.add_resource(Users, '/api/users')
 
 
 
+@login_manager.user_loader
+def load_user(user_id):
+    return UserModel.query.get(int(user_id))
+
+#login founction 
+@app.route('/api/login', methods=['POST'])
+def login():
+    data = request.get_json()  # Récupérer les données JSON envoyées par le client
+    email = data.get('email')
+    password = data.get('password_hash')
+
+    # Vérifier les informations utilisateur
+    user = UserModel.query.filter_by(email=email).first()
+    if user and user.check_password(password):
+        login_user(user)  # Connecter l'utilisateur
+        return jsonify({"message": "login success", "user_id": user.id}), 200
+    return jsonify({"message": "Email ou mot de passe incorrect"}), 401
+
+
+#current user
+@app.route('/api/current_user', methods=['GET'])
+@login_required  # Protéger la route pour les utilisateurs connectés uniquement
+def get_current_user():
+    if  current_user.is_authenticated:
+        return jsonify({
+            "id": current_user.id,
+            "email": current_user.email,
+            "age": current_user.age,
+            "generi_preferiti": json.loads(current_user.generi_preferiti or "[]")
+        }), 200
+    else:
+        return 'Please log in to view your profile.'
+
+@app.route('/api/getBook', methods=['GET'])
+def get_books():
+    books = BookModel.query.all()
+    return jsonify([book.to_dict() for book in books])
 
 @app.route('/api/getBookDetail', methods=['GET'])
 def get_book_detail():
@@ -176,6 +239,7 @@ def get_user_list():
         {
             "id": user.id,  # Format personnalisé pour l'ID
             "age": user.age,
+            #"email":user.email,
             "generi_preferiti": user.generi_preferiti
         }
         for user in users

@@ -8,10 +8,10 @@ from datetime import datetime
 # Function to import data from CSV files into the database
 def import_data():
     # Read CSV files with pandas
-    users_df = pd.read_csv('/mnt/c/Users/leoba/Documents/CoursesProject/DigitalL/RatingSystem/Api/data/users.csv')
-    books_df = pd.read_csv('/mnt/c/Users/leoba/Documents/CoursesProject/DigitalL/RatingSystem/Api/data/books_def.csv')
-    ratings_df = pd.read_csv('/mnt/c/Users/leoba/Documents/CoursesProject/DigitalL/RatingSystem/Api/data/ratings.csv')
-    visualizations_df = pd.read_csv('/mnt/c/Users/leoba/Documents/CoursesProject/DigitalL/RatingSystem/Api/data/visualization.csv')
+    users_df = pd.read_csv('/RatingSystem/Api/data/users.csv')
+    books_df = pd.read_csv('RatingSystem/Api/data/books_def.csv')
+    ratings_df = pd.read_csv('/RatingSystem/Api/data/ratings.csv')
+    visualizations_df = pd.read_csv('/RatingSystem/Api/data/visualization.csv')
 
     # Function to clean and convert string to float
     def clean_float(value):

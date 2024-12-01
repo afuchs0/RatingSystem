@@ -1,10 +1,12 @@
 import pandas as pd
 from api import app, db
 from api import UserModel
+import json
+from werkzeug.security import generate_password_hash, check_password_hash
 
 def import_data():
     # Charger le fichier CSV brut
-    file_path = '/mnt/c/Users/leoba/Documents/CoursesProject/DigitalL/RatingSystem/Api/data/users.csv'
+    file_path = './data/users.csv'
     with open(file_path, 'r') as file:
         lines = file.readlines()
     
@@ -14,25 +16,26 @@ def import_data():
     # Découper chaque ligne et convertir en objets UserModel
     users = []
     for line in data_lines:
-        # print(line)
         line = line.strip()  # Supprimer les espaces ou sauts de ligne
-        values = line.split(',', maxsplit=3)  # Découper en 4 parties : idd, id, age, generi_preferiti
-        # print(line)
-        # print(values)
+        values = line.split(',', maxsplit=4)  # Découper en 4 parties : idd, age, email, generi_preferiti
+        
         # Assigner les valeurs et nettoyer si nécessaire
-        idd = int(values[0].strip('"'))  # Retirer les guillemets pour le premier champ
-        user_id = int(values[1].strip('"'))  # Retirer les guillemets pour le deuxième champ
-        age = int(values[2].strip('"'))  # Retirer les guillemets pour le troisième champ
-        generi_preferiti = values[3].strip('"')  # Retirer les guillemets pour le dernier champ
+        id = int(values[0].strip('"'))
+        idd = int(values[1].strip('"'))  
+        age = int(values[2].strip('"'))  
+        email = values[3].strip('"') 
+        generi_preferiti = values[4].strip('"')  
 
-        # Nettoyer les formats spécifiques (comme les doubles guillemets internes dans generi_preferiti)
-        generi_preferiti = generi_preferiti.replace('"""', '"').replace("''", "'").strip()
+        # Nettoyer et sérialiser les genres préférés
+        generi_preferiti = json.dumps(generi_preferiti.split(';'))  # Si les genres sont séparés par ";"
 
-        # Créer un utilisateur
+        # Créer un utilisateur avec un mot de passe par défaut haché
         user = UserModel(
+            id=id,
             idd=idd,
-            id=user_id,
             age=age,
+            email=email,
+            password_hash=generate_password_hash("default_password"),  # Mot de passe par défaut
             generi_preferiti=generi_preferiti
         )
         users.append(user)

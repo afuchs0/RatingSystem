@@ -36,7 +36,7 @@ def clean_rating(rating_str):
 
 def import_ratings():
     # Chemin du fichier CSV contenant les données des notations
-    file_path = '/mnt/c/Users/leoba/Documents/CoursesProject/DigitalL/RatingSystem/Api/data/ratings.csv'
+    file_path = './data/ratings.csv'
 
     # Charger le fichier CSV dans un DataFrame
     df = pd.read_csv(file_path)
@@ -73,7 +73,7 @@ def import_ratings():
 
 
 # Exemple d'utilisation :
-file_path = '/mnt/c/Users/leoba/Documents/CoursesProject/DigitalL/RatingSystem/Api/data/ratings.csv'
+file_path = './data/ratings.csv'
 
 # Importer les notations dans la base de données
 import_ratings()
