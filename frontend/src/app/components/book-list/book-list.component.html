@@ -10,7 +10,7 @@
           </select>
         </div>
         <div>
-          <label for="sortCriteria" class="form-label me-2">Sort by:</label>
+          <label for="sortCriteria" class="form-label me-2">Recommendation System:</label>
 
           <div class="d-flex justify-content-between align-items-center">
             <select id="sortCriteria" class="form-select form-select-sm me-2" (change)="changeSortCriteria($event)">
@@ -37,8 +37,8 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let book of getDisplayedBooks(); let i = index" [ngClass]="{'table-success': book.userRating !=null}">
-        <th scope="row">{{ i + 1 }}</th>
+      <tr *ngFor="let book of getDisplayedBooks()" [ngClass]="{'table-success': book.userRating !=null}">
+        <td>{{ books.indexOf(book) + 1 }}</td>
         <td>{{ book.title }}</td>
         <td>{{ book.author }}</td>
         <td>{{ book.genres.join(', ') }}</td>

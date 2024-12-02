@@ -3,10 +3,18 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 import json
 from flask_restful import Resource, Api
+<<<<<<< HEAD
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import Flask, request, jsonify
 from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user, login_required
 from werkzeug.security import check_password_hash
+=======
+# from routes import routes
+from models.books import BookModel
+from models.users import UserModel
+from models.rating import RatingModel
+from models.visualizations import VisualizationModel
+>>>>>>> 0fe031b0cd011a8603f5e6b2cb831250f2487d8e
 
 app = Flask(__name__)
 
@@ -23,7 +31,9 @@ login_manager.init_app(app)
 login_manager.login_view = 'login' 
 # Configuration CORS
 CORS(app, resources={r"/api/*": {"origins": "*"}})
+# app.register_blueprint(routes)
 
+<<<<<<< HEAD
 # User class
 class UserModel(db.Model, UserMixin):
     __tablename__ = 'users'
@@ -34,11 +44,21 @@ class UserModel(db.Model, UserMixin):
     email = db.Column(db.String(100), nullable=False, unique=False)
     password_hash = db.Column(db.String(128), nullable=False)  # Renamed for clarity
     generi_preferiti = db.Column(db.Text)  # Storing JSON as Text
+=======
+# # User class
+# class UserModel(db.Model):
+#     __tablename__ = 'users'
+#     id = db.Column(db.Integer, primary_key=True)
+#     idd = db.Column(db.Integer, unique=True, nullable=False)
+#     age = db.Column(db.String(100), nullable=False)
+#     generi_preferiti = db.Column(db.Text)  # Change 'ARRAY' to 'Text'
+>>>>>>> 0fe031b0cd011a8603f5e6b2cb831250f2487d8e
 
-    # Relationships
-    ratings = db.relationship("RatingModel", back_populates="user")
-    visualizations = db.relationship("VisualizationModel", back_populates="user") 
+#     # Relationships
+#     ratings = db.relationship("RatingModel", back_populates="user")
+#     visualizations = db.relationship("VisualizationModel", back_populates="user") 
 
+<<<<<<< HEAD
     def to_dict(self):
         return {
             "id": self.id,
@@ -87,61 +107,100 @@ class BookModel(db.Model):
     # Relationships
     ratings = db.relationship("RatingModel", back_populates="book")
     visualizations = db.relationship("VisualizationModel", back_populates="book") 
+=======
+#     def to_dict(self):
+#         return {
+#             "id": self.id, 
+#             "idd": self.idd, 
+#             "age": self.age,
+#             "generi_preferiti": json.loads(self.generi_preferiti) if self.generi_preferiti else []  # Deserialize JSON to list
+#         }
 
-    def to_dict(self):
-        return {
-            "id": self.id, 
-            "title": self.title, 
-            "serie": self.serie, 
-            "desc": self.desc, 
-            "lang": self.lang, 
-            "naward": self.nawards, 
-            "avg_vote": self.avg_vote,
-            "price": self.price, 
-            "author": self.author,
-            "genres": self.genres
-        }
+#     def update(self, data):
+#         for key, value in data.items():
+#             if hasattr(self, key) and value is not None:
+#                 setattr(self, key, value)
 
-    def update(self, data):
-        for key, value in data.items():
-            if hasattr(self, key) and value is not None:
-                setattr(self, key, value)
+#     def set_generi_preferiti(self, generi_preferiti):
+#         # Store the list as JSON string
+#         self.generi_preferiti = json.dumps(generi_preferiti)
 
-# Rating class
-class RatingModel(db.Model):
-    __tablename__ = 'ratings'
+# Book class
+# class BookModel(db.Model):
+#     __tablename__ = 'books'
     
-    id = db.Column(db.Integer, primary_key=True, index=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    book_id = db.Column(db.String(100), db.ForeignKey('books.id'), nullable=False)
-    rating = db.Column(db.Integer, nullable=False)
+#     id = db.Column(db.String(100), primary_key=True)
+#     title = db.Column(db.String(100), nullable=False)
+#     serie = db.Column(db.String(100), nullable=True)  # Made nullable True if optional
+#     desc = db.Column(db.String(100), nullable=True)  # Made nullable True if optional
+#     lang = db.Column(db.String(100), nullable=True)  # Made nullable True if optional
+#     pages = db.Column(db.Integer, nullable=True)  # Made nullable True for optional pages
+#     nawards = db.Column(db.Integer, nullable=False, default=0)  # Default value for awards
+#     avg_vote = db.Column(db.Float, nullable=True, default=0.0)  # Default value for avg_vote
+#     price = db.Column(db.Float, nullable=True)  # Changed to Float for price
+
+#     author = db.Column(db.String(100), nullable=False)
+#     genres = db.Column(db.String(200), nullable=True)  # Increased size for genres (if a list)
+
+#     # Relationships
+#     ratings = db.relationship("RatingModel", back_populates="book")
+#     visualizations = db.relationship("VisualizationModel", back_populates="book") 
+>>>>>>> 0fe031b0cd011a8603f5e6b2cb831250f2487d8e
+
+#     def to_dict(self):
+#         return {
+#             "id": self.id, 
+#             "title": self.title, 
+#             "serie": self.serie, 
+#             "desc": self.desc, 
+#             "lang": self.lang, 
+#             "naward": self.nawards, 
+#             "avg_vote": self.avg_vote,
+#             "price": self.price, 
+#             "author": self.author,
+#             "genres": self.genres
+#         }
+
+#     def update(self, data):
+#         for key, value in data.items():
+#             if hasattr(self, key) and value is not None:
+#                 setattr(self, key, value)
+
+# # Rating class
+# class RatingModel(db.Model):
+#     __tablename__ = 'ratings'
     
-    # Relationships
-    user = db.relationship("UserModel", back_populates="ratings")
-    book = db.relationship("BookModel", back_populates="ratings")
+#     id = db.Column(db.Integer, primary_key=True, index=True)
+#     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+#     book_id = db.Column(db.String(100), db.ForeignKey('books.id'), nullable=False)
+#     rating = db.Column(db.Integer, nullable=False)
+    
+#     # Relationships
+#     user = db.relationship("UserModel", back_populates="ratings")
+#     book = db.relationship("BookModel", back_populates="ratings")
 
-    def to_dict(self):
-        return {"user_id": self.user_id, "book_id": self.book_id, "rating": self.rating}
+#     def to_dict(self):
+#         return {"user_id": self.user_id, "book_id": self.book_id, "rating": self.rating}
 
-# Visualization class
-class VisualizationModel(db.Model):
-    __tablename__ = 'visualizations'
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    book_id = db.Column(db.Integer, db.ForeignKey('books.id'), nullable=False)
-    reading_date = db.Column(db.Date, nullable=True)
+# # Visualization class
+# class VisualizationModel(db.Model):
+#     __tablename__ = 'visualizations'
+#     id = db.Column(db.Integer, primary_key=True)
+#     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+#     book_id = db.Column(db.Integer, db.ForeignKey('books.id'), nullable=False)
+#     reading_date = db.Column(db.Date, nullable=True)
 
-    # Relationships
-    user = db.relationship("UserModel", back_populates="visualizations")
-    book = db.relationship("BookModel", back_populates="visualizations")
+#     # Relationships
+#     user = db.relationship("UserModel", back_populates="visualizations")
+#     book = db.relationship("BookModel", back_populates="visualizations")
 
 # Users API Resource
-class Users(Resource):
-    def get(self):
-        users = UserModel.query.all()
-        return [user.to_dict() for user in users]
+# class Users(Resource):
+#     def get(self):
+#         users = UserModel.query.all()
+#         return [user.to_dict() for user in users]
 
-api.add_resource(Users, '/api/users')
+# api.add_resource(Users, '/api/users')
 
 
 
@@ -185,6 +244,8 @@ def get_books():
 
 @app.route('/api/getBookDetail', methods=['GET'])
 def get_book_detail():
+    # from models.books import BookModel
+    # from models.rating import RatingModel
     # Récupérer le paramètre bookId
     book_id = request.args.get('bookId')
     if not book_id:
@@ -228,6 +289,7 @@ def get_book_detail():
 # get users 
 @app.route('/api/getUsers', methods=['GET'])
 def get_user_list():
+    # from models.users import UserModel
     # Récupérer tous les utilisateurs de la base de données
     users = UserModel.query.all()
 
@@ -248,6 +310,9 @@ def get_user_list():
 
 @app.route('/api/updateUserRating', methods=['PUT'])
 def update_user_rating():
+    # from models.books import BookModel
+    # from models.users import UserModel
+    # from models.rating import RatingModel
     data = request.get_json()
     user_id = data.get('userId')
     book_id = data.get('bookId')

@@ -22,7 +22,7 @@ export class BookListComponent implements OnInit {
 
   userOptions: User[] = [];
   userSelected: string = '';
-  sortOptions: string[] = ['Title', 'Average Rating', 'Similar Authors', 'Similar Content', 'Similar Categories', 'Similar Page-length'];
+  sortOptions: string[] = ['Content Based Filtering', 'Collaborative Filtering Userbased','Collaborative Filtering Itembased','Q-Learning','DQN'];
   sortCriteria: string = this.sortOptions[0];
 
   constructor(private bookService: BookService) {
