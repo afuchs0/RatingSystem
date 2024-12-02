@@ -73,7 +73,6 @@ class UserModel(db.Model, UserMixin):
 # Book class
 class BookModel(db.Model):
     __tablename__ = 'books'
-    
     id = db.Column(db.String(100), primary_key=True)
     title = db.Column(db.String(100), nullable=False)
     serie = db.Column(db.String(100), nullable=True)  # Made nullable True if optional
@@ -83,10 +82,8 @@ class BookModel(db.Model):
     nawards = db.Column(db.Integer, nullable=False, default=0)  # Default value for awards
     avg_vote = db.Column(db.Float, nullable=True, default=0.0)  # Default value for avg_vote
     price = db.Column(db.Float, nullable=True)  # Changed to Float for price
-
     author = db.Column(db.String(100), nullable=False)
     genres = db.Column(db.String(200), nullable=True)  # Increased size for genres (if a list)
-
     # Relationships
     ratings = db.relationship("RatingModel", back_populates="book")
     visualizations = db.relationship("VisualizationModel", back_populates="book") 
@@ -181,7 +178,7 @@ def get_current_user():
     else:
         return 'Please log in to view your profile.'
 
-@app.route('/api/getBook', methods=['GET'])
+@app.route('/api/getBooks', methods=['GET'])
 def get_books():
     books = BookModel.query.all()
     return jsonify([book.to_dict() for book in books])
@@ -228,8 +225,8 @@ def get_book_detail():
 
     return jsonify(response)
 
-
-@app.route('/api/getUserList', methods=['GET'])
+# get users 
+@app.route('/api/getUsers', methods=['GET'])
 def get_user_list():
     # Récupérer tous les utilisateurs de la base de données
     users = UserModel.query.all()
@@ -294,65 +291,102 @@ def update_user_rating():
 
     return jsonify(book_data)
 
-@app.route('/api/getBookList', methods=['GET'])
-def get_book_list():
-    # Récupérer les paramètres de la requête
-    user_id = request.args.get('userId')  # Le paramètre userId (non utilisé ici mais pourrait être ajouté pour la logique)
-    sort_criteria = request.args.get('sortCriteria')  # Le paramètre sortCriteria
+# @app.route('/api/getBookList', methods=['GET'])
+# def get_book_list():
+#     # Récupérer les paramètres de la requête
+#     user_id = request.args.get('userId')  # Le paramètre userId (non utilisé ici mais pourrait être ajouté pour la logique)
+#     sort_criteria = request.args.get('sortCriteria')  # Le paramètre sortCriteria
 
-    # Vérification de la présence du paramètre sortCriteria
-    if not sort_criteria:
-        return jsonify({"error": "Missing sortCriteria parameter"}), 400
+#     # Vérification de la présence du paramètre sortCriteria
+#     if not sort_criteria:
+#         return jsonify({"error": "Missing sortCriteria parameter"}), 400
 
-    # Exemple de données fictives (normalement, cela serait récupéré à partir de la base de données)
-    book_list = [
-        {
-            "id": "2",
-            "title": "The Great Gatsby",
-            "author": "F. Scott Fitzgerald",
-            "genres": ["Classic", "Fiction"],
-            "averageRating": 4.4,
-            "userRating": None
-        },
-        {
-            "id": "1",
-            "title": "To Kill a Mockingbird",
-            "author": "Harper Lee",
-            "genres": ["Classic", "Historical", "Fiction"],
-            "averageRating": 4.8,
-            "userRating": 4
-        },
-        {
-            "id": "5",
-            "title": "1984",
-            "author": "George Orwell",
-            "genres": ["Dystopian", "Science Fiction", "Classic"],
-            "averageRating": 4.7,
-            "userRating": 5
-        },
-        {
-            "id": "4",
-            "title": "The Catcher in the Rye",
-            "author": "J.D. Salinger",
-            "genres": ["Classic", "Fiction"],
-            "averageRating": 3.9,
-            "userRating": 3
-        },
-        {
-            "id": "3",
-            "title": "Pride and Prejudice",
-            "author": "Jane Austen",
-            "genres": ["Classic", "Romance"],
-            "averageRating": 4.6,
-            "userRating": 4
-        }
-    ]
+#     # Exemple de données fictives (normalement, cela serait récupéré à partir de la base de données)
+#     book_list = [
+#         {
+#             "id": "2",
+#             "title": "The Great Gatsby",
+#             "author": "F. Scott Fitzgerald",
+#             "genres": ["Classic", "Fiction"],
+#             "averageRating": 4.4,
+#             "userRating": None
+#         },
+#         {
+#             "id": "1",
+#             "title": "To Kill a Mockingbird",
+#             "author": "Harper Lee",
+#             "genres": ["Classic", "Historical", "Fiction"],
+#             "averageRating": 4.8,
+#             "userRating": 4
+#         },
+#         {
+#             "id": "5",
+#             "title": "1984",
+#             "author": "George Orwell",
+#             "genres": ["Dystopian", "Science Fiction", "Classic"],
+#             "averageRating": 4.7,
+#             "userRating": 5
+#         },
+#         {
+#             "id": "4",
+#             "title": "The Catcher in the Rye",
+#             "author": "J.D. Salinger",
+#             "genres": ["Classic", "Fiction"],
+#             "averageRating": 3.9,
+#             "userRating": 3
+#         },
+#         {
+#             "id": "3",
+#             "title": "Pride and Prejudice",
+#             "author": "Jane Austen",
+#             "genres": ["Classic", "Romance"],
+#             "averageRating": 4.6,
+#             "userRating": 4
+#         }
+#     ]
 
-    # Retourner la réponse sous forme de JSON
-    return jsonify({
-        "sortCriteria": sort_criteria,
-        "books": book_list
-    })
+#     # Retourner la réponse sous forme de JSON
+#     return jsonify({
+#         "sortCriteria": sort_criteria,
+#         "books": book_list
+#     })
+
+
+#recherche personnalisee
+@app.route('/api/books/research', methods=['GET'])
+def research():
+    # Récupération des paramètres de requête
+    title = request.args.get('title')
+    lang = request.args.get('language')
+    price = request.args.get('price', type=float)
+    desc = request.args.get('desc')
+
+    # Initialisation de la requête
+    query = BookModel.query
+
+    # Ajout des filtres dynamiques
+    if title:
+        query = query.filter(BookModel.title.ilike(f"%{title}%"))
+    if lang:
+        query = query.filter(BookModel.lang.ilike(f"%{lang}%"))
+    if price:
+        query = query.filter(BookModel.price <= price)  
+    if desc:
+        query = query.filter(BookModel.desc.ilike(f"%{desc}%"))
+
+    try:
+        # Exécution de la requête
+        books = query.all()
+        if not books:
+            return jsonify({"message": "No books found matching your criteria."}), 404
+        
+        # Retourner les résultats
+        return jsonify([book.to_dict() for book in books]), 200
+
+    except Exception as e:
+        # Gestion des erreurs
+        return jsonify({"error": f"An error occurred: {str(e)}"}), 500
+
 
 # Exportation du modèle pour créer les tables
 if __name__ == "__main__":
