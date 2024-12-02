@@ -35,7 +35,7 @@ def import_data():
             idd=idd,
             age=age,
             email=email,
-            password_hash=generate_password_hash("default_password"),  # Mot de passe par défaut
+            password_hash=generate_password_hash("password123"),  # Mot de passe par défaut
             generi_preferiti=generi_preferiti
         )
         users.append(user)
