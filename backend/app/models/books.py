@@ -28,7 +28,7 @@ class Book(Base):
      ratingsByStars=Column(ARRAY(String(100), nullable= True))
      likedPercent= Column(String(100), nullable=True)
      setting =Column(ARRAY(String(100), nullable=True))
-     coverImg= Column(ARRAY(String(200),nullable=True))
+     coverImg= Column(String(200),nullable=True)
      bbeScore = Column(String(100))
      bbeVote = Column(String(100), nullable=True)
      price = Column(String(100), nullable = False)

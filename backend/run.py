@@ -3,6 +3,9 @@ from flask import Flask, render_template
 from flask import Flask, jsonify, request
 from flask_sqlalchemy  import SQLAlchemy
 
+from app.controllers.userController import load_users_from_csv
+
+
 
 app = Flask(__name__)
 
@@ -22,8 +25,12 @@ def before_request_func():
 def index():
     return render_template('index.html')
 
+@app.route('/load_users', methods=['POST'])
+def load_users():
+    return jsonify({load_users_from_csv()})
 
 
 if __name__ == '__main__':
     app.run(debug=True)
    
+
