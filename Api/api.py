@@ -426,7 +426,7 @@ def research():
     title = request.args.get('title')
     lang = request.args.get('language')
     price = request.args.get('price', type=float)
-    desc = request.args.get('desc')
+    desc = request.args.get('description')
 
     # Initialisation de la requête
     query = BookModel.query
@@ -435,11 +435,11 @@ def research():
     if title:
         query = query.filter(BookModel.title.ilike(f"%{title}%"))
     if lang:
-        query = query.filter(BookModel.lang.ilike(f"%{lang}%"))
+        query = query.filter(BookModel.language.ilike(f"%{lang}%"))
     if price:
         query = query.filter(BookModel.price <= price)  
     if desc:
-        query = query.filter(BookModel.desc.ilike(f"%{desc}%"))
+        query = query.filter(BookModel.description.ilike(f"%{desc}%"))
 
     try:
         # Exécution de la requête
