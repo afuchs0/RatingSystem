@@ -19,4 +19,7 @@ export interface BookDetail {
   averageRating: number | null;
   userRating: number | null;
   coverImg: string | null;
+  ranking: {  // New property for ranking
+    [algorithm: string]: number;  // Key-value pair where algorithm is a string and ranking is a number
+  };
 }

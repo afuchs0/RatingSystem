@@ -1,6 +1,6 @@
 import {Component, EventEmitter, HostBinding, Input, Output, OnChanges, SimpleChanges} from '@angular/core';
 import {BookService} from '../../services/book.service';
-import {NgClass, NgIf, NgStyle} from '@angular/common';
+import {NgClass, NgForOf, NgIf, NgStyle} from '@angular/common';
 import {BookDetail} from "../../models/book.model";
 
 @Component({
@@ -9,7 +9,8 @@ import {BookDetail} from "../../models/book.model";
   imports: [
     NgIf,
     NgClass,
-    NgStyle
+    NgStyle,
+    NgForOf
   ],
   templateUrl: './bookdetail.component.html',
   styleUrls: ['./bookdetail.component.css']
@@ -66,6 +67,18 @@ export class BookdetailComponent implements OnChanges {
 // Helper function to convert RGB values to hex
   private rgbToHex(r: number, g: number, b: number): string {
     return (1 << 24 | r << 16 | g << 8 | b).toString(16).slice(1).toUpperCase();
+  }
+
+
+  // Method to get ranking methods
+  getRankingMethods() {
+    if (!this.subscribedBook) {
+      return [];
+    }
+    return Object.keys(this.subscribedBook.ranking).map(key => ({
+      name: key,
+      rank: this.subscribedBook?.ranking[key]
+    }));
   }
 
 

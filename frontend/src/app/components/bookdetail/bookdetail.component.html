@@ -29,7 +29,7 @@
         <div class="mb-2"><strong>Price:</strong> ${{ subscribedBook?.price }}</div>
 
         <!-- Average Rating -->
-        <div class="mb-3">
+        <div class="mb-2">
           <strong>Average Rating:</strong>
           <span *ngIf="subscribedBook?.averageRating !== undefined"
                 [ngStyle]="{ 'background-color': getBadgeColor(subscribedBook?.averageRating) }"
@@ -40,7 +40,7 @@
         </div>
 
         <!-- User Rating -->
-        <div class="mb-3">
+        <div class="mb-2">
           <strong>Your Rating:</strong>
           <span *ngIf="subscribedBook?.userRating !== undefined"
                 [ngStyle]="{ 'background-color': getBadgeColor(subscribedBook?.userRating) }"
@@ -48,6 +48,20 @@
             {{ subscribedBook?.userRating }}
           </span>
           <span *ngIf="subscribedBook?.userRating === undefined" class="text-muted">Not rated yet</span>
+        </div>
+
+
+        <!-- Ranking Table -->
+        <div class="mt-2">
+          <strong>Ranking:</strong>
+          <table class="table table-bordered table-striped">
+            <tbody>
+            <tr *ngFor="let method of getRankingMethods()">
+              <td>{{ method.name }}</td>
+              <td>{{ method.rank }}</td>
+            </tr>
+            </tbody>
+          </table>
         </div>
 
         <div><strong>Description:</strong>

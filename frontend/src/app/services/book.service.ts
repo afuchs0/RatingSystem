@@ -77,6 +77,7 @@ export class BookService {
           averageRating: response.averageRating,
           userRating: response.userRating,
           coverImg: response.coverImg,
+          ranking: response.ranking,
         };
       })
     );
