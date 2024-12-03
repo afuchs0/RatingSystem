@@ -6,7 +6,7 @@
     </div>
     <div class="modal-body d-flex">
       <!-- Book Cover -->
-      <div class="book-cover me-4 position-relative" style="width: 180px; height: 270px;">
+      <div class="book-cover me-4 position-relative">
         <ng-container *ngIf="subscribedBook?.coverImg; else loading">
           <img [src]="subscribedBook?.coverImg" alt="{{ subscribedBook?.title }} Cover" class="img-fluid rounded-3 shadow" />
         </ng-container>
