@@ -8,3 +8,15 @@ export interface BookListItem {
   userRating: number;
   // Add more fields as necessary based on your CSV structure
 }
+
+export interface BookDetail {
+  id: string;
+  title: string;
+  author: string;
+  description: string;
+  genres: string[];  // Array of genres
+  price: number;
+  averageRating: number | null;
+  userRating: number | null;
+  coverImg: string | null;
+}

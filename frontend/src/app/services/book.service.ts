@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {BookListItem} from '../models/book.model';
+import {BookDetail, BookListItem} from '../models/book.model';
 import {HttpClient} from '@angular/common/http';
 import {User} from "../models/user.model";
 
@@ -49,13 +49,36 @@ export class BookService {
     return this.http.get<{ id: string; generi_preferiti: string; age: string }[]>(url).pipe(
       map((users) =>
         users.map((user) => {
-          const genres = JSON.parse(user.generi_preferiti.replace(/'/g, '"')).join(', '); // Parse and join genres
+          const genres = user.generi_preferiti; // Parse and join genres
           return {
             id: user.id,
             name: `Age: ${user.age} | Prefers: ${genres}`,
           };
         })
       )
+    );
+  }
+
+  // New method to get book details
+  getBookDetails(bookId: string): Observable<BookDetail> {
+    const params = { bookId }; // Query parameter
+    const url = this.apiUrl + 'getBookDetail'; // Endpoint URL for book details
+
+    return this.http.get<BookDetail>(url, { params }).pipe(
+      map((response) => {
+        // Response is directly mapped to the BookDetail object
+        return {
+          id: response.id,
+          title: response.title,
+          author: response.author,
+          description: response.description,
+          genres: response.genres, // Assume genres is an array
+          price: response.price,
+          averageRating: response.averageRating,
+          userRating: response.userRating,
+          coverImg: response.coverImg,
+        };
+      })
     );
   }
 }
