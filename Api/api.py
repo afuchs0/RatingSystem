@@ -39,6 +39,7 @@ class UserModel(db.Model, UserMixin):
 
     ratings = db.relationship("RatingModel", back_populates="user")
     visualizations = db.relationship("VisualizationModel", back_populates="user")
+    favorite = db.relationship("FavoriteModel", back_populates="user")
 
     def to_dict(self):
         return {
@@ -70,6 +71,17 @@ class UserModel(db.Model, UserMixin):
 
     def get_id(self):
         return str(self.id)
+#Genres class 
+class GenreModel(db.Model):
+    __tablename__="genres"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=True)
+    belong = db.relationship("BelongModel", back_populates="genres")
+    favorite = db.relationship("FavoriteModel", back_populates="genres")
+
+    def to_dict(self):
+        return { "name": self.name}
+
 
 # Book class
 class BookModel(db.Model):
@@ -105,6 +117,8 @@ class BookModel(db.Model):
     # Relationships
     ratings = db.relationship("RatingModel", back_populates="book")
     visualizations = db.relationship("VisualizationModel", back_populates="book")
+    belong = db.relationship("B", back_populates="book")
+    
 
     # id = db.Column(db.String(100), primary_key=True)
     # title = db.Column(db.String(100), nullable=False)
@@ -195,6 +209,28 @@ class VisualizationModel(db.Model):
     # Relationships
     user = db.relationship("UserModel", back_populates="visualizations")
     book = db.relationship("BookModel", back_populates="visualizations")
+#belong class
+class BelongModel(db.Model):
+    __tablename__ = 'belong'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    book_id = db.Column(db.Integer, db.ForeignKey('books.id'), nullable=False)
+    belong_date = db.Column(db.Date, nullable=True)
+
+    # Relationships
+    user = db.relationship("UserModel", back_populates="belong")
+    book = db.relationship("BookModel", back_populates="belong")
+
+
+class FavoriteModel(db.Model):
+    __tablename__ = 'favorite'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    book_id = db.Column(db.Integer, db.ForeignKey('books.id'), nullable=False)
+
+    # Relationships
+    user = db.relationship("UserModel", back_populates="favorite")
+    book = db.relationship("BookModel", back_populates="favorite")
 
 # Users API Resource
 class Users(Resource):

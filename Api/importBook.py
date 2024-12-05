@@ -99,6 +99,13 @@ def detect_file_encoding(file_path):
 # # Importer les livres dans la base de données
 # import_books()
 
+
+
+
+
+
+
+
 def clean_price(price_str):
     """
     Nettoyer et convertir une chaîne de caractères représentant un prix en float.
