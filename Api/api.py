@@ -8,6 +8,10 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask import Flask, request, jsonify
 from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user, login_required
 from werkzeug.security import check_password_hash
+from RecSystem.CBF.cbf import cbf
+from RecSystem.CFI.cfi import cfi
+# from RecSystem.CFU.cfu import cfu
+# from RecSystem. import cfu
 
 app = Flask(__name__)
 
@@ -239,10 +243,61 @@ def get_current_user():
     else:
         return 'Please log in to view your profile.'
 
-@app.route('/api/getBooks', methods=['GET'])
+# @app.route('/api/getBookList', methods=['GET'])
+# def get_books():
+#     books = BookModel.query.all()
+#     return jsonify([book.to_dict() for book in books])
+
+
+@app.route('/api/getBookList', methods=['GET'])
 def get_books():
+    # Récupérer les paramètres
+    user_id = request.args.get('userId')
+    sort_criteria = request.args.get('sortCriteria')
+    # Print pour déboguer
+    print(f"Received userId: {user_id}")
+    print(f"Received sortCriteria: {sort_criteria}")
+    # Vérifier que les paramètres requis sont fournis
+    if not user_id or not sort_criteria:
+        return jsonify({"error": "Missing 'userId' or 'sortCriteria' parameter."}), 400
+
+    # Récupérer tous les livres de la base de données
     books = BookModel.query.all()
-    return jsonify([book.to_dict() for book in books])
+    books_data = [book.to_dict() for book in books]
+
+    # Variable pour stocker l'ordre trié des livres
+    sorted_books = []
+
+    # Logique basée sur le critère de tri
+    if sort_criteria == "Content Based Filtering":
+        recommendations = cbf(user_id)  # Appel de la fonction Content-Based Filtering
+    elif sort_criteria == "Collaborative Filtering Userbased":
+        recommendations = cfi(user_id)  # Appel CF User-based
+    # elif sort_criteria == "Collaborative Filtering Itembased":
+    #     recommendations = collaborative_filtering_item(user_id)  # Appel CF Item-based
+    # elif sort_criteria == "Q-Learning":
+    #     recommendations = q_learning_recommendations(user_id)  # Appel Q-Learning
+    # elif sort_criteria == "DQN":
+    #     recommendations = dqn_recommendations(user_id)  # Appel DQN
+    else:
+        return jsonify({"error": f"Invalid sortCriteria: {sort_criteria}"}), 400
+
+    # Trier les livres en fonction des recommandations
+    if recommendations:
+        book_id_order = recommendations  # Les IDs des livres triés
+        # Trier les livres par leur ordre dans les recommandations
+        sorted_books = sorted(books_data, key=lambda x: book_id_order.index(x['id']) if x['id'] in book_id_order else len(book_id_order))
+    else:
+        # Si aucune recommandation, renvoyer les livres sans ordre spécifique
+        sorted_books = books_data
+
+    # Construire la réponse
+    response = {
+        "sortCriteria": sort_criteria,
+        "books": sorted_books
+    }
+
+    return jsonify(response), 200
 
 @app.route('/api/getBookDetail', methods=['GET'])
 def get_book_detail():
@@ -289,7 +344,7 @@ def get_book_detail():
     return jsonify(response)
 
 # get users 
-@app.route('/api/getUsers', methods=['GET'])
+@app.route('/api/getUserList', methods=['GET'])
 def get_user_list():
     # from models.users import UserModel
     # Récupérer tous les utilisateurs de la base de données
@@ -357,66 +412,6 @@ def update_user_rating():
     }
 
     return jsonify(book_data)
-
-# @app.route('/api/getBookList', methods=['GET'])
-# def get_book_list():
-#     # Récupérer les paramètres de la requête
-#     user_id = request.args.get('userId')  # Le paramètre userId (non utilisé ici mais pourrait être ajouté pour la logique)
-#     sort_criteria = request.args.get('sortCriteria')  # Le paramètre sortCriteria
-
-#     # Vérification de la présence du paramètre sortCriteria
-#     if not sort_criteria:
-#         return jsonify({"error": "Missing sortCriteria parameter"}), 400
-
-#     # Exemple de données fictives (normalement, cela serait récupéré à partir de la base de données)
-#     book_list = [
-#         {
-#             "id": "2",
-#             "title": "The Great Gatsby",
-#             "author": "F. Scott Fitzgerald",
-#             "genres": ["Classic", "Fiction"],
-#             "averageRating": 4.4,
-#             "userRating": None
-#         },
-#         {
-#             "id": "1",
-#             "title": "To Kill a Mockingbird",
-#             "author": "Harper Lee",
-#             "genres": ["Classic", "Historical", "Fiction"],
-#             "averageRating": 4.8,
-#             "userRating": 4
-#         },
-#         {
-#             "id": "5",
-#             "title": "1984",
-#             "author": "George Orwell",
-#             "genres": ["Dystopian", "Science Fiction", "Classic"],
-#             "averageRating": 4.7,
-#             "userRating": 5
-#         },
-#         {
-#             "id": "4",
-#             "title": "The Catcher in the Rye",
-#             "author": "J.D. Salinger",
-#             "genres": ["Classic", "Fiction"],
-#             "averageRating": 3.9,
-#             "userRating": 3
-#         },
-#         {
-#             "id": "3",
-#             "title": "Pride and Prejudice",
-#             "author": "Jane Austen",
-#             "genres": ["Classic", "Romance"],
-#             "averageRating": 4.6,
-#             "userRating": 4
-#         }
-#     ]
-
-#     # Retourner la réponse sous forme de JSON
-#     return jsonify({
-#         "sortCriteria": sort_criteria,
-#         "books": book_list
-#     })
 
 
 #recherche personnalisee
