@@ -21,7 +21,6 @@
             <button class="btn btn-outline-secondary btn-sm" (click)="toggleSortOrder()">
               <i class="bi" [ngClass]="{'bi-arrow-up': sortOrder === 'asc', 'bi-arrow-down': sortOrder === 'desc'}"></i>
             </button>
-
           </div>
         </div>
       </div>
@@ -37,7 +36,12 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let book of getDisplayedBooks()" [ngClass]="{'table-success': book.userRating !=null}">
+      <tr *ngFor="let book of getDisplayedBooks()"
+          [ngClass]="{'table-success': book.userRating != null}"
+          (click)="openBookDetails(book)"
+          data-bs-toggle="modal"
+          data-bs-target="#confirmDialog"
+          aria-label="View details of {{ book.title }}">
         <td>{{ books.indexOf(book) + 1 }}</td>
         <td>{{ book.title }}</td>
         <td>{{ book.author }}</td>
@@ -63,6 +67,10 @@
     </table>
   </div>
 </div>
+
 <ng-template #noBooks>
   <p>Loading books...</p>
 </ng-template>
+
+<!-- Modal for Book Details -->
+<app-bookdetail id="confirmDialog" [selectedBook]="selectedBook"></app-bookdetail>

@@ -4,6 +4,7 @@ import {BookListItem} from '../../models/book.model';
 import {User} from '../../models/user.model'; // Importiere das User-Interface
 import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {first} from "rxjs";
+import {BookdetailComponent} from "../bookdetail/bookdetail.component";
 
 @Component({
   selector: 'app-book-list',
@@ -11,7 +12,8 @@ import {first} from "rxjs";
   imports: [
     NgIf,
     NgForOf,
-    NgClass
+    NgClass,
+    BookdetailComponent
   ],
   templateUrl: './book-list.component.html',
   styleUrl: './book-list.component.css'
@@ -24,6 +26,9 @@ export class BookListComponent implements OnInit {
   userSelected: string = '';
   sortOptions: string[] = ['Content Based Filtering', 'Collaborative Filtering Userbased','Collaborative Filtering Itembased','Q-Learning','DQN'];
   sortCriteria: string = this.sortOptions[0];
+
+  selectedBook: string | undefined;
+
 
   constructor(private bookService: BookService) {
   }
@@ -103,5 +108,11 @@ export class BookListComponent implements OnInit {
     return this.sortOrder === 'asc'
       ? this.books
       : [...this.books].reverse(); // Copy of reverse list
+  }
+
+  // Open modal and pass the selected book data
+  openBookDetails(book: BookListItem): void {
+    console.log(book.id)
+    this.selectedBook = book.id;
   }
 }

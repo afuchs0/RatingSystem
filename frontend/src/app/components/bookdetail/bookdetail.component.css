@@ -1,0 +1,11 @@
+.book-cover {
+  width: 100%;       /* Ensure the div takes full width */
+  height: 400px;     /* Or any desired height */
+  position: relative; /* Keep the image positioned correctly */
+}
+
+.book-cover img {
+  width: 100%;        /* Make the image fill the width of the container */
+  height: 100%;       /* Make the image fill the height of the container */
+  object-fit: cover;  /* Ensures the image covers the entire div without distortion */
+}
