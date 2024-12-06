@@ -3,13 +3,24 @@ import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 
 # 1. Funzione per caricare i dati
+# def load_data():
+#     with open('../data/PICKLE/df_book.pkl', 'rb') as file:
+#         df_book = pickle.load(file)
+#         #print(df_book)
+#     with open("../data/PICKLE/df_visualization.pkl", "rb") as file:
+#         df_visualizations = pickle.load(file)
+#     with open("../data/PICKLE/df_ratings.pkl", "rb") as file:
+#         df_ratings = pickle.load(file)
+#     return df_book, df_ratings, df_visualizations
+
 def load_data():
-    with open('../data/PICKLE/df_book.pkl', 'rb') as file:
+    with open('./RecSystem/data/PICKLE/df_book.pkl', 'rb') as file:
         df_book = pickle.load(file)
-        #print(df_book)
-    with open("../data/PICKLE/df_visualization.pkl", "rb") as file:
+    # with open("./RecSystem/data/PICKLE/df_user.pkl", "rb") as file:
+    #     df_users = pickle.load(file)
+    with open("./RecSystem/data/PICKLE/df_visualization.pkl", "rb") as file:
         df_visualizations = pickle.load(file)
-    with open("../data/PICKLE/df_ratings.pkl", "rb") as file:
+    with open("./RecSystem/data/PICKLE/df_ratings.pkl","rb") as file:
         df_ratings = pickle.load(file)
     return df_book, df_ratings, df_visualizations
 
@@ -79,7 +90,7 @@ def cfi(user_id=None):
     else:
         print("Please provide a valid user_id.")
     return recommendations
-# Esegui il programma
-if __name__ == "__main__":
-    final = cfi(12)
-    print(final)
+# # Esegui il programma
+# if __name__ == "__main__":
+#     final = cfi(12)
+#     print(final)

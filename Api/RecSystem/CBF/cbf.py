@@ -5,13 +5,13 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 # 1. Funzione per caricare i dati
 def load_data():
-    with open('../data/PICKLE/df_book.pkl', 'rb') as file:
+    with open('./RecSystem/data/PICKLE/df_book.pkl', 'rb') as file:
         df_book = pickle.load(file)
-    with open("../data/PICKLE/df_user.pkl", "rb") as file:
+    with open("./RecSystem/data/PICKLE/df_user.pkl", "rb") as file:
         df_users = pickle.load(file)
-    with open("../data/PICKLE/df_visualization.pkl", "rb") as file:
+    with open("./RecSystem/data/PICKLE/df_visualization.pkl", "rb") as file:
         df_visualizations = pickle.load(file)
-    with open("../data/PICKLE/df_ratings.pkl","rb") as file:
+    with open("./RecSystem/data/PICKLE/df_ratings.pkl","rb") as file:
         df_ratings = pickle.load(file)
     return df_book, df_users, df_visualizations
 
@@ -76,7 +76,10 @@ def cbf(user_id=None):
     books_with_genres_profile, mlb = create_book_profiles(df_book) 
     #users_with_genres_profile = create_user_profile(df_users, mlb)
     users_with_genres_profile = create_user_profile(df_users, mlb,user_id)
-    
+    if users_with_genres_profile is None:
+        # Profilo utente non trovato
+        print(f"User {user_id} not found.")
+        return
 
     if user_id is not None:
         # Filtra il profilo dell'utente specifico
@@ -99,7 +102,3 @@ def cbf(user_id=None):
     return recommendations
     
 
-# Esegui il programma
-if __name__ == "__main__":
-    final = cbf(56)
-    print(final)
