@@ -2,16 +2,27 @@ import pickle
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 
-# 1. Funzione per caricare i dati
+topn = 39691
+# # 1. Funzione per caricare i dati
+# def load_data():
+#     with open('../data/PICKLE/df_book.pkl', 'rb') as file:
+#         df_book = pickle.load(file)
+#     with open("../data/PICKLE/df_visualization.pkl", "rb") as file:
+#         df_visualizations = pickle.load(file)
+#     with open("../data/PICKLE/df_ratings.pkl", "rb") as file:
+#         df_ratings = pickle.load(file)
+#     return df_book, df_ratings, df_visualizations
+
 def load_data():
-    with open('../data/PICKLE/df_book.pkl', 'rb') as file:
+    with open('./RecSystem/data/PICKLE/df_book.pkl', 'rb') as file:
         df_book = pickle.load(file)
-    with open("../data/PICKLE/df_visualization.pkl", "rb") as file:
+    # with open("./RecSystem/data/PICKLE/df_user.pkl", "rb") as file:
+    #     df_users = pickle.load(file)
+    with open("./RecSystem/data/PICKLE/df_visualization.pkl", "rb") as file:
         df_visualizations = pickle.load(file)
-    with open("../data/PICKLE/df_ratings.pkl", "rb") as file:
+    with open("./RecSystem/data/PICKLE/df_ratings.pkl","rb") as file:
         df_ratings = pickle.load(file)
     return df_book, df_ratings, df_visualizations
-
 
 def calculate_user_similarity(user_item_matrix):
     
@@ -26,7 +37,7 @@ def calculate_user_similarity(user_item_matrix):
 # 2. Funzione per creare la matrice utente-libro con tutte le combinazioni
 def create_user_item_matrix(df_ratings, df_book):
     
-    # Controlla i tipi di dato in `df_ratings` e `df_book`
+    # Controlla i tipi di dato in df_ratings e df_book
     print(f"Tipi in df_ratings:\n{df_ratings.dtypes}")
     print(f"Tipi in df_book:\n{df_book.dtypes}")
     
@@ -38,7 +49,7 @@ def create_user_item_matrix(df_ratings, df_book):
     all_combinations = pd.DataFrame([(user, book) for user in all_users for book in all_books], columns=['userId', 'bookId'])
     all_ratings = all_combinations.merge(df_ratings, on=['userId', 'bookId'], how='left')
     
-    # Controlla se `rating` contiene NaN e verifica i tipi
+    # Controlla se rating contiene NaN e verifica i tipi
     print(f"NaN in colonne dopo il merge:\n{all_ratings.isna().sum()}")
     print(f"Tipi in all_ratings:\n{all_ratings.dtypes}")
     
@@ -66,7 +77,7 @@ def create_user_item_matrix(df_ratings, df_book):
 
 
 
-def get_user_based_recommendations(user_id, user_item_matrix, user_similarity_df, df_visualizations, top_n=5):
+def get_user_based_recommendations(user_id, user_item_matrix, user_similarity_df, df_visualizations, top_n=topn):
     
     # Filtra gli utenti con similarità > 0
     similar_users = user_similarity_df[user_id].sort_values(ascending=False).drop(user_id)
@@ -105,14 +116,14 @@ def cfu(user_id=None):
     
     if user_id is not None:
         # Genera le raccomandazioni per l'utente specificato
-        recommendations = get_user_based_recommendations(user_id, user_item_matrix, user_similarity_df, df_visualizations, top_n=3)
+        recommendations = get_user_based_recommendations(user_id, user_item_matrix, user_similarity_df, df_visualizations, top_n=topn)
         print(f"Recommended books for user {user_id}: {recommendations}")
     else:
         print("Please provide a valid user_id.")
 
 import numpy as np
 
-def calculate_all_recommendations(user_item_matrix, user_similarity_df, top_n=5):
+def calculate_all_recommendations(user_item_matrix, user_similarity_df, top_n=topn):
     
     # Riempie i NaN con 0 nella matrice utente-libro
     user_item_matrix_filled = user_item_matrix.fillna(0)
@@ -126,7 +137,7 @@ def calculate_all_recommendations(user_item_matrix, user_similarity_df, top_n=5)
     # Imposta i punteggi dei libri già letti a -inf per escluderli dalle raccomandazioni
     predicted_scores[books_read_mask.values] = -np.inf
     
-    # Trova i migliori `top_n` libri per ogni utente
+    # Trova i migliori top_n libri per ogni utente
     top_recommendations = {
         user_id: user_item_matrix.columns[np.argsort(-predicted_scores[i, :])[:top_n]].tolist()
         for i, user_id in enumerate(user_item_matrix.index)
@@ -134,7 +145,7 @@ def calculate_all_recommendations(user_item_matrix, user_similarity_df, top_n=5)
     
     return top_recommendations
 
-def cfu_all_users_optimized(top_n=3):
+def cfu_all_users_optimized(top_n=topn):
     # Carica i dati
     df_book, df_ratings, df_visualizations = load_data()
     
@@ -145,7 +156,7 @@ def cfu_all_users_optimized(top_n=3):
     user_similarity_df = calculate_user_similarity(user_item_matrix)
     
     # Calcola le raccomandazioni per tutti gli utenti in parallelo
-    all_recommendations = calculate_all_recommendations(user_item_matrix, user_similarity_df, top_n=top_n)
+    all_recommendations = calculate_all_recommendations(user_item_matrix, user_similarity_df, top_n=topn)
     
     # Stampa tutte le raccomandazioni
     print("\nRaccomandazioni per tutti gli utenti:")
@@ -154,7 +165,7 @@ def cfu_all_users_optimized(top_n=3):
     
     return all_recommendations
 
-def calculate_recommendations_for_user(user_id, user_item_matrix, user_similarity_df, top_n=5):
+def calculate_recommendations_for_user(user_id, user_item_matrix, user_similarity_df, top_n=topn):
 
     # Controlla se l'utente esiste nella matrice
     if user_id not in user_item_matrix.index:
@@ -172,11 +183,11 @@ def calculate_recommendations_for_user(user_id, user_item_matrix, user_similarit
     books_read_mask = user_item_matrix_filled.loc[user_id] > 0
     predicted_scores[books_read_mask.values] = -np.inf  # Escludi libri già letti
     
-    # Seleziona i migliori `top_n` libri
+    # Seleziona i migliori top_n libri
     recommended_books = user_item_matrix.columns[np.argsort(-predicted_scores)[:top_n]].tolist()
     return recommended_books
 
-def cfu_single_user(user_id, top_n=5):
+def cfu_single_user(user_id, top_n=topn):
     
     # Carica i dati
     df_book, df_ratings, df_visualizations = load_data()
@@ -188,13 +199,11 @@ def cfu_single_user(user_id, top_n=5):
     user_similarity_df = calculate_user_similarity(user_item_matrix)
     
     # Genera le raccomandazioni per l'utente specificato
-    recommendations = calculate_recommendations_for_user(user_id, user_item_matrix, user_similarity_df, top_n=top_n)
+    recommendations = calculate_recommendations_for_user(user_id, user_item_matrix, user_similarity_df, top_n=topn)
     return recommendations
 
 # Funzione principale
 if __name__ == "__main__":
     user_id_to_recommend = 3  # Sostituisci con l'ID utente desiderato
-    recommended_books = cfu_single_user(user_id_to_recommend, top_n=3)
+    recommended_books = cfu_single_user(user_id_to_recommend, top_n=topn)
     print(f"\nLibri raccomandati per l'utente {user_id_to_recommend}: {recommended_books}")
-
-

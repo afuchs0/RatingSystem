@@ -8,17 +8,27 @@ import time
 
 
 # 1. Funzione per caricare i dati
-def load_data():
-    with open('../data/PICKLE/df_book.pkl', 'rb') as file:
-        df_book = pickle.load(file)
-    with open("../data/PICKLE/df_visualization.pkl", "rb") as file:
-        df_visualizations = pickle.load(file)
-    with open("../data/PICKLE/df_ratings.pkl", "rb") as file:
-        df_ratings = pickle.load(file)
-    with open("../data/PICKLE/df_user.pkl", "rb") as file:
-        df_users = pickle.load(file)
-    return df_book, df_ratings, df_visualizations,df_users
+# def load_data():
+#     with open('../data/PICKLE/df_book.pkl', 'rb') as file:
+#         df_book = pickle.load(file)
+#     with open("../data/PICKLE/df_visualization.pkl", "rb") as file:
+#         df_visualizations = pickle.load(file)
+#     with open("../data/PICKLE/df_ratings.pkl", "rb") as file:
+#         df_ratings = pickle.load(file)
+#     with open("../data/PICKLE/df_user.pkl", "rb") as file:
+#         df_users = pickle.load(file)
+#     return df_book, df_ratings, df_visualizations,df_users
 
+def load_data():
+    with open('./RecSystem/data/PICKLE/df_book.pkl', 'rb') as file:
+        df_book = pickle.load(file)
+    with open("./RecSystem/data/PICKLE/df_user.pkl", "rb") as file:
+        df_users = pickle.load(file)
+    with open("./RecSystem/data/PICKLE/df_visualization.pkl", "rb") as file:
+        df_visualizations = pickle.load(file)
+    with open("./RecSystem/data/PICKLE/df_ratings.pkl","rb") as file:
+        df_ratings = pickle.load(file)
+    return df_book, df_ratings, df_visualizations, df_users
 
 def get_reward(given_valuation):
     if(given_valuation == 5):
@@ -68,7 +78,11 @@ def get_book_actions(df_libri):
 
 def get_user_state(user_id, df_user, df_visualizzazioni, df_ratings, df_book, num_recent=5):
     # Ottieni dati di base dell'utente (età e generi preferiti)
-    user_info = df_user[df_user['id'] == user_id].iloc[0]
+    # user_info = df_user[df_user['id'] == user_id].iloc[0]
+    filtered_user = df_user[df_user['id'] == user_id]
+    if filtered_user.empty:
+        raise ValueError(f"User with ID {user_id} not found in the dataset.")
+    user_info = filtered_user.iloc[0]
     age = user_info['age']
     if age<25:
         age = "young"
@@ -209,4 +223,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

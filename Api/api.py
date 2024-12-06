@@ -10,8 +10,8 @@ from flask_login import LoginManager, UserMixin, login_user, logout_user, curren
 from werkzeug.security import check_password_hash
 from RecSystem.CBF.cbf import cbf
 from RecSystem.CFI.cfi import cfi
-# from RecSystem.CFU.cfu import cfu
-# from RecSystem. import cfu
+from RecSystem.CFU.cfu import cfu_single_user
+from RecSystem.Qlearning.applyQlearning import qlearning
 
 app = Flask(__name__)
 
@@ -273,10 +273,10 @@ def get_books():
         recommendations = cbf(user_id)  # Appel de la fonction Content-Based Filtering
     elif sort_criteria == "Collaborative Filtering Userbased":
         recommendations = cfi(user_id)  # Appel CF User-based
-    # elif sort_criteria == "Collaborative Filtering Itembased":
-    #     recommendations = collaborative_filtering_item(user_id)  # Appel CF Item-based
-    # elif sort_criteria == "Q-Learning":
-    #     recommendations = q_learning_recommendations(user_id)  # Appel Q-Learning
+    elif sort_criteria == "Collaborative Filtering Itembased":
+        recommendations = cfu_single_user(user_id)  # Appel CF Item-based
+    elif sort_criteria == "Q-Learning":
+        recommendations = qlearning(user_id)  # Appel Q-Learning
     # elif sort_criteria == "DQN":
     #     recommendations = dqn_recommendations(user_id)  # Appel DQN
     else:
@@ -309,7 +309,7 @@ def get_book_detail():
         return jsonify({"error": "Missing bookId parameter"}), 400
 
     # Rechercher le livre dans la base de données
-    book = BookModel.query.filter_by(id=book_id).first()
+    book = BookModel.query.filter_by(bookId=book_id).first()
     if not book:
         return jsonify({"error": "Book not found"}), 404
 
@@ -331,11 +331,12 @@ def get_book_detail():
     # Formater la réponse
     response = {
         "id": book.id,
+        "bookId": book.bookId,
         "title": book.title,
         "author": book.author,
-        "description": book.desc,
-        "genres": book.genres.split(",") if book.genres else [],
-        # "coverImg": book.cover_img_url,
+        # "description": book.description,
+        # "genres": book.genres.split(",") if book.genres else [],
+        # # "coverImg": book.cover_img_url,
         "price": float(book.price),
         "averageRating": round(average_rating, 2) if average_rating else None,
         "userRating": user_rating
