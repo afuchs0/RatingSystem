@@ -1,22 +1,13 @@
-import sqlite3
+from sqlalchemy import create_engine, MetaData
 
-# Connetti al database
-conn = sqlite3.connect('library.db')
+# Connect to the SQLite database
+engine = create_engine('sqlite:///library.db')
 
-# Crea un cursore
-cur = conn.cursor()
+# Reflect the database metadata
+metadata = MetaData()
+metadata.reflect(bind=engine)
 
-# Esegui la query per contare il numero di libri nella tabella 'books'
-cur.execute("SELECT COUNT(*) FROM books;")
+# Drop all tables
+metadata.drop_all(bind=engine)
 
-# Recupera il risultato
-row = cur.fetchone()  # Con 'fetchone' ottieni un solo risultato (un singolo valore)
-
-# Stampa il risultato
-if row:
-    print(f"Numero di libri nella tabella 'books': {row[0]}")  # row[0] contiene il risultato del COUNT(*)
-else:
-    print("La tabella 'books' è vuota.")
-
-# Chiudi la connessione
-conn.close()
+print("All tables have been dropped from library.db.")
