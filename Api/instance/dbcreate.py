@@ -12,15 +12,16 @@ db = SQLAlchemy(app)
 # Define all models (copying the models from your Flask setup)
 # Book class
 class BookModel(db.Model):
-    __tablename__ = 'books'
-    bookId = db.Column(db.String(100), primary_key=True)
+    __tablename__ = 'books'    
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)  # Auto-incremented primary key
+    bookId = db.Column(db.String(100), nullable=True)  
     title = db.Column(db.String(100), nullable=True)
     series = db.Column(db.String(100), nullable=True)
     author = db.Column(db.String(100))
     rating = db.Column(db.String(100))
     description = db.Column(db.String(100))
     language = db.Column(db.String(100), nullable=True)
-    pages = db.Column(db.String(100), nullable=False)
+    pages = db.Column(db.String(100), nullable=True)
     publishDate = db.Column(db.String(100), nullable=True)
     awards = db.Column(db.JSON, nullable=True)
     coverImg = db.Column(db.String(200), nullable=True)

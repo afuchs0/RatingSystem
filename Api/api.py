@@ -76,7 +76,8 @@ class UserModel(db.Model, UserMixin):
 # Book class
 class BookModel(db.Model):
     __tablename__ = 'books'
-    bookId = db.Column(db.String(100), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)  # Auto-incremented primary key
+    bookId = db.Column(db.String(100), nullable=True)  
     title = db.Column(db.String(100), nullable=True)
     series = db.Column(db.String(100), nullable=True)
     author = db.Column(db.String(100))
@@ -88,7 +89,7 @@ class BookModel(db.Model):
     #characters = db.Column(db.JSON(db.String(100)), nullable=True)  # Corrected typo: "charaters" -> "characters"
     #bookFormat = db.Column(db.String(100), nullable=True)
     #edition = db.Column(db.String(100), nullable=True)
-    pages = db.Column(db.String(100), nullable=False)
+    pages = db.Column(db.String(100), nullable=True)
     #publisher = db.Column(db.String(100), nullable=True)
     publishDate = db.Column(db.String(100), nullable=True)
     #firstPublishDate = db.Column(db.String(100), nullable=True)  # Fixed typo: "firtPublisherDate" -> "firstPublisherDate"
