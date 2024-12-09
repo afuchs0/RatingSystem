@@ -11,9 +11,7 @@ Base = declarative_base()
 class UserModel(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
-    idd = db.Column(db.Integer, unique=True, nullable=False)
     age = db.Column(db.String(100), nullable=False)
-    generi_preferiti = db.Column(db.Text)  # Change 'ARRAY' to 'Text'
 
     # Relationships
     ratings = db.relationship("RatingModel", back_populates="user")
@@ -22,9 +20,7 @@ class UserModel(db.Model):
     def to_dict(self):
         return {
             "id": self.id, 
-            "idd": self.idd, 
-            "age": self.age,
-            "generi_preferiti": json.loads(self.generi_preferiti) if self.generi_preferiti else []  # Deserialize JSON to list
+            "age": self.age
         }
 
     def update(self, data):

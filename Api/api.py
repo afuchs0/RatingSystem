@@ -38,7 +38,6 @@ class UserModel(db.Model, UserMixin):
     #idd = db.Column(db.Integer, unique=True, nullable=False)
     age = db.Column(db.Integer, nullable=False)  # Integer type for age
     #email = db.Column(db.String(100), nullable=False, unique=False)
-    password_hash = db.Column(db.String(128), nullable=False)  # Renamed for clarity
     #generi_preferiti = db.Column(db.Text)  # Storing JSON as Text
 
     ratings = db.relationship("RatingModel", back_populates="user")
@@ -48,24 +47,15 @@ class UserModel(db.Model, UserMixin):
         return {
             "id": self.id,
             #"idd": self.idd,
-            "age": self.age,
+            "age": self.age
             #"email": self.email,
             #"generi_preferiti": json.loads(self.generi_preferiti) if self.generi_preferiti else []
         }
-
-    def set_password(self, password):
-        self.password_hash = generate_password_hash(password)
-
-    def check_password(self, password):
-        return check_password_hash(self.password_hash, password)
     
     def update(self, data):
         for key, value in data.items():
             if hasattr(self, key) and value is not None:
                 setattr(self, key, value)
-
-    def set_generi_preferiti(self, generi_preferiti):
-        self.generi_preferiti = json.dumps(generi_preferiti)
     @property
     def is_active(self):
         return True

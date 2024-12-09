@@ -93,7 +93,6 @@ class UserModel(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     age = db.Column(db.Integer, nullable=False)
-    password_hash = db.Column(db.String(128), nullable=False)
 
     # Relationships
     ratings = db.relationship("RatingModel", back_populates="user")
