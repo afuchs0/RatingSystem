@@ -1,6 +1,9 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
+
+
+
 app = Flask(__name__)
 
 # Configure the database URI
@@ -49,6 +52,7 @@ class RatingModel(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     book_id = db.Column(db.String(100), db.ForeignKey('books.bookId'), nullable=False)
     rating = db.Column(db.Integer, nullable=False)
+    rating_date = db.Column(db.Date, nullable=True)
 
     # Relationships
     user = db.relationship("UserModel", back_populates="ratings")
