@@ -40,8 +40,8 @@ class UserModel(db.Model, UserMixin):
     #email = db.Column(db.String(100), nullable=False, unique=False)
     #generi_preferiti = db.Column(db.Text)  # Storing JSON as Text
 
-    ratings = db.relationship("RatingModel", back_populates="user")
-    visualizations = db.relationship("VisualizationModel", back_populates="user")
+    #ratings = db.relationship("RatingModel", back_populates="user")
+    #visualizations = db.relationship("VisualizationModel", back_populates="user")
 
     def to_dict(self):
         return {
@@ -83,7 +83,7 @@ class BookModel(db.Model):
     #publisher = db.Column(db.String(100), nullable=True)
     publishDate = db.Column(db.String(100), nullable=True)
     #firstPublishDate = db.Column(db.String(100), nullable=True)  # Fixed typo: "firtPublisherDate" -> "firstPublisherDate"
-    awards = db.Column(db.JSON(db.String(100)), nullable=True)
+    awards = db.Column(db.String(100), nullable=True)
     #numRatings = db.Column(db.String(100), nullable=True)
     #ratingsByStars = db.Column(db.JSON(db.String(100)), nullable=True)  # Fixed misplaced parenthesis
     #likedPercent = db.Column(db.String(100), nullable=True)
@@ -94,9 +94,9 @@ class BookModel(db.Model):
     price = db.Column(db.String(100), nullable=True)
 
     # Relationships
-    ratings = db.relationship("RatingModel", back_populates="book")
-    visualizations = db.relationship("VisualizationModel", back_populates="book")
-    genres = db.relationship('Belong', back_populates='book')
+    #ratings = db.relationship("RatingModel", back_populates="book")
+    #visualizations = db.relationship("VisualizationModel", back_populates="book")
+    #genres = db.relationship('Belong', back_populates='book')
 
     def to_dict(self):
         return {
@@ -138,8 +138,8 @@ class Genre(db.Model):
     name = db.Column(db.String(50), nullable=False)  # Genre name
 
     # Relationships
-    books = db.relationship('Belong', back_populates='genre', cascade='all, delete-orphan')
-    favourites = db.relationship('Favourite', back_populates='genre', cascade='all, delete-orphan')
+    #books = db.relationship('Belong', back_populates='genre', cascade='all, delete-orphan')
+    #favourites = db.relationship('Favourite', back_populates='genre', cascade='all, delete-orphan')
     def to_dict(self):
         return {
                 "id": self.id,
@@ -152,12 +152,12 @@ class RatingModel(db.Model):
     
     id = db.Column(db.Integer, primary_key=True, index=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    book_id = db.Column(db.String(100), db.ForeignKey('books.bookId'), nullable=False)
+    book_id = db.Column(db.String(100), db.ForeignKey('books.id'), nullable=False)
     rating = db.Column(db.Integer, nullable=False)
     
     # Relationships
-    user = db.relationship("UserModel", back_populates="ratings")
-    book = db.relationship("BookModel", back_populates="ratings")
+    #user = db.relationship("UserModel", back_populates="ratings")
+    #book = db.relationship("BookModel", back_populates="ratings")
 
     def to_dict(self):
         return {
@@ -171,12 +171,12 @@ class VisualizationModel(db.Model):
     __tablename__ = 'visualizations'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    book_id = db.Column(db.String(100), db.ForeignKey('books.bookId'), nullable=False)
+    book_id = db.Column(db.String(100), db.ForeignKey('books.id'), nullable=False)
     reading_date = db.Column(db.Date, nullable=True)
 
     # Relationships
-    user = db.relationship("UserModel", back_populates="visualizations")
-    book = db.relationship("BookModel", back_populates="visualizations")
+    #user = db.relationship("UserModel", back_populates="visualizations")
+    #book = db.relationship("BookModel", back_populates="visualizations")
     def to_dict(self):
         return {"id": self.id,
                 "user_id": self.user_id,
@@ -189,11 +189,11 @@ class Belong(db.Model):
     __tablename__ = 'belong'
     id = db.Column(db.Integer, primary_key=True)
     genres_id = db.Column(db.Integer, db.ForeignKey('genres.id'), nullable=False)
-    book_id = db.Column(db.String(100), db.ForeignKey('books.bookId'), nullable=False)
+    book_id = db.Column(db.String(100), db.ForeignKey('books.id'), nullable=False)
 
     # Relationships
-    genre = db.relationship('Genre', back_populates='books')
-    book = db.relationship('Book', back_populates='genres')
+    #genre = db.relationship('Genre', back_populates='books')
+    #book = db.relationship('Book', back_populates='genres')
 
     def to_dict(self):
         return {
@@ -210,8 +210,8 @@ class Favourite(db.Model):
     genres_id = db.Column(db.Integer, db.ForeignKey('genres.id'), nullable=False)
 
     # Relationships
-    user = db.relationship('UserModel', back_populates='favourites')
-    genre = db.relationship('Genre', back_populates='favourites')
+    #user = db.relationship('UserModel', back_populates='favourites')
+    #genre = db.relationship('Genre', back_populates='favourites')
     
     def to_dict(self):
         return {"id": self.id,
@@ -267,6 +267,25 @@ def get_current_user():
 #     books = BookModel.query.all()
 #     return jsonify([book.to_dict() for book in books])
 
+@app.route('/api/cazzifinti', methods=['GET'])
+def ciao():
+    try:
+        # Ottieni tutti i libri
+        books = BookModel.query.all()
+
+        # Se non ci sono libri, restituisci una lista vuota
+        if not books:
+            return jsonify([]), 200
+
+        # Converte i libri in dizionari
+        books_list = [book.to_dict() for book in books]
+
+        # Restituisce i dati come JSON
+        return jsonify(books_list[0:100]), 200
+    except Exception as e:
+        # In caso di errore, restituisci il messaggio di errore
+        return jsonify({"error": str(e)}), 500
+
 
 @app.route('/api/getBookList', methods=['GET'])
 def get_books():
@@ -313,7 +332,7 @@ def get_books():
     # Construire la réponse
     response = {
         "sortCriteria": sort_criteria,
-        "books": sorted_books
+        "books": sorted_books[0:100]
     }
 
     return jsonify(response), 200
@@ -473,3 +492,4 @@ def research():
 # Exportation du modèle pour créer les tables
 if __name__ == "__main__":
     app.run(debug=True)
+    
