@@ -20,13 +20,13 @@ import time
 #     return df_book, df_ratings, df_visualizations,df_users
 
 def load_data():
-    with open('./RecSystem/data/PICKLE/df_book.pkl', 'rb') as file:
+    with open('../data/PICKLE/df_book.pkl', 'rb') as file:
         df_book = pickle.load(file)
-    with open("./RecSystem/data/PICKLE/df_user.pkl", "rb") as file:
+    with open("../data/PICKLE/df_user.pkl", "rb") as file:
         df_users = pickle.load(file)
-    with open("./RecSystem/data/PICKLE/df_visualization.pkl", "rb") as file:
+    with open("../data/PICKLE/df_visualization.pkl", "rb") as file:
         df_visualizations = pickle.load(file)
-    with open("./RecSystem/data/PICKLE/df_ratings.pkl","rb") as file:
+    with open("../data/PICKLE/df_ratings.pkl","rb") as file:
         df_ratings = pickle.load(file)
     return df_book, df_ratings, df_visualizations, df_users
 

@@ -101,4 +101,7 @@ def cbf(user_id=None):
     #   print(f"User {user_id} recommendations: {rec_books}")
     return recommendations
     
-
+if __name__ == "__main__":
+    # Generate recommendations for a specific user
+    recommendations = cbf(user_id=2)
+    print(f"Recommended books: {recommendations}")

@@ -11,7 +11,8 @@ from werkzeug.security import check_password_hash
 from RecSystem.CBF.cbf import cbf
 from RecSystem.CFI.cfi import cfi
 from RecSystem.CFU.cfu import cfu_single_user
-from RecSystem.Qlearning.applyQlearning import qlearninguse
+from RecSystem.Qlearning.applyQlearning import qlearning
+
 
 app = Flask(__name__)
 
@@ -314,7 +315,7 @@ def get_books():
     elif sort_criteria == "Collaborative Filtering Itembased":
         recommendations = cfu_single_user(user_id)  # Appel CF Item-based
     elif sort_criteria == "Q-Learning":
-        recommendations = qlearninguse(user_id=user_id)  # Appel Q-Learning
+        recommendations = qlearning(user_id)  # Appel Q-Learning
     # elif sort_criteria == "DQN":
     #     recommendations = dqn_recommendations(user_id)  # Appel DQN
     else:
@@ -324,7 +325,11 @@ def get_books():
     if recommendations:
         book_id_order = recommendations  # Les IDs des livres triés
         # Trier les livres par leur ordre dans les recommandations
-        sorted_books = sorted(books_data, key=lambda x: book_id_order.index(x['id']) if x['id'] in book_id_order else len(book_id_order))
+        if sort_criteria != "Q-Learning":
+            sorted_books = sorted(books_data, key=lambda x: book_id_order.index(x['id']) if x['id'] in book_id_order else len(book_id_order))
+        else:
+            sorted_books = sorted(books_data, key=lambda x: book_id_order.index(x['bookId']) if x['bookId'] in book_id_order else len(book_id_order))
+        
     else:
         # Si aucune recommandation, renvoyer les livres sans ordre spécifique
         sorted_books = books_data
