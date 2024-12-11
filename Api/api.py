@@ -390,23 +390,35 @@ def get_book_detail():
 # get users 
 @app.route('/api/getUserList', methods=['GET'])
 def get_user_list():
-    # from models.users import UserModel
-    # Récupérer tous les utilisateurs de la base de données
-    users = UserModel.query.all()
+    # join between users, favourite e genres
+    results = (
+        db.session.query(
+            UserModel.id,  
+            UserModel.age, 
+            Genre.name.label("genre_name")  # genre name
+        )
+        .join(Favourite, UserModel.id == Favourite.user_id)  # Join with table favourite
+        .join(Genre, Favourite.genres_id == Genre.id)  # Join with genres
+        .all()
+    )
+    
+    # group results
+    user_dict = {}
+    for user_id, age, genre_name in results:
+        if user_id not in user_dict:
+            user_dict[user_id] = {
+                "id": user_id,
+                "age": age,
+                "generi_preferiti": []
+            }
+        user_dict[user_id]["generi_preferiti"].append(genre_name)
 
-    # Formater les données
-    user_list = [
-        {
-            "id": user.id,  # Format personnalisé pour l'ID
-            "age": user.age,
-            #"email":user.email,
-            "generi_preferiti": user.generi_preferiti
-        }
-        for user in users
-    ]
+    # converts dictionary in user list
+    user_list = list(user_dict.values())
 
-    # Retourner la liste d'utilisateurs en JSON
+    # json return
     return jsonify(user_list)
+
 
 
 @app.route('/api/updateUserRating', methods=['PUT'])
