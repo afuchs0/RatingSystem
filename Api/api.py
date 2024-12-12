@@ -10,8 +10,8 @@ from flask_login import LoginManager, UserMixin, login_user, logout_user, curren
 from werkzeug.security import check_password_hash
 from RecSystem.CBF.cbf import cbf
 from RecSystem.CFI.cfi import cfi
-# from RecSystem.CFU.cfu import cfu
-# from RecSystem. import cfu
+from RecSystem.CFU.cfu import cfu_single_user
+from RecSystem.Qlearning.applyQlearning import qlearning
 
 app = Flask(__name__)
 
@@ -43,6 +43,7 @@ class UserModel(db.Model, UserMixin):
 
     ratings = db.relationship("RatingModel", back_populates="user")
     visualizations = db.relationship("VisualizationModel", back_populates="user")
+    favorite = db.relationship("FavoriteModel", back_populates="user")
 
     def to_dict(self):
         return {
@@ -74,98 +75,115 @@ class UserModel(db.Model, UserMixin):
 
     def get_id(self):
         return str(self.id)
+#Genres class 
+class GenreModel(db.Model):
+    __tablename__="genres"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=True)
+    belong = db.relationship("BelongModel", back_populates="genres")
+    favorite = db.relationship("FavoriteModel", back_populates="genres")
+
+    def to_dict(self):
+        return { "name": self.name}
+
 
 # Book class
 class BookModel(db.Model):
     __tablename__ = 'books'
 
-    id = db.Column(db.Integer, primary_key=True)
-    bookId = db.Column(db.String(100), nullable=True)
-    title = db.Column(db.String(100), nullable=True)
-    series = db.Column(db.String(100), nullable=True)
-    author = db.Column(db.String(100))
-    rating = db.Column(db.String(100))
-    description = db.Column(db.String(100))
-    language = db.Column(db.String(100), nullable=True)
-    isbn = db.Column(db.String(100), nullable=True)
-    genres = db.Column(db.JSON(db.String(100)), nullable=True)
-    characters = db.Column(db.JSON(db.String(100)), nullable=True)  # Corrected typo: "charaters" -> "characters"
-    bookFormat = db.Column(db.String(100), nullable=True)
-    edition = db.Column(db.String(100), nullable=True)
-    pages = db.Column(db.String(100), nullable=False)
-    publisher = db.Column(db.String(100), nullable=True)
-    publishDate = db.Column(db.String(100), nullable=True)
-    firstPublishDate = db.Column(db.String(100), nullable=True)  # Fixed typo: "firtPublisherDate" -> "firstPublisherDate"
-    awards = db.Column(db.JSON(db.String(100)), nullable=True)
-    numRatings = db.Column(db.String(100), nullable=True)
-    ratingsByStars = db.Column(db.JSON(db.String(100)), nullable=True)  # Fixed misplaced parenthesis
-    likedPercent = db.Column(db.String(100), nullable=True)
-    setting = db.Column(db.JSON(db.String(100)), nullable=True)  # Fixed misplaced parenthesis
-    coverImg = db.Column(db.String(200), nullable=True)
-    bbeScore = db.Column(db.String(100))
-    bbeVotes = db.Column(db.String(100), nullable=True)
-    price = db.Column(db.String(100), nullable=True)
+    # id = db.Column(db.Integer, primary_key=True)
+    # bookId = db.Column(db.String(100), nullable=True)
+    # title = db.Column(db.String(100), nullable=True)
+    # series = db.Column(db.String(100), nullable=True)
+    # author = db.Column(db.String(100))
+    # rating = db.Column(db.String(100))
+    # description = db.Column(db.String(100))
+    # language = db.Column(db.String(100), nullable=True)
+    # isbn = db.Column(db.String(100), nullable=True)
+    # genres = db.Column(db.JSON(db.String(100)), nullable=True)
+    # characters = db.Column(db.JSON(db.String(100)), nullable=True)  # Corrected typo: "charaters" -> "characters"
+    # bookFormat = db.Column(db.String(100), nullable=True)
+    # edition = db.Column(db.String(100), nullable=True)
+    # pages = db.Column(db.String(100), nullable=False)
+    # publisher = db.Column(db.String(100), nullable=True)
+    # publishDate = db.Column(db.String(100), nullable=True)
+    # firstPublishDate = db.Column(db.String(100), nullable=True)  # Fixed typo: "firtPublisherDate" -> "firstPublisherDate"
+    # awards = db.Column(db.JSON(db.String(100)), nullable=True)
+    # numRatings = db.Column(db.String(100), nullable=True)
+    # ratingsByStars = db.Column(db.JSON(db.String(100)), nullable=True)  # Fixed misplaced parenthesis
+    # likedPercent = db.Column(db.String(100), nullable=True)
+    # setting = db.Column(db.JSON(db.String(100)), nullable=True)  # Fixed misplaced parenthesis
+    # coverImg = db.Column(db.String(200), nullable=True)
+    # bbeScore = db.Column(db.String(100))
+    # bbeVotes = db.Column(db.String(100), nullable=True)
+    # price = db.Column(db.String(100), nullable=True)
 
+
+
+    
+    id = db.Column(db.String(100), primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    serie = db.Column(db.String(100), nullable=True)  # Made nullable True if optional
+    desc = db.Column(db.String(100), nullable=True)  # Made nullable True if optional
+    lang = db.Column(db.String(100), nullable=True)  # Made nullable True if optional
+    pages = db.Column(db.Integer, nullable=True)  # Made nullable True for optional pages
+    nawards = db.Column(db.Integer, nullable=False, default=0)  # Default value for awards
+    avg_vote = db.Column(db.Float, nullable=True, default=0.0)  # Default value for avg_vote
+    price = db.Column(db.Float, nullable=True)  # Changed to Float for price
+    author = db.Column(db.String(100), nullable=False)
+    # genres = db.Column(db.String(200), nullable=True)  # Increased size for genres (if a list)
+  
     # Relationships
     ratings = db.relationship("RatingModel", back_populates="book")
     visualizations = db.relationship("VisualizationModel", back_populates="book")
-
-    # id = db.Column(db.String(100), primary_key=True)
-    # title = db.Column(db.String(100), nullable=False)
-    # serie = db.Column(db.String(100), nullable=True)  # Made nullable True if optional
-    # desc = db.Column(db.String(100), nullable=True)  # Made nullable True if optional
-    # lang = db.Column(db.String(100), nullable=True)  # Made nullable True if optional
-    # pages = db.Column(db.Integer, nullable=True)  # Made nullable True for optional pages
-    # nawards = db.Column(db.Integer, nullable=False, default=0)  # Default value for awards
-    # avg_vote = db.Column(db.Float, nullable=True, default=0.0)  # Default value for avg_vote
-    # price = db.Column(db.Float, nullable=True)  # Changed to Float for price
-    # author = db.Column(db.String(100), nullable=False)
-    # genres = db.Column(db.String(200), nullable=True)  # Increased size for genres (if a list)
-    # Relationships
-   
-    def to_dict(self):
-        return {
-            "id": self.id,
-            "bookId": self.bookId,
-            "title": self.title,
-            "series": self.series,
-            "author": self.author,
-            "rating": self.rating,
-            "description": self.description,
-            "language": self.language,
-            "isbn": self.isbn,
-            "genres": self.genres,
-            "characters": self.characters,  # Corrected typo: "charaters" -> "characters"
-            "bookFormat": self.bookFormat,
-            "edition": self.edition,
-            "pages": self.pages,
-            "publisher": self.publisher,
-            "publishDate": self.publishDate,
-            "firstPublishDate": self.firstPublishDate,  # Corrected typo: "firtPublisherDate" -> "firstPublisherDate"
-            "awards": self.awards,
-            "numRatings": self.numRatings,
-            "ratingsByStars": self.ratingsByStars,
-            "likedPercent": self.likedPercent,
-            "setting": self.setting,
-            "coverImg": self.coverImg,
-            "bbeScore": self.bbeScore,
-            "bbeVotes": self.bbeVotes,  # Corrected typo: "bbVote" -> "bbeVote"
-            "price": self.price,
-        }
+    belong = db.relationship("B", back_populates="book")
     
+
+   
+   
     # def to_dict(self):
     #     return {
-    #         "id": self.id, 
-    #         "title": self.title, 
-    #         "serie": self.serie, 
-    #         "desc": self.desc, 
-    #         "lang": self.lang, 
-    #         "naward": self.nawards, 
-    #         "avg_vote": self.avg_vote,
-    #         "price": self.price, 
+    #         "id": self.id,
+    #         "bookId": self.bookId,
+    #         "title": self.title,
+    #         "series": self.series,
     #         "author": self.author,
-    #         "genres": self.genres
+    #         "rating": self.rating,
+    #         "description": self.description,
+    #         "language": self.language,
+    #         "isbn": self.isbn,
+    #         "genres": self.genres,
+    #         "characters": self.characters,  # Corrected typo: "charaters" -> "characters"
+    #         "bookFormat": self.bookFormat,
+    #         "edition": self.edition,
+    #         "pages": self.pages,
+    #         "publisher": self.publisher,
+    #         "publishDate": self.publishDate,
+    #         "firstPublishDate": self.firstPublishDate,  # Corrected typo: "firtPublisherDate" -> "firstPublisherDate"
+    #         "awards": self.awards,
+    #         "numRatings": self.numRatings,
+    #         "ratingsByStars": self.ratingsByStars,
+    #         "likedPercent": self.likedPercent,
+    #         "setting": self.setting,
+    #         "coverImg": self.coverImg,
+    #         "bbeScore": self.bbeScore,
+    #         "bbeVotes": self.bbeVotes,  # Corrected typo: "bbVote" -> "bbeVote"
+    #         "price": self.price,
     #     }
+    
+    def to_dict(self):
+        return {
+            "id": self.id, 
+            "title": self.title, 
+            "serie": self.serie, 
+            "desc": self.desc, 
+            "lang": self.lang, 
+            "naward": self.nawards, 
+            "avg_vote": self.avg_vote,
+            "price": self.price, 
+            "author": self.author,
+            "genres": self.genres
+        }
 
     def update(self, data):
         for key, value in data.items():
@@ -199,6 +217,28 @@ class VisualizationModel(db.Model):
     # Relationships
     user = db.relationship("UserModel", back_populates="visualizations")
     book = db.relationship("BookModel", back_populates="visualizations")
+#belong class
+class BelongModel(db.Model):
+    __tablename__ = 'belong'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    book_id = db.Column(db.Integer, db.ForeignKey('books.id'), nullable=False)
+    belong_date = db.Column(db.Date, nullable=True)
+
+    # Relationships
+    user = db.relationship("UserModel", back_populates="belong")
+    book = db.relationship("BookModel", back_populates="belong")
+
+
+class FavoriteModel(db.Model):
+    __tablename__ = 'favorite'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    book_id = db.Column(db.Integer, db.ForeignKey('books.id'), nullable=False)
+
+    # Relationships
+    user = db.relationship("UserModel", back_populates="favorite")
+    book = db.relationship("BookModel", back_populates="favorite")
 
 # Users API Resource
 class Users(Resource):
@@ -273,10 +313,10 @@ def get_books():
         recommendations = cbf(user_id)  # Appel de la fonction Content-Based Filtering
     elif sort_criteria == "Collaborative Filtering Userbased":
         recommendations = cfi(user_id)  # Appel CF User-based
-    # elif sort_criteria == "Collaborative Filtering Itembased":
-    #     recommendations = collaborative_filtering_item(user_id)  # Appel CF Item-based
-    # elif sort_criteria == "Q-Learning":
-    #     recommendations = q_learning_recommendations(user_id)  # Appel Q-Learning
+    elif sort_criteria == "Collaborative Filtering Itembased":
+        recommendations = cfu_single_user(user_id)  # Appel CF Item-based
+    elif sort_criteria == "Q-Learning":
+        recommendations = qlearning(user_id)  # Appel Q-Learning
     # elif sort_criteria == "DQN":
     #     recommendations = dqn_recommendations(user_id)  # Appel DQN
     else:
@@ -309,7 +349,7 @@ def get_book_detail():
         return jsonify({"error": "Missing bookId parameter"}), 400
 
     # Rechercher le livre dans la base de données
-    book = BookModel.query.filter_by(id=book_id).first()
+    book = BookModel.query.filter_by(bookId=book_id).first()
     if not book:
         return jsonify({"error": "Book not found"}), 404
 
@@ -331,11 +371,12 @@ def get_book_detail():
     # Formater la réponse
     response = {
         "id": book.id,
+        "bookId": book.bookId,
         "title": book.title,
         "author": book.author,
-        "description": book.desc,
-        "genres": book.genres.split(",") if book.genres else [],
-        # "coverImg": book.cover_img_url,
+        # "description": book.description,
+        # "genres": book.genres.split(",") if book.genres else [],
+        # # "coverImg": book.cover_img_url,
         "price": float(book.price),
         "averageRating": round(average_rating, 2) if average_rating else None,
         "userRating": user_rating
