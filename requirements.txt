@@ -1,0 +1,4 @@
+npm install -g @angular/cli
+ng serve
+
+Navigate to http://localhost:4200/ with browser.
