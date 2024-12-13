@@ -50,7 +50,7 @@ def calculate_item_similarity(item_user_matrix):
     item_similarity_df = pd.DataFrame(item_similarity, index=item_user_matrix.index, columns=item_user_matrix.index)
     return item_similarity_df
 
-def get_item_based_recommendations(user_id, item_user_matrix, item_similarity_df, df_visualizations, top_n=5, top_similar=10):
+def get_item_based_recommendations(user_id, item_user_matrix, item_similarity_df, df_visualizations, top_n=39691, top_similar=10):
     # Trova i libri già letti dall'utente
     books_read_by_user = df_visualizations[df_visualizations['userId'] == user_id]['bookId'].unique()
     
@@ -85,7 +85,7 @@ def cfi(user_id=None):
     
     if user_id is not None:
         # Genera le raccomandazioni per l'utente specificato
-        recommendations = get_item_based_recommendations(user_id, user_item_matrix, user_similarity_df, df_visualizations, top_n=3)
+        recommendations = get_item_based_recommendations(user_id, user_item_matrix, user_similarity_df, df_visualizations, top_n=39691)
         print(f"Recommended books for user {user_id}: {recommendations}")
     else:
         print("Please provide a valid user_id.")
