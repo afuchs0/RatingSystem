@@ -101,6 +101,7 @@ class BookModel(db.Model):
 
     def to_dict(self):
         return {
+            "id": self.id,
             "bookId": self.bookId,
             "title": self.title,
             "series": self.series,
@@ -270,29 +271,86 @@ def get_current_user():
 
 @app.route('/api/cazzifinti', methods=['GET'])
 def ciao():
+    user_id = request.args.get('userId')
+    sort_criteria = request.args.get('sortCriteria')
+    if sort_criteria == "Content Based Filtering":
+        recommendations = cbf(int(user_id))  # Appel de la fonction Content-Based Filtering
+    if sort_criteria == "Collaborative Filtering Userbased":
+        recommendations = cfu_single_user(int(user_id))  # Appel de la fonction Content-Based Filtering
+        print("recommendations UserBased: " , recommendations[0:100])
+    if sort_criteria == "Collaborative Filtering Itembased":
+        recommendations = cfi(int(user_id))  # Appel de la fonction Content-Based Filtering
+        print(recommendations[0:100])
+    if sort_criteria == "Q-Learning":
+        recommendations = qlearning(int(user_id))  # Appel de la fonction Content-Based Filtering
+        print(recommendations[0:100])
+
+    # Construire la réponse
+    response = {
+        "sortCriteria": sort_criteria,
+        "books": recommendations[0:100]
+    }
+
+    return jsonify(response), 200
+
+@app.route('/api/testBookDetails', methods=['GET'])
+def test_book_details():
+    # Recupera i parametri userId e bookId dalla richiesta
+    user_id = request.args.get('userId')
+    book_id = request.args.get('bookId')
+
+    if not user_id or not book_id:
+        return jsonify({"error": "Missing 'userId' or 'bookId' parameter."}), 400
+
     try:
-        # Ottieni tutti i libri
-        books = BookModel.query.all()
+        user_id = int(user_id)  # Converti userId in intero
+    except ValueError:
+        return jsonify({"error": "Invalid 'userId' format. Must be an integer."}), 400
 
-        # Se non ci sono libri, restituisci una lista vuota
-        if not books:
-            return jsonify([]), 200
+    # Funzioni di raccomandazione
+    indices = {}
 
-        # Converte i libri in dizionari
-        books_list = [book.to_dict() for book in books]
+    # Content-Based Filtering
+    cbf_recommendations = cbf(user_id)
+    if cbf_recommendations:
+        indices['cbf'] = cbf_recommendations.index(book_id) if book_id in cbf_recommendations else -1
+    else:
+        indices['cbf'] = "No recommendations returned."
 
-        # Restituisce i dati come JSON
-        return jsonify(books_list[0:100]), 200
-    except Exception as e:
-        # In caso di errore, restituisci il messaggio di errore
-        return jsonify({"error": str(e)}), 500
+    # Collaborative Filtering User-Based
+    cfi_recommendations = cfi(user_id)
+    if cfi_recommendations:
+        indices['cfi'] = cfi_recommendations.index(book_id) if book_id in cfi_recommendations else -1
+    else:
+        indices['cfi'] = "No recommendations returned."
 
+    # Collaborative Filtering Item-Based
+    cfu_recommendations = cfu_single_user(user_id)
+    if cfu_recommendations:
+        indices['cfu'] = cfu_recommendations.index(book_id) if book_id in cfu_recommendations else -1
+    else:
+        indices['cfu'] = "No recommendations returned."
+
+    # Q-Learning
+    qlearning_recommendations = qlearning(user_id)
+    if qlearning_recommendations:
+        indices['qlearning'] = qlearning_recommendations.index(book_id) if book_id in qlearning_recommendations else -1
+    else:
+        indices['qlearning'] = "No recommendations returned."
+
+    # Ritorna i risultati come JSON
+    return jsonify({
+        "userId": user_id,
+        "bookId": book_id,
+        "indices": indices
+    }), 200
 
 @app.route('/api/getBookList', methods=['GET'])
 def get_books():
     # Récupérer les paramètres
     user_id = request.args.get('userId')
     sort_criteria = request.args.get('sortCriteria')
+    #user_id = int(user_id)
     # Print pour déboguer
     print(f"Received userId: {user_id}")
     print(f"Received sortCriteria: {sort_criteria}")
@@ -306,10 +364,12 @@ def get_books():
 
     # Variable pour stocker l'ordre trié des livres
     sorted_books = []
-
+    int_user_id=int(user_id)
+    print(int_user_id)
     # Logique basée sur le critère de tri
     if sort_criteria == "Content Based Filtering":
-        recommendations = cbf(user_id)  # Appel de la fonction Content-Based Filtering
+        recommendations = cbf(int_user_id)  # Appel de la fonction Content-Based Filtering
+        #print(recommendations)
     elif sort_criteria == "Collaborative Filtering Userbased":
         recommendations = cfi(user_id)  # Appel CF User-based
     elif sort_criteria == "Collaborative Filtering Itembased":
@@ -342,57 +402,24 @@ def get_books():
 
     return jsonify(response), 200
 
-# @app.route('/api/getBookDetail', methods=['GET'])
-# def get_book_detail():
-#     # Retrieve the bookId parameter
-#     book_id = request.args.get('bookId')
-#     if not book_id:
-#         return jsonify({"error": "Missing bookId parameter"}), 400
-#     print(book_id)
-#     # Query to join books, belong, and genres
-#     results = (
-#         db.session.query(
-#             BookModel.id,
-#             BookModel.title,
-#             BookModel.author,
-#             Genre.name.label("genre_name")  # Genre name
-#         )
-#         .join(Belong, BookModel.bookId == Belong.book_id)  # Join with belong
-#         .join(Genre, Belong.genres_id == Genre.id)  # Join with genres
-#         .filter(BookModel.bookId == book_id)  # Filter by bookId
-#         .all()
-#     )
-#     print(results)
-
-#     if not results:
-#         return jsonify({"error": "Book not found"}), 404
-
-#     # Group genres for the book
-#     book_dict = None
-#     genres = []
-#     for book_id, title, author, genre_name in results:
-#         if not book_dict:
-#             book_dict = {
-#                 "id": book_id,
-#                 "title": title,
-#                 "author": author,
-#                 "genres": []
-#             }
-#         genres.append(genre_name)
-
-#     book_dict["genres"] = genres
-
-#     # json return
-#     return jsonify(book_dict)
 
 @app.route('/api/getBookDetail', methods=['GET'])
 def get_book_detail():
-    # Retrieve the bookId parameter
+    # Retrieve the bookId and userId parameters
     book_id = request.args.get('bookId')
+    user_id = request.args.get('userId')  # Assuming userId is needed for recommendations
     if not book_id:
         return jsonify({"error": "Missing bookId parameter"}), 400
+    if not user_id:
+        return jsonify({"error": "Missing userId parameter"}), 400
 
-    print(f"Book ID requested: {book_id}")
+    print(f"Received bookId: {book_id}")
+    print(f"Received userId: {user_id}")
+
+    try:
+        user_id = int(user_id)  # Convert userId to integer
+    except ValueError:
+        return jsonify({"error": "Invalid 'userId' format. Must be an integer."}), 400
 
     # Query to join books, belong, and genres
     results = (
@@ -426,47 +453,42 @@ def get_book_detail():
 
     book_dict["genres"] = genres
 
-    # Call each recommendation function and determine the ranking of the book
-    user_id = request.args.get('userId')
-    if not user_id:
-        return jsonify({"error": "Missing userId parameter for ranking"}), 400
-
-    rankings = {}
+    # Calculate indices for recommendation systems
+    indices = {}
 
     # Content-Based Filtering
     cbf_recommendations = cbf(user_id)
-    if cbf_recommendations and book_id in cbf_recommendations:
-        rankings["Content Based Filtering"] = cbf_recommendations.index(book_id) + 1
+    if cbf_recommendations:
+        indices['cbf'] = cbf_recommendations.index(book_id) if book_id in cbf_recommendations else -1
     else:
-        rankings["Content Based Filtering"] = None
+        indices['cbf'] = "No recommendations returned."
 
-    # Collaborative Filtering User-based
-    cfu_recommendations = cfi(user_id)
-    if cfu_recommendations and book_id in cfu_recommendations:
-        rankings["Collaborative Filtering Userbased"] = cfu_recommendations.index(book_id) + 1
+    # Collaborative Filtering User-Based
+    cfi_recommendations = cfi(user_id)
+    if cfi_recommendations:
+        indices['cfi'] = cfi_recommendations.index(book_id) if book_id in cfi_recommendations else -1
     else:
-        rankings["Collaborative Filtering Userbased"] = None
+        indices['cfi'] = "No recommendations returned."
 
-    # # Collaborative Filtering Item-based
-    # cfi_recommendations = cfu_single_user(user_id)
-    # if cfi_recommendations and book_id in cfi_recommendations:
-    #     rankings["Collaborative Filtering Itembased"] = cfi_recommendations.index(book_id) + 1
-    # else:
-    #     rankings["Collaborative Filtering Itembased"] = None
+    # Collaborative Filtering Item-Based
+    cfu_recommendations = cfu_single_user(user_id)
+    if cfu_recommendations:
+        indices['cfu'] = cfu_recommendations.index(book_id) if book_id in cfu_recommendations else -1
+    else:
+        indices['cfu'] = "No recommendations returned."
 
-    # # Q-Learning
-    # qlearning_recommendations = qlearning(user_id)
-    # if qlearning_recommendations and book_id in qlearning_recommendations:
-    #     rankings["Q-Learning"] = qlearning_recommendations.index(book_id) + 1
-    # else:
-    #     rankings["Q-Learning"] = None
+    # Q-Learning
+    qlearning_recommendations = qlearning(user_id)
+    if qlearning_recommendations:
+        indices['qlearning'] = qlearning_recommendations.index(book_id) if book_id in qlearning_recommendations else -1
+    else:
+        indices['qlearning'] = "No recommendations returned."
 
-    # Add rankings to the response
-    book_dict["rankings"] = rankings
+    # Add indices to the response
+    book_dict["recommendation_indices"] = indices
 
-    # Return the response as JSON
-    return jsonify(book_dict)
-
+    # JSON return
+    return jsonify(book_dict), 200
 
 # get users 
 @app.route('/api/getUserList', methods=['GET'])

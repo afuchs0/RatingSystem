@@ -86,7 +86,7 @@ def cfi(user_id=None):
     if user_id is not None:
         # Genera le raccomandazioni per l'utente specificato
         recommendations = get_item_based_recommendations(user_id, user_item_matrix, user_similarity_df, df_visualizations, top_n=39691)
-        print(f"Recommended books for user {user_id}: {recommendations}")
+        #print(f"Recommended books for user {user_id}: {recommendations}")
     else:
         print("Please provide a valid user_id.")
     return recommendations

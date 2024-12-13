@@ -72,7 +72,7 @@ def create_user_item_matrix(df_ratings, df_book):
     
     # Normalizza sottraendo la media delle righe (utenti)
     user_item_matrix = user_item_matrix.subtract(user_item_matrix.mean(axis=1), axis=0)
-    print(f"Matrice utente-libro normalizzata: {user_item_matrix.shape}")
+    #print(f"Matrice utente-libro normalizzata: {user_item_matrix.shape}")
     return user_item_matrix
 
 
