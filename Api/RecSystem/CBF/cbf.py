@@ -59,11 +59,11 @@ def calculate_similarity_for_user(user_profile, books_with_genres_profile, df_vi
     user_genres_vector = user_profile.drop(['id', 'age']).values.reshape(1, -1)
     book_genres_matrix = books_not_read.drop(columns=['bookId', 'title']).values
     similarity_scores = cosine_similarity(user_genres_vector, book_genres_matrix).flatten()
-    similarity_series = pd.Series(similarity_scores, index=books_not_read['title'])
+    similarity_series = pd.Series(similarity_scores, index=books_not_read['bookId'])
     
     return similarity_series
 
-def get_top_recommendations_for_user(similarity_series, top_n=2):
+def get_top_recommendations_for_user(similarity_series, top_n=39691):
     top_books = similarity_series.sort_values(ascending=False).head(top_n)
     return list(top_books.index)
 
@@ -90,7 +90,7 @@ def cbf(user_id=None):
         
         # Calcola la similarità per l'utente specifico e ottieni le raccomandazioni
         similarity_series = calculate_similarity_for_user(user_profile.iloc[0], books_with_genres_profile, df_visualizations, user_id)
-        recommendations = get_top_recommendations_for_user(similarity_series, top_n=3)
+        recommendations = get_top_recommendations_for_user(similarity_series, top_n=39691)
         
         # Stampa le raccomandazioni per l'utente specifico
         print(f"User {user_id} recommendations: {recommendations}")
@@ -100,7 +100,7 @@ def cbf(user_id=None):
     #for user_id, rec_books in recommendations.items():
     #   print(f"User {user_id} recommendations: {rec_books}")
     return recommendations
-    
+
 if __name__ == "__main__":
     # Generate recommendations for a specific user
     recommendations = cbf(user_id=2)
