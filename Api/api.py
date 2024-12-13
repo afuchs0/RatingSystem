@@ -421,6 +421,37 @@ def get_book_detail():
     except ValueError:
         return jsonify({"error": "Invalid 'userId' format. Must be an integer."}), 400
 
+    # Calculate indices for recommendation systems
+    indices = {}
+
+    # Content-Based Filtering
+    cbf_recommendations = cbf(user_id)
+    if cbf_recommendations:
+        indices['cbf'] = cbf_recommendations.index(book_id) if book_id in cbf_recommendations else -1
+    else:
+        indices['cbf'] = "No recommendations returned."
+
+    # Collaborative Filtering User-Based
+    cfi_recommendations = cfi(user_id)
+    if cfi_recommendations:
+        indices['cfi'] = cfi_recommendations.index(book_id) if book_id in cfi_recommendations else -1
+    else:
+        indices['cfi'] = "No recommendations returned."
+
+    # Collaborative Filtering Item-Based
+    cfu_recommendations = cfu_single_user(user_id)
+    if cfu_recommendations:
+        indices['cfu'] = cfu_recommendations.index(book_id) if book_id in cfu_recommendations else -1
+    else:
+        indices['cfu'] = "No recommendations returned."
+
+    # Q-Learning
+    qlearning_recommendations = qlearning(user_id)
+    if qlearning_recommendations:
+        indices['qlearning'] = qlearning_recommendations.index(book_id) if book_id in qlearning_recommendations else -1
+    else:
+        indices['qlearning'] = "No recommendations returned."
+    print("Indices: ", indices)
     # Query to join books, belong, and genres
     results = (
         db.session.query(
@@ -453,39 +484,10 @@ def get_book_detail():
 
     book_dict["genres"] = genres
 
-    # Calculate indices for recommendation systems
-    indices = {}
-
-    # Content-Based Filtering
-    cbf_recommendations = cbf(user_id)
-    if cbf_recommendations:
-        indices['cbf'] = cbf_recommendations.index(book_id) if book_id in cbf_recommendations else -1
-    else:
-        indices['cbf'] = "No recommendations returned."
-
-    # Collaborative Filtering User-Based
-    cfi_recommendations = cfi(user_id)
-    if cfi_recommendations:
-        indices['cfi'] = cfi_recommendations.index(book_id) if book_id in cfi_recommendations else -1
-    else:
-        indices['cfi'] = "No recommendations returned."
-
-    # Collaborative Filtering Item-Based
-    cfu_recommendations = cfu_single_user(user_id)
-    if cfu_recommendations:
-        indices['cfu'] = cfu_recommendations.index(book_id) if book_id in cfu_recommendations else -1
-    else:
-        indices['cfu'] = "No recommendations returned."
-
-    # Q-Learning
-    qlearning_recommendations = qlearning(user_id)
-    if qlearning_recommendations:
-        indices['qlearning'] = qlearning_recommendations.index(book_id) if book_id in qlearning_recommendations else -1
-    else:
-        indices['qlearning'] = "No recommendations returned."
+    
 
     # Add indices to the response
-    book_dict["recommendation_indices"] = indices
+    book_dict["ranking"] = indices
 
     # JSON return
     return jsonify(book_dict), 200
