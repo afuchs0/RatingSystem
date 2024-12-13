@@ -93,7 +93,7 @@ def cbf(user_id=None):
         recommendations = get_top_recommendations_for_user(similarity_series, top_n=39691)
         
         # Stampa le raccomandazioni per l'utente specifico
-        print(f"User {user_id} recommendations: {recommendations}")
+        #print(f"User {user_id} recommendations: {recommendations[0:100]}")
     else:
         print("Please provide a user_id.")
     # Stampa le raccomandazioni
@@ -104,4 +104,4 @@ def cbf(user_id=None):
 if __name__ == "__main__":
     # Generate recommendations for a specific user
     recommendations = cbf(user_id=2)
-    print(f"Recommended books: {recommendations}")
+    #print(f"Recommended books: {recommendations[0:100]}")
