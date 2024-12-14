@@ -359,10 +359,11 @@ def get_book_list():
             )
         
             user_rating = user_rating_query[0] if user_rating_query else  0  # Because We dont recommend books that the user has already read
-            print("userRating: ", user_rating)
+            #print("userRating: ", user_rating)
 
             book_dict[book.bookId] = {
                 "id": book.id,
+                "bookId": book.bookId,
                 "title": book.title,
                 "author": book.author,
                 "genres": [],
@@ -385,69 +386,13 @@ def get_book_list():
     return jsonify(response), 200
 
 
-""" @app.route('/api/getBookList', methods=['GET'])
-def get_books():
-    # Récupérer les paramètres
-    user_id = request.args.get('userId')
-    sort_criteria = request.args.get('sortCriteria')
-    #user_id = int(user_id)
-    # Print pour déboguer
-    print(f"Received userId: {user_id}")
-    print(f"Received sortCriteria: {sort_criteria}")
-    # Vérifier que les paramètres requis sont fournis
-    if not user_id or not sort_criteria:
-        return jsonify({"error": "Missing 'userId' or 'sortCriteria' parameter."}), 400
 
-    # Récupérer tous les livres de la base de données
-    books = BookModel.query.all()
-    books_data = [book.to_dict() for book in books]
-
-    # Variable pour stocker l'ordre trié des livres
-    sorted_books = []
-    int_user_id=int(user_id)
-    print(int_user_id)
-    # Logique basée sur le critère de tri
-    if sort_criteria == "Content Based Filtering":
-        recommendations = cbf(int_user_id)  # Appel de la fonction Content-Based Filtering
-        #print(recommendations)
-    elif sort_criteria == "Collaborative Filtering Userbased":
-        recommendations = cfi(user_id)  # Appel CF User-based
-    elif sort_criteria == "Collaborative Filtering Itembased":
-        recommendations = cfu_single_user(user_id)  # Appel CF Item-based
-    elif sort_criteria == "Q-Learning":
-        recommendations = qlearning(user_id)  # Appel Q-Learning
-    # elif sort_criteria == "DQN":
-    #     recommendations = dqn_recommendations(user_id)  # Appel DQN
-    else:
-        return jsonify({"error": f"Invalid sortCriteria: {sort_criteria}"}), 400
-
-    # Trier les livres en fonction des recommandations
-    if recommendations:
-        book_id_order = recommendations  # Les IDs des livres triés
-        # Trier les livres par leur ordre dans les recommandations
-        if sort_criteria != "Q-Learning":
-            sorted_books = sorted(books_data, key=lambda x: book_id_order.index(x['id']) if x['id'] in book_id_order else len(book_id_order))
-        else:
-            sorted_books = sorted(books_data, key=lambda x: book_id_order.index(x['bookId']) if x['bookId'] in book_id_order else len(book_id_order))
-        
-    else:
-        # Si aucune recommandation, renvoyer les livres sans ordre spécifique
-        sorted_books = books_data
-
-    # Construire la réponse
-    response = {
-        "sortCriteria": sort_criteria,
-        "books": sorted_books[0:100]
-    }
-
-    return jsonify(response), 200
-
- """
 @app.route('/api/getBookDetail', methods=['GET'])
 def get_book_detail():
     # Retrieve the bookId and userId parameters
     book_id = request.args.get('bookId')
     user_id = request.args.get('userId')  # Assuming userId is needed for recommendations
+
     if not book_id:
         return jsonify({"error": "Missing bookId parameter"}), 400
     if not user_id:
@@ -492,12 +437,18 @@ def get_book_detail():
     else:
         indices['qlearning'] = "No recommendations returned."
     print("Indices: ", indices)
+
     # Query to join books, belong, and genres
     results = (
         db.session.query(
             BookModel.id,
+            BookModel.bookId,
             BookModel.title,
             BookModel.author,
+            BookModel.description,
+            BookModel.price,
+            BookModel.rating,
+            BookModel.coverImg,
             Genre.name.label("genre_name")  # Genre name
         )
         .join(Belong, BookModel.bookId == Belong.book_id)  # Join with belong
@@ -512,25 +463,40 @@ def get_book_detail():
     # Group genres for the book
     book_dict = None
     genres = []
-    for book_id, title, author, genre_name in results:
+    for db_book_id, book_id, title, author, description, price, average_rating, cover_img, genre_name in results:
         if not book_dict:
+            # Query user rating for the book
+            user_rating_query = (
+                db.session.query(RatingModel.rating)
+                .filter(RatingModel.user_id == user_id, RatingModel.book_id == db_book_id)
+                .first()
+            )
+            user_rating = user_rating_query[0] if user_rating_query else None  # Use None if no rating found
+
+            # Truncate description to the first 200 characters
+            truncated_description = (description[:200] + '...') if description and len(description) > 200 else description
+
             book_dict = {
-                "id": book_id,
+                "id": db_book_id,
                 "title": title,
                 "author": author,
-                "genres": []
+                "description": truncated_description,  # Use truncated description here
+                "genres": [],
+                "price": price,
+                "averageRating": float(average_rating) if average_rating else 0.0,
+                "userRating": user_rating,
+                "coverImg": cover_img,
             }
         genres.append(genre_name)
 
     book_dict["genres"] = genres
-
-    
 
     # Add indices to the response
     book_dict["ranking"] = indices
 
     # JSON return
     return jsonify(book_dict), 200
+
 
 # get users 
 @app.route('/api/getUserList', methods=['GET'])
