@@ -72,26 +72,13 @@ class BookModel(db.Model):
     title = db.Column(db.String(100), nullable=True)
     series = db.Column(db.String(100), nullable=True)
     author = db.Column(db.String(100))
-    rating = db.Column(db.String(100))
+    rating = db.Column(db.Float, nullable=True)
     description = db.Column(db.String(100))
     language = db.Column(db.String(100), nullable=True)
-    #isbn = db.Column(db.String(100), nullable=True)
-    #genres = db.Column(db.JSON(db.String(100)), nullable=True)
-    #characters = db.Column(db.JSON(db.String(100)), nullable=True)  # Corrected typo: "charaters" -> "characters"
-    #bookFormat = db.Column(db.String(100), nullable=True)
-    #edition = db.Column(db.String(100), nullable=True)
     pages = db.Column(db.String(100), nullable=True)
-    #publisher = db.Column(db.String(100), nullable=True)
-    publishDate = db.Column(db.String(100), nullable=True)
-    #firstPublishDate = db.Column(db.String(100), nullable=True)  # Fixed typo: "firtPublisherDate" -> "firstPublisherDate"
-    awards = db.Column(db.String(100), nullable=True)
-    #numRatings = db.Column(db.String(100), nullable=True)
-    #ratingsByStars = db.Column(db.JSON(db.String(100)), nullable=True)  # Fixed misplaced parenthesis
-    #likedPercent = db.Column(db.String(100), nullable=True)
-    #setting = db.Column(db.JSON(db.String(100)), nullable=True)  # Fixed misplaced parenthesis
+    publishDate = db.Column(db.String(100), nullable=True)  # Fixed typo: "firtPublisherDate" -> "firstPublisherDate"
+    awards = db.Column(db.String(100), nullable=True)  # Fixed misplaced parenthesis
     coverImg = db.Column(db.String(200), nullable=True)
-    #bbeScore = db.Column(db.String(100))
-    #bbeVotes = db.Column(db.String(100), nullable=True)
     price = db.Column(db.String(100), nullable=True)
 
     # Relationships
@@ -109,22 +96,11 @@ class BookModel(db.Model):
             "rating": self.rating,
             "description": self.description,
             "language": self.language,
-            #"isbn": self.isbn,
-            #"genres": self.genres,
-            #"characters": self.characters,  # Corrected typo: "charaters" -> "characters"
-            #"bookFormat": self.bookFormat,
-            #"edition": self.edition,
             "pages": self.pages,
             #"publisher": self.publisher,
-            "publishDate": self.publishDate,
-            #"firstPublishDate": self.firstPublishDate,  # Corrected typo: "firtPublisherDate" -> "firstPublisherDate"
-            "awards": self.awards,
-            #"numRatings": self.numRatings,
-            #"ratingsByStars": self.ratingsByStars,
-            #"likedPercent": self.likedPercent,
+            "publishDate": self.publishDate,"awards": self.awards,
             #"setting": self.setting,
             "coverImg": self.coverImg,
-            #"bbeScore": self.bbeScore,
             #"bbeVotes": self.bbeVotes,  # Corrected typo: "bbVote" -> "bbeVote"
             "price": self.price,
         }
@@ -269,29 +245,7 @@ def get_current_user():
 #     books = BookModel.query.all()
 #     return jsonify([book.to_dict() for book in books])
 
-@app.route('/api/cazzifinti', methods=['GET'])
-def ciao():
-    user_id = request.args.get('userId')
-    sort_criteria = request.args.get('sortCriteria')
-    if sort_criteria == "Content Based Filtering":
-        recommendations = cbf(int(user_id))  # Appel de la fonction Content-Based Filtering
-    if sort_criteria == "Collaborative Filtering Userbased":
-        recommendations = cfu_single_user(int(user_id))  # Appel de la fonction Content-Based Filtering
-        print("recommendations UserBased: " , recommendations[0:100])
-    if sort_criteria == "Collaborative Filtering Itembased":
-        recommendations = cfi(int(user_id))  # Appel de la fonction Content-Based Filtering
-        print(recommendations[0:100])
-    if sort_criteria == "Q-Learning":
-        recommendations = qlearning(int(user_id))  # Appel de la fonction Content-Based Filtering
-        print(recommendations[0:100])
 
-    # Construire la réponse
-    response = {
-        "sortCriteria": sort_criteria,
-        "books": recommendations[0:100]
-    }
-
-    return jsonify(response), 200
 
 @app.route('/api/testBookDetails', methods=['GET'])
 def test_book_details():
@@ -346,6 +300,92 @@ def test_book_details():
     }), 200
 
 @app.route('/api/getBookList', methods=['GET'])
+def get_book_list():
+    user_id = request.args.get('userId')
+    sort_criteria = request.args.get('sortCriteria')
+
+    # Validate input
+    if not user_id or not sort_criteria:
+        return jsonify({"error": "Missing 'userId' or 'sortCriteria' parameter."}), 400
+
+    try:
+        user_id = int(user_id)  # Convert userId to integer
+    except ValueError:
+        return jsonify({"error": "Invalid 'userId' format. Must be an integer."}), 400
+
+    # Get recommendations based on sortCriteria
+    recommendations = []
+    if sort_criteria == "Content Based Filtering":
+        recommendations = cbf(user_id)
+    elif sort_criteria == "Collaborative Filtering Userbased":
+        recommendations = cfu_single_user(user_id)
+    elif sort_criteria == "Collaborative Filtering Itembased":
+        recommendations = cfi(user_id)
+    elif sort_criteria == "Q-Learning":
+        recommendations = qlearning(user_id)
+    else:
+        return jsonify({"error": f"Invalid sortCriteria: {sort_criteria}"}), 400
+
+    # Limit recommendations to top 100
+    recommendations = recommendations[:100]
+
+    # Query the database for detailed book information
+    books = (
+        db.session.query(
+            BookModel.id,  # Primary key ID from the database
+            BookModel.bookId,  # bookId as used in recommendations
+            BookModel.title,
+            BookModel.author,
+            BookModel.rating,
+            Genre.name.label("genre_name"),
+            BookModel.price,
+            BookModel.awards,
+        )
+        .join(Belong, BookModel.bookId == Belong.book_id)  # Join with belong table
+        .join(Genre, Belong.genres_id == Genre.id)  # Join with genres table
+        .filter(BookModel.bookId.in_(recommendations))  # Filter only recommended books
+        .all()
+    )
+
+    # Group books and their genres
+    book_dict = {}
+    for book in books:
+        if book.bookId not in book_dict:
+            # Query the userRating for this book and user
+            user_rating_query = (
+                db.session.query(RatingModel.rating)
+                .filter(RatingModel.user_id == user_id, RatingModel.book_id == book.id)
+                .first()
+            )
+        
+            user_rating = user_rating_query[0] if user_rating_query else  0  # Because We dont recommend books that the user has already read
+            print("userRating: ", user_rating)
+
+            book_dict[book.bookId] = {
+                "id": book.id,
+                "title": book.title,
+                "author": book.author,
+                "genres": [],
+                "userRating": user_rating,  # Dynamic userRating
+                "averageRating": float(book.rating) if book.rating else 0.0,
+                "price": book.price,
+                "awards": book.awards,
+            }
+        book_dict[book.bookId]["genres"].append(book.genre_name)
+
+    # Sort books in the same order as recommendations
+    sorted_books = [book_dict[book_id] for book_id in recommendations if book_id in book_dict]
+
+    # Build the response
+    response = {
+        "sortCriteria": sort_criteria,
+        "books": sorted_books,
+    }
+
+    return jsonify(response), 200
+
+
+""" @app.route('/api/getBookList', methods=['GET'])
 def get_books():
     # Récupérer les paramètres
     user_id = request.args.get('userId')
@@ -402,7 +442,7 @@ def get_books():
 
     return jsonify(response), 200
 
-
+ """
 @app.route('/api/getBookDetail', methods=['GET'])
 def get_book_detail():
     # Retrieve the bookId and userId parameters
