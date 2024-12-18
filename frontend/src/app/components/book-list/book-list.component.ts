@@ -117,6 +117,8 @@ export class BookListComponent implements OnInit {
   // Open modal and pass the selected book data
   openBookDetails(book: BookListItem): void {
     console.log(book.id)
+    console.log('Opening book details for:', book.id);
+    console.log('User ID:', this.userSelected); // Log the user ID
     this.selectedBook = book.id;
   }
 }

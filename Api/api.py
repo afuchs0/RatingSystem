@@ -406,6 +406,15 @@ def get_book_detail():
     except ValueError:
         return jsonify({"error": "Invalid 'userId' format. Must be an integer."}), 400
 
+    # Controllo se il parametro 'bookId' è in realtà un ID numerico (SQLite primary key)
+    if book_id.isdigit():
+        # Query per trovare il vero bookId usando l'id del database
+        book_record = db.session.query(BookModel.bookId).filter(BookModel.id == int(book_id)).first()
+        if not book_record:
+            return jsonify({"error": "Book not found with the given ID"}), 404
+        book_id = book_record.bookId  # Sostituisco bookId con il vero valore
+        print(f"Resolved bookId: {book_id}")
+        
     # Calculate indices for recommendation systems
     indices = {}
 
