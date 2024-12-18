@@ -60,8 +60,8 @@ export class BookService {
   }
 
   // New method to get book details
-  getBookDetails(bookId: string): Observable<BookDetail> {
-    const params = { bookId }; // Query parameter
+  getBookDetails(bookId: string, userId: string): Observable<BookDetail> {
+    const params = { bookId,userId }; // Query parameter
     const url = this.apiUrl + 'getBookDetail'; // Endpoint URL for book details
 
     return this.http.get<BookDetail>(url, { params }).pipe(

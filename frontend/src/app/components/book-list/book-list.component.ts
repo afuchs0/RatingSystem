@@ -28,6 +28,7 @@ export class BookListComponent implements OnInit {
   sortCriteria: string = this.sortOptions[0];
 
   selectedBook: string | undefined;
+  userId: string | undefined;
 
 
   constructor(private bookService: BookService) {
@@ -75,6 +76,7 @@ export class BookListComponent implements OnInit {
     if (selectElement) {
       if (this.userSelected !== selectElement.value) {
         this.userSelected = selectElement.value;
+        this.userId = this.userSelected;
         this.loadBooks();
       }
     }
@@ -95,6 +97,8 @@ export class BookListComponent implements OnInit {
 
         if (users.length > 0) {
           this.userSelected = users[0].id; // Set default user
+          //added this
+          this.userId = this.userSelected;
           this.loadBooks();
         }
       },

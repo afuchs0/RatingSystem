@@ -17,6 +17,7 @@ import {BookDetail} from "../../models/book.model";
 })
 export class BookdetailComponent implements OnChanges {
   @Input() selectedBook: string | undefined;
+  @Input() userId: string | undefined;
   protected subscribedBook: BookDetail | null | undefined;
 
   @HostBinding('class') cssClass = 'modal fade';
@@ -25,17 +26,19 @@ export class BookdetailComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['selectedBook'] && changes['selectedBook'].currentValue) {
+    if (changes['selectedBook'] && changes['selectedBook'].currentValue && this.userId) {
       // Call BookService whenever selectedBook changes
       this.subscribedBook = undefined
-      this.loadBookDetails(changes['selectedBook'].currentValue);
+      this.loadBookDetails(changes['selectedBook'].currentValue, this.userId);
+    } else if (!this.userId) {
+      console.error('User ID is not defined. Unable to load book details.');
     }
   }
 
 
-  loadBookDetails(bookId: string): void {
+  loadBookDetails(bookId: string, userId:string): void {
     // Hole Buchdetails vom Service
-    this.bookService.getBookDetails(bookId).subscribe({
+    this.bookService.getBookDetails(bookId,userId).subscribe({
       next: (bookDetails) => {
         // Handle the book details response
         this.subscribedBook = bookDetails;
