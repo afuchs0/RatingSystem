@@ -211,20 +211,6 @@ api.add_resource(Users, '/api/users')
 def load_user(user_id):
     return UserModel.query.get(int(user_id))
 
-#login founction 
-@app.route('/api/login', methods=['POST'])
-def login():
-    data = request.get_json()  # Récupérer les données JSON envoyées par le client
-    email = data.get('email')
-    password = data.get('password_hash')
-
-    # Vérifier les informations utilisateur
-    user = UserModel.query.filter_by(email=email).first()
-    if user and user.check_password(password):
-        login_user(user)  # Connecter l'utilisateur
-        return jsonify({"message": "login success", "user_id": user.id}), 200
-    return jsonify({"message": "Email ou mot de passe incorrect"}), 401
-
 
 #current user
 @app.route('/api/current_user', methods=['GET'])
@@ -247,57 +233,7 @@ def get_current_user():
 
 
 
-@app.route('/api/testBookDetails', methods=['GET'])
-def test_book_details():
-    # Recupera i parametri userId e bookId dalla richiesta
-    user_id = request.args.get('userId')
-    book_id = request.args.get('bookId')
 
-    if not user_id or not book_id:
-        return jsonify({"error": "Missing 'userId' or 'bookId' parameter."}), 400
-
-    try:
-        user_id = int(user_id)  # Converti userId in intero
-    except ValueError:
-        return jsonify({"error": "Invalid 'userId' format. Must be an integer."}), 400
-
-    # Funzioni di raccomandazione
-    indices = {}
-
-    # Content-Based Filtering
-    cbf_recommendations = cbf(user_id)
-    if cbf_recommendations:
-        indices['cbf'] = cbf_recommendations.index(book_id) if book_id in cbf_recommendations else -1
-    else:
-        indices['cbf'] = "No recommendations returned."
-
-    # Collaborative Filtering User-Based
-    cfi_recommendations = cfi(user_id)
-    if cfi_recommendations:
-        indices['cfi'] = cfi_recommendations.index(book_id) if book_id in cfi_recommendations else -1
-    else:
-        indices['cfi'] = "No recommendations returned."
-
-    # Collaborative Filtering Item-Based
-    cfu_recommendations = cfu_single_user(user_id)
-    if cfu_recommendations:
-        indices['cfu'] = cfu_recommendations.index(book_id) if book_id in cfu_recommendations else -1
-    else:
-        indices['cfu'] = "No recommendations returned."
-
-    # Q-Learning
-    qlearning_recommendations = qlearning(user_id)
-    if qlearning_recommendations:
-        indices['qlearning'] = qlearning_recommendations.index(book_id) if book_id in qlearning_recommendations else -1
-    else:
-        indices['qlearning'] = "No recommendations returned."
-
-    # Ritorna i risultati come JSON
-    return jsonify({
-        "userId": user_id,
-        "bookId": book_id,
-        "indices": indices
-    }), 200
 
 @app.route('/api/getBookList', methods=['GET'])
 def get_book_list():
@@ -603,40 +539,6 @@ def update_user_rating():
 
 
 
-#recherche personnalisee
-@app.route('/api/books/research', methods=['GET'])
-def research():
-    # Récupération des paramètres de requête
-    title = request.args.get('title')
-    lang = request.args.get('language')
-    price = request.args.get('price', type=float)
-    desc = request.args.get('description')
-
-    # Initialisation de la requête
-    query = BookModel.query
-
-    # Ajout des filtres dynamiques
-    if title:
-        query = query.filter(BookModel.title.ilike(f"%{title}%"))
-    if lang:
-        query = query.filter(BookModel.language.ilike(f"%{lang}%"))
-    if price:
-        query = query.filter(BookModel.price <= price)  
-    if desc:
-        query = query.filter(BookModel.description.ilike(f"%{desc}%"))
-
-    try:
-        # Exécution de la requête
-        books = query.all()
-        if not books:
-            return jsonify({"message": "No books found matching your criteria."}), 404
-        
-        # Retourner les résultats
-        return jsonify([book.to_dict() for book in books]), 200
-
-    except Exception as e:
-        # Gestion des erreurs
-        return jsonify({"error": f"An error occurred: {str(e)}"}), 500
 
 
 # Exportation du modèle pour créer les tables
