@@ -50,7 +50,7 @@ def calculate_item_similarity(item_user_matrix):
     item_similarity_df = pd.DataFrame(item_similarity, index=item_user_matrix.index, columns=item_user_matrix.index)
     return item_similarity_df
 
-def get_item_based_recommendations(user_id, item_user_matrix, item_similarity_df, df_visualizations, top_n=39691, top_similar=10):
+def get_item_based_recommendations(user_id, item_user_matrix, item_similarity_df, df_visualizations, top_n=39691, top_similar=None):
     # Trova i libri già letti dall'utente
     books_read_by_user = df_visualizations[df_visualizations['userId'] == user_id]['bookId'].unique()
     
@@ -58,20 +58,28 @@ def get_item_based_recommendations(user_id, item_user_matrix, item_similarity_df
     recommendations = {}
     
     for book_id in books_read_by_user:
-        # Trova i primi `top_similar` libri simili, escludendo il libro stesso
-        similar_books = item_similarity_df[book_id].sort_values(ascending=False).drop(book_id).head(top_similar)
+        # Trova tutti i libri simili (nessuna limitazione su `top_similar`)
+        similar_books = item_similarity_df[book_id].sort_values(ascending=False).drop(book_id)
+        
+        if top_similar:  # Se specificato, limita ai top_similar libri
+            similar_books = similar_books.head(top_similar)
         
         for similar_book, similarity in similar_books.items():
-            # Se il libro non è stato ancora letto dall'utente, accumula il punteggio di similarità
-            if similar_book not in books_read_by_user:
-                recommendations[similar_book] = recommendations.get(similar_book, 0) + similarity
+            # Accumula il punteggio di similarità
+            recommendations[similar_book] = recommendations.get(similar_book, 0) + similarity
     
-    # Ordina i libri raccomandati per punteggio e prendi i top_n
+    # Ordina i libri raccomandati per punteggio
     sorted_recommendations = sorted(recommendations.items(), key=lambda x: x[1], reverse=True)
     recommended_books = [book_id for book_id, _ in sorted_recommendations[:top_n]]
     
+    # Aggiungi i libri già letti alla fine della lista
+    for book_id in books_read_by_user:
+        if book_id not in recommended_books:
+            recommended_books.append(book_id)
+    
     return recommended_books
 
+# Funzione principale
 # Funzione principale
 def cfi(user_id=None):
     # Carica i dati
@@ -80,16 +88,18 @@ def cfi(user_id=None):
     # Crea la matrice utente-libro
     user_item_matrix = create_item_user_matrix(df_ratings, df_book)
     
-    # Calcola la similarità tra utenti
-    user_similarity_df = calculate_item_similarity(user_item_matrix)
+    # Calcola la similarità tra libri
+    item_similarity_df = calculate_item_similarity(user_item_matrix)
     
     if user_id is not None:
         # Genera le raccomandazioni per l'utente specificato
-        recommendations = get_item_based_recommendations(user_id, user_item_matrix, user_similarity_df, df_visualizations, top_n=39691)
+        recommendations = get_item_based_recommendations(user_id, user_item_matrix, item_similarity_df, df_visualizations, top_n=len(df_book))
         #print(f"Recommended books for user {user_id}: {recommendations}")
+        print("Numero di racc: ", len(recommendations))
+        return recommendations
     else:
         print("Please provide a valid user_id.")
-    return recommendations
+        return []
 # # Esegui il programma
 # if __name__ == "__main__":
 #     final = cfi(12)

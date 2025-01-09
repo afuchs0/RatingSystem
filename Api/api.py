@@ -12,6 +12,8 @@ from RecSystem.CBF.cbf import cbf
 from RecSystem.CFI.cfi import cfi
 from RecSystem.CFU.cfu import cfu_single_user
 from RecSystem.Qlearning.applyQlearning import qlearning
+from RecSystem.DQN.applyDQN import dqn
+
 
 
 app = Flask(__name__)
@@ -259,6 +261,9 @@ def get_book_list():
         recommendations = cfi(user_id)
     elif sort_criteria == "Q-Learning":
         recommendations = qlearning(user_id)
+    elif sort_criteria == "DQN":
+        recommendations = dqn(user_id) 
+        #print("DQN: \n",recommendations[0:10])   
     else:
         return jsonify({"error": f"Invalid sortCriteria: {sort_criteria}"}), 400
 
@@ -334,8 +339,8 @@ def get_book_detail():
     if not user_id:
         return jsonify({"error": "Missing userId parameter"}), 400
 
-    print(f"Received bookId: {book_id}")
-    print(f"Received userId: {user_id}")
+    #print(f"Received bookId: {book_id}")
+    #print(f"Received userId: {user_id}")
 
     try:
         user_id = int(user_id)  # Convert userId to integer
@@ -349,7 +354,7 @@ def get_book_detail():
         if not book_record:
             return jsonify({"error": "Book not found with the given ID"}), 404
         book_id = book_record.bookId  # Sostituisco bookId con il vero valore
-        print(f"Resolved bookId: {book_id}")
+        #print(f"Resolved bookId: {book_id}")
         
     # Calculate indices for recommendation systems
     indices = {}
@@ -363,6 +368,7 @@ def get_book_detail():
 
     # Collaborative Filtering User-Based
     cfi_recommendations = cfi(user_id)
+    #print("cfi: \n", cfi_recommendations[0:10])
     if cfi_recommendations:
         indices['cfi'] = cfi_recommendations.index(book_id) if book_id in cfi_recommendations else -1
     else:
@@ -377,11 +383,19 @@ def get_book_detail():
 
     # Q-Learning
     qlearning_recommendations = qlearning(user_id)
+    #print("QLEARNING: \n", qlearning_recommendations[0:10])
     if qlearning_recommendations:
         indices['qlearning'] = qlearning_recommendations.index(book_id) if book_id in qlearning_recommendations else -1
     else:
         indices['qlearning'] = "No recommendations returned."
-    print("Indices: ", indices)
+
+    # DQN
+    dqn_recommendations = dqn(user_id)
+    #print("DQN: \n",dqn_recommendations[0:10])
+    if dqn_recommendations:
+        indices['dqn'] = dqn_recommendations.index(book_id) if book_id in dqn_recommendations else -1
+    else:
+        indices['dqn'] = "No recommendations returned."
 
     # Query to join books, belong, and genres
     results = (
@@ -487,7 +501,7 @@ def update_user_rating():
         return jsonify({"error": "Missing required parameters"}), 400
 
     # Debugging information
-    print(f"Book ID: {book_id}, User ID: {user_id}, Rating: {user_rating}")
+    #print(f"Book ID: {book_id}, User ID: {user_id}, Rating: {user_rating}")
 
     # Vérification de l'existence de l'utilisateur et du livre
     user = UserModel.query.filter_by(id=user_id).first()
